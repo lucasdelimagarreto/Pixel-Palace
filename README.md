@@ -16,8 +16,8 @@ Pixel Palace é uma loja de jogos fictícia, onde os usuários podem navegar e c
 
 ## Tecnologias Utilizadas
 
-- Frontend: HTML, CSS, JavaScript
-- Backend: Node.js, Express.js
+- Frontend: React
+- Backend: Phyton
 - Banco de Dados: MongoDB
 
 ## Instalação
