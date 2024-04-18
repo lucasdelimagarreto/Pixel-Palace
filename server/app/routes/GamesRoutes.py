@@ -4,7 +4,7 @@ from app.shared.response import error_response,success_response
 from app.service.UserService import UserService
 
 games_bp = Blueprint('games_api',__name__,url_prefix='/games')
-userService = UserService()
+gamesService = GamesService()
 
 @games_bp.route("",methods=("GET", "POST","PUT","DELETE"))
 def register():
@@ -21,16 +21,16 @@ def register():
             elif len(data) > 3:
                 return make_response(error_response(action="Register",error_code=400,error_message="too many parameters has been passed"))
             
-            elif "username" not in data or "email" not in data or "password" not in data:
+            elif "gameName" not in data or "secondGameName" not in data or "creator" not in data or "price" not in data or "year" not in data or "dlc" not in data or "gender" not in data:
                 return make_response(error_response(action="Register",error_code=400,error_message="error in json format"))
             
             else:
-                username = data.get("username")
-                email = data.get("email")
-                password = data.get("password")
+                gameName = data.get("gameName")
+                secondGameName = data.get("secondGameName")
+                creator = data.get("creator")
                 
                 try:
-                    userService.findUserByUsername(username=username)
+                    gamesService.findUserByGameName(gameName=gameName)
                 
                 except:
                     pass

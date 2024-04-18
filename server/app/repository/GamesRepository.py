@@ -17,12 +17,12 @@ class UserRepository(BaseRepository):
         else:    
             return game
     
-    #def getByEmail(self,email):
-    #    
-    #    try:
-    #        user = db.session.execute(db.select(Games).filter_by(email=email)).scalar_one()
-    #    except:
-    #        #TODO: traceback runtime error
-    #        raise Exception("User not found")
-    #    else:
-    #        return user
+    def getByGender(self,gender):
+        
+        try:
+            game = db.session.execute(db.select(Games).filter_by(gender=gender)).scalar_one()
+        except:
+            #TODO: traceback runtime error
+            raise Exception("gender not found")
+        else:
+            return game
