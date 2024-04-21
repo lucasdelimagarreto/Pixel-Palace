@@ -6,6 +6,11 @@ class GamesSchema(ma.SQLAlchemySchema):
         model = Games
 
     id = ma.auto_field()
-    username = ma.auto_field()
-    email = ma.auto_field()
-    password = ma.auto_field()
+    gameName = ma.auto_field()
+    secondGameName = ma.auto_field()
+    creator = ma.auto_field()
+    price = ma.auto_field()
+    year = ma.auto_field()
+    dlc = ma.auto_field()
+    gender = ma.auto_field()
+    
