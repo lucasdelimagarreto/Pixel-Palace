@@ -1,38 +1,58 @@
-from app.shared.validation_methods import validate_username,validate_email,validate_password
-from app.model.User import User
-from app.schemas.UserSchema import UserSchema
-from app.repository.UserRepository import UserRepository
+from app.shared.validation_methods import validate_creator, validate_dlc, validate_gameName, validate_gender, validate_price, validate_secondGameName, validate_username,validate_email,validate_password, validate_year
+from app.model.Games import Games
+from app.schemas.GamesSchemas import GamesSchema
+from app.repository.GamesRepository import GamesRepository
 
-user = User(username=None,email=None,password=None)
-userSchema = UserSchema()
-userRepository = UserRepository()
-class UserService:
+games = Games(gameName=None,secondGameName=None,creator=None,price=None,year=None,dlc=None,gender=None)
+gamesSchema = GamesSchema()
+gamesRepository = GamesRepository()
+class GamesService:
     
     def __init__(self) -> None:
         pass
 
-    def add_new_user(self,username,email,password):        
+    def add_new_game(self,gameName,secondGameName,creator,price,year,dlc,gender):        
 
-        user.username = username
-        user.email = email
-        user.password = password
-        userRepository.save(user)
-        return userSchema.dump(user)
+        games.gameName = gameName
+        games.secondGameName = secondGameName
+        games.creator = creator
+        games.price = price
+        games.year = year
+        games.dlc = dlc
+        games.gender = gender
+        gamesRepository.save(games)
+        return gamesSchema.dump(games)
     
-    def findUserById(self,id):
-        user = userRepository.getById(id=id)
-        return user
+    def findGamesById(self,id):
+        games = gamesRepository.getById(id=id)
+        return games
     
-    def findUserByUsername(self,username):
-        user = userRepository.getByUsername(username=username)
-        return user
+    def findGamesByGameName(self,gameName):
+        games = gamesRepository.getByGamename(gameName=gameName)
+        return games
     
-    def findUserByEmail(self,email):
-        user = userRepository.getByEmail(email=email)
-        return user
+    def findGamesBySecondGameName(self,secondGameName):
+        games = gamesRepository.getBySecondGameName(secondGameName=secondGameName)
+        return games
 
-    def validate_new_user(self,username,email,password):
-        validate_username(username)
-        validate_email(email)
-        validate_password(password)
+    def findGamesByCreator(self, creator):
+        games = gamesRepository.getByCreator(creator=creator)
+        return games
+    
+    def findGamesByYear(self, year):
+        games = gamesRepository.getByYear(year=year)
+        return games
+    
+    def findGamesByGender(self, gender):
+        games = gamesRepository.getByGender(gender=gender)
+        return games
+    
+    def validate_new_game(self,gameName,secondGameName,creator,price,year,dlc,gender):
+        validate_gameName(gameName)
+        validate_secondGameName(secondGameName)
+        validate_creator(creator)
+        validate_price(price)
+        validate_year(year)
+        validate_dlc(dlc)
+        validate_gender(gender)
         pass

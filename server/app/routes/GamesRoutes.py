@@ -1,7 +1,7 @@
 from flask import Blueprint,jsonify,request,make_response
-from app.repository.UserRepository import UserRepository
+from app.repository.GamesRepository import GamesRepository
 from app.shared.response import error_response,success_response
-from app.service.UserService import UserService
+from server.app.service.GamesService import GamesService
 
 games_bp = Blueprint('games_api',__name__,url_prefix='/games')
 gamesService = GamesService()
@@ -28,9 +28,13 @@ def register():
                 gameName = data.get("gameName")
                 secondGameName = data.get("secondGameName")
                 creator = data.get("creator")
+                price = data.get("price")
+                year = data.get("year")
+                dlc = data.get("dlc")
+                gender = data.get("gender")
                 
                 try:
-                    gamesService.findUserByGameName(gameName=gameName)
+                    gamesService.findGamesByGameName(gameName=gameName)
                 
                 except:
                     pass
@@ -38,18 +42,18 @@ def register():
                     return make_response(error_response(action="Register",error_message="Esse Username já foi cadastrado!",error_code=409))
                 
                 try:
-                    userService.findUserByEmail(email=email)
+                    gamesService.findGamesBySecondGameName(secondGameName=secondGameName)
                 
                 except:
                     pass
                 
                 else:                   
-                    return make_response(error_response(action="Register",error_message="Esse e-mail já foi cadastrado",error_code=409))
+                    return make_response(error_response(action="Register",error_message="Esse secondGameName já foi cadastrado",error_code=409))
                 
                 try:
-                    userService.validate_new_user(username,email,password) 
-                    response = userService.add_new_user(username=username,email=email,password=password)
-                    return make_response(success_response(action="Register",parameter=response))           
+                    gamesService.validate_new_game(gameName,secondGameName,creator,price,year,dlc,gender)
+                    response = gamesService.add_new_game(gameName = gameName,secondGameName = secondGameName,creator = creator,price = price,year = year,dlc = dlc,gender = gender)
+                    return make_response(success_response(action = "Register",parameter=response))           
                 
                 except Exception as err:
                     return make_response(error_response(action="Register",error_message=str(err),error_code=409))
