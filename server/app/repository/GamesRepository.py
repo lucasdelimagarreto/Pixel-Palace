@@ -2,7 +2,7 @@ from app.model.Games import Games
 from app.shared.baseRepository import BaseRepository
 from app.shared.dataBase import db
 
-class UserRepository(BaseRepository):
+class GamesRepository(BaseRepository):
 
     def __init__(self):
         
@@ -11,7 +11,7 @@ class UserRepository(BaseRepository):
     def getByGamename(self,gameName):
         
         try:
-            game = db.session.execute(db.select(Games).filter_by(username=gameName)).scalar_one()
+            game = db.session.execute(db.select(Games).filter_by(gameName=gameName)).scalar_one()
         except:
             raise Exception("Game not found")
         else:    
@@ -24,5 +24,14 @@ class UserRepository(BaseRepository):
         except:
             #TODO: traceback runtime error
             raise Exception("gender not found")
+        else:
+            return game
+    
+    def getById(self, id):
+        
+        try:
+            game = db.session.execute(db.select(Games).filter_by(id=id)).scalar_one()
+        except:
+            raise Exception("Id not found")
         else:
             return game
