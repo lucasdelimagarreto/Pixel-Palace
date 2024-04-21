@@ -17,6 +17,8 @@ def create_app():
     marshmallow.init_app(app)
     migrate.init_app(app, db)
 
+
+
     from app.routes.UserRoutes import user_bp
     app.register_blueprint(user_bp)
     
