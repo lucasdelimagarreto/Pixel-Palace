@@ -8,10 +8,10 @@ class Games(db.Model):
     gameName = db.Column(db.String(20), unique=True , nullable=False)
     secondGameName = db.Column(db.String(20), unique=True , nullable=False)
     creator = db.Column(db.String(10), unique=True , nullable=False)
-    price = db.Column(db.float , nullable=False)
-    year = db.column(db.Integer , nullable=False)
-    dlc = db.column(db.Boolean , nullable=False)
-    gender = db.column(db.String(20), nullable=False)
+    price = db.Column(db.Float , nullable=False)
+    year = db.Column(db.Integer , nullable=False)
+    dlc = db.Column(db.Boolean , nullable=False)
+    gender = db.Column(db.String(20), nullable=False)
 
     def __init__(self,gameName, secondGameName, creator, price, year, dlc, gender):
         self.gameName = gameName

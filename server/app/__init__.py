@@ -21,5 +21,7 @@ def create_app():
 
     from app.routes.UserRoutes import user_bp
     app.register_blueprint(user_bp)
+    from app.routes.GamesRoutes import games_bp
+    app.register_blueprint(games_bp)
     
     return app

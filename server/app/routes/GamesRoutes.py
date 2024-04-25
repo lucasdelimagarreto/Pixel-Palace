@@ -1,7 +1,7 @@
 from flask import Blueprint,jsonify,request,make_response
 from app.repository.GamesRepository import GamesRepository
 from app.shared.response import error_response,success_response
-from server.app.service.GamesService import GamesService
+from app.service.GamesService import GamesService
 
 games_bp = Blueprint('games_api',__name__,url_prefix='/games')
 gamesService = GamesService()
