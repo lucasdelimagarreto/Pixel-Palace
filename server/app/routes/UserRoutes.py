@@ -1,7 +1,9 @@
-from flask import Blueprint,jsonify,request,make_response
+from flask import Blueprint,jsonify,request,make_response,current_app
+from config import Config
 from app.repository.UserRepository import UserRepository
 from app.shared.response import error_response,success_response
 from app.service.UserService import UserService
+import jwt
 
 user_bp = Blueprint('users_api',__name__,url_prefix='/users')
 userService = UserService()
@@ -55,3 +57,29 @@ def register():
                     return make_response(error_response(action="Register",error_message=str(err),error_code=409))
                                                         
     return error_response(action="Register",error_code=400,error_message="error")
+
+@user_bp.route("/login", methods=["POST"])
+def login():
+    if request.is_json:
+        data = request.json
+        if len(data) < 2:
+            return make_response(error_response(action="Authenticate",error_code=400,error_message="missing one or more parameters"))
+        elif len(data) > 2:
+            return make_response(error_response(action="Authenticate",error_code=400,error_message="too many parameters has been passed"))
+        elif "username" not in data or "password" not in data:
+            return make_response(error_response(action="Authenticate",error_code=400,error_message="error in json format"))
+        username = data.get("username")
+        password = data.get("password")
+        try:
+            user = userService.authenticate_user(username=username,password=password)
+            token = jwt.encode({"id": user["id"]},current_app.config["SECRET_KEY"],algorithm="HS256")
+            user.pop("id")
+            return  make_response(success_response(action="Authenticate",token=token, parameter=user))        
+        except Exception as err:
+           if len(err.args) == 2:
+                return make_response(error_response(action="Authenticate",error_message=err.args[0],error_code=err.args[1]))
+           else:
+                return error_response(action="Authenticate",error_code=500,error_message=err.args)
+    else:
+        #TODO:arrumar esse bad request   
+        return error_response(action="Authenticate",error_code=400,error_message="Bad Request")

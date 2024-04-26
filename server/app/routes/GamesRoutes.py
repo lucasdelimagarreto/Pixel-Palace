@@ -15,10 +15,10 @@ def register():
             
             data = request.get_json()
             
-            if len(data) < 3:
+            if len(data) < 7:
                 return make_response(error_response(action="Register",error_code=400,error_message="missing one or more parameters"))
             
-            elif len(data) > 3:
+            elif len(data) > 7:
                 return make_response(error_response(action="Register",error_code=400,error_message="too many parameters has been passed"))
             
             elif "gameName" not in data or "secondGameName" not in data or "creator" not in data or "price" not in data or "year" not in data or "dlc" not in data or "gender" not in data:
