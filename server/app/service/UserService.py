@@ -1,9 +1,9 @@
+from app import bcrypt
 from app.shared.validation_methods import validate_username, validate_email, validate_password
 from app.model.User import User
 from app.schemas.UserSchema import UserSchema
 from app.repository.UserRepository import UserRepository
 
-users = User(username=None,email=None,password=None)
 userSchema = UserSchema()
 userRepository = UserRepository()
 
@@ -18,39 +18,51 @@ class InvalidDataError(Exception):
 
 class UserService:
     
-    def __init__(self, userRepository: UserRepository) -> None:
-        self.userRepository = userRepository
+    def __init__(self) -> None:
+        pass
     
-    def add_new_user(self, username, email, password):
-        try:
-            validate_username(username)
-            validate_email(email)
-            validate_password(password)
-            
-            existing_user = self.userRepository.get_by_username(username)
-            if existing_user:
-                raise UsernameTakenError(f"The username '{username}' is already taken")
-            
-            existing_user = self.userRepository.get_by_email(email)
-            if existing_user:
-                raise EmailTakenError(f"The email '{email}' is already registered")
-            
-            user = User(username=username, email=email, password=password)
-            self.userRepository.save(user)
-            
-            return {"success": True, "user": userSchema.dump(user)}
-        
-        except (UsernameTakenError, EmailTakenError, InvalidDataError) as e:
-            return {"success": False, "error_message": str(e)}
+    def add_new_user(self,username,email,password):
+        user = User(username=None,email=None,password=None)
+        user.username = username         
+        user.email = email         
+        user.password =  bcrypt.generate_password_hash(password).decode("utf-8")         
+        userRepository.save(user)         
+        return
     
     def find_user_by_id(self, id):
-        user = self.userRepository.get_by_id(id=id)
+        user = userRepository.get_by_id(id=id)
         return user
     
     def find_user_by_username(self, username):
-        user = self.userRepository.get_by_username(username=username)
+        user = userRepository.get_by_username(username=username)
         return user
     
     def find_user_by_email(self, email):
-        user = self.userRepository.get_by_email(email=email)
+        user = userRepository.get_by_email(email=email)
+        return user
+    
+    # Erro nos metodos de validação e username e email
+    def validate_new_username(self,username):
+        validate_username(username)
+        user = userRepository.get_by_username(username=username)
+        if user != None:
+            raise Exception("Esse Username já foi cadastrado!",409)
+        pass
+        
+    def validate_new_email(self,email):
+        validate_email(email)
+        user = userRepository.get_by_email(email=email)
+        if user != None:
+            raise Exception("Esse e-mail já foi cadastrado",409)
+        pass
+
+    def authenticate_user(self,username,password):
+        user = userRepository.get_by_username(username=username)
+        if user == None:
+            raise Exception("Usuário e/ou senha inválidos",401)
+        if not bcrypt.check_password_hash(user.password, password):
+            raise Exception("Usuário e/ou senha inválidos",401)
+        user = userSchema.dump(user)
+        user.pop("password")
+        user.pop("posts")
         return user

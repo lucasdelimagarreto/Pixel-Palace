@@ -14,7 +14,7 @@ class GamesRepository(BaseRepository):
         except Exception as e:
             raise e
 
-    def get_game_by_name(self, game_name):
+    def get_by_name(self, game_name):
         try:
             game = db.session.query(Games).filter_by(gameName=game_name).first()
             if not game:
@@ -23,7 +23,7 @@ class GamesRepository(BaseRepository):
         except Exception as e:
             raise e
 
-    def get_game_by_gender(self, gender):
+    def get_by_gender(self, gender):
         try:
             game = db.session.query(Games).filter_by(gender=gender).first()
             if not game:
@@ -32,7 +32,7 @@ class GamesRepository(BaseRepository):
         except Exception as e:
             raise e
 
-    def get_game_by_id(self, game_id):
+    def get_by_id(self, game_id):
         try:
             game = db.session.query(Games).filter_by(id=game_id).first()
             if not game:
@@ -41,7 +41,7 @@ class GamesRepository(BaseRepository):
         except Exception as e:
             raise e
 
-    def get_game_by_second_game_name(self, second_game_name):
+    def get_by_second_game_name(self, second_game_name):
         try:
             game = db.session.query(Games).filter_by(secondGameName=second_game_name).first()
             if not game:
@@ -50,7 +50,7 @@ class GamesRepository(BaseRepository):
         except Exception as e:
             raise e
 
-    def get_game_by_creator(self, creator):
+    def get_by_creator(self, creator):
         try:
             game = db.session.query(Games).filter_by(creator=creator).first()
             if not game:
@@ -59,7 +59,7 @@ class GamesRepository(BaseRepository):
         except Exception as e:
             raise e
 
-    def get_game_by_year(self, year):
+    def get_by_year(self, year):
         try:
             game = db.session.query(Games).filter_by(year=year).first()
             if not game:
@@ -68,7 +68,7 @@ class GamesRepository(BaseRepository):
         except Exception as e:
             raise e
 
-    def get_game_by_age_group(self, age_group):
+    def get_by_age_group(self, age_group):
         try:
             game = db.session.query(Games).filter_by(ageGroup=age_group).first()
             if not game:
@@ -77,7 +77,7 @@ class GamesRepository(BaseRepository):
         except Exception as e:
             raise e
 
-    def get_game_by_platform(self, platform):
+    def get_by_platform(self, platform):
         try:
             game = db.session.query(Games).filter_by(platform=platform).first()
             if not game:

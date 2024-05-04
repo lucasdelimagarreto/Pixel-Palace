@@ -6,7 +6,7 @@ from app.service.GamesService import GamesService
 games_bp = Blueprint('games_api',__name__,url_prefix='/games')
 gamesService = GamesService()
 
-@games_bp.route("",methods=("POST"))
+@games_bp.route("",methods=["POST"])
 def register():
     
     if request.method == "POST":
@@ -87,7 +87,7 @@ def get_game_by_name(game_name):
     
 # Método GET para obter um jogo por genero
 @games_bp.route("/<string:game_gender>", methods=["GET"])
-def get_game_by_name(game_gender):
+def get_game_by_gender(game_gender):
     try:
         game = gamesService.get_game_by_gender(game_gender)
         if game:
@@ -99,7 +99,7 @@ def get_game_by_name(game_gender):
 
 # Método GET para obter um jogo por criador
 @games_bp.route("/<string:game_creator>", methods=["GET"])
-def get_game_by_name(game_creator):
+def get_game_by_creator(game_creator):
     try:
         game = gamesService.get_game_by_creator(game_creator)
         if game:
@@ -111,7 +111,7 @@ def get_game_by_name(game_creator):
 
 # Método GET para obter um jogo por ano
 @games_bp.route("/<string:game_year>", methods=["GET"])
-def get_game_by_name(game_year):
+def get_game_by_year(game_year):
     try:
         game = gamesService.get_game_by_year(game_year)
         if game:
@@ -123,7 +123,7 @@ def get_game_by_name(game_year):
 
 # Método GET para obter um jogo por faixa etária
 @games_bp.route("/<string:game_age_group>", methods=["GET"])
-def get_game_by_name(age_group):
+def get_game_by_age_group(age_group):
     try:
         game = gamesService.get_game_by_age_group(age_group)
         if game:
@@ -133,11 +133,11 @@ def get_game_by_name(age_group):
     except Exception as err:
         return make_response(error_response(action="Get Game By Age group", error_message=str(err), error_code=500))
 
-# Método GET para obter um jogo por faixa plataforma
+# Método GET para obter um jogo por plataforma
 @games_bp.route("/<string:game_platform>", methods=["GET"])
-def get_game_by_name(platform):
+def get_game_by_platform(platform):
     try:
-        game = gamesService.get_game_by_age_group(platform)
+        game = gamesService.get_game_by_platform(platform)
         if game:
             return make_response(success_response(action="Get Game By Platform", parameter=game))
         else:
