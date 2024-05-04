@@ -1,4 +1,4 @@
-from app.shared.validation_methods import validate_creator, validate_dlc, validate_gameName, validate_gender, validate_price, validate_secondGameName, validate_username,validate_email,validate_password, validate_year
+from app.shared.validation_methods import GameValidation, validate_creator, validate_dlc, validate_gameName, validate_gender, validate_price, validate_secondGameName, validate_username,validate_email,validate_password, validate_year
 from app.model.Games import Games
 from app.schemas.GamesSchemas import GamesSchema
 from app.repository.GamesRepository import GamesRepository
@@ -11,7 +11,7 @@ class GamesService:
     def __init__(self) -> None:
         pass
 
-    def add_new_game(self,gameName,secondGameName,creator,price,year,dlc,gender):        
+    def add_new_game(self,gameName,secondGameName,creator,price,year,dlc,gender,ageGroup,platform):        
 
         games.gameName = gameName
         games.secondGameName = secondGameName
@@ -20,39 +20,43 @@ class GamesService:
         games.year = year
         games.dlc = dlc
         games.gender = gender
+        games.ageGroup = ageGroup
+        games.platform = platform
         gamesRepository.save(games)
         return gamesSchema.dump(games)
     
-    def findGamesById(self,id):
-        games = gamesRepository.getById(id=id)
-        return games
+    def get_all_games(self):
+        return gamesRepository.get_all_games()
+
+    def get_game_by_id(self, game_id):
+        return gamesRepository.get_game_by_id(game_id)
+
+    def get_game_by_name(self, game_name):
+        return gamesRepository.get_game_by_name(game_name)
     
-    def findGamesByGameName(self,gameName):
-        games = gamesRepository.getByGamename(gameName=gameName)
-        return games
-    
-    def findGamesBySecondGameName(self,secondGameName):
-        games = gamesRepository.getBySecondGameName(secondGameName=secondGameName)
+    def get_game_by_second_game_name(self,secondGameName):
+        games = gamesRepository.get_game_by_second_game_name(secondGameName=secondGameName)
         return games
 
-    def findGamesByCreator(self, creator):
-        games = gamesRepository.getByCreator(creator=creator)
+    def get_game_by_creator(self, creator):
+        games = gamesRepository.get_game_by_creator(creator=creator)
         return games
     
-    def findGamesByYear(self, year):
-        games = gamesRepository.getByYear(year=year)
+    def get_game_by_year(self, year):
+        games = gamesRepository.get_game_by_year(year=year)
         return games
     
-    def findGamesByGender(self, gender):
-        games = gamesRepository.getByGender(gender=gender)
+    def get_game_by_gender(self, gender):
+        games = gamesRepository.get_game_by_gender(gender=gender)
         return games
     
-    def validate_new_game(self,gameName,secondGameName,creator,price,year,dlc,gender):
-        validate_gameName(gameName)
-        validate_secondGameName(secondGameName)
-        validate_creator(creator)
-        validate_price(price)
-        validate_year(year)
-        validate_dlc(dlc)
-        validate_gender(gender)
-        pass
+    def get_game_by_age_group(self, ageGroup):
+        games = gamesRepository.get_game_by_age_group(ageGroup=ageGroup)
+        return games
+    
+    def get_game_by_platform(self, platform):
+        games = gamesRepository.get_game_by_platform(platform=platform)
+        return games
+    
+    def validate_new_game(self, gameName, secondGameName, creator, price, year, dlc, gender, ageGroup, platform):
+        GameValidation.validate_new_game(gameName, secondGameName, creator, price, year, dlc, gender, ageGroup, platform)

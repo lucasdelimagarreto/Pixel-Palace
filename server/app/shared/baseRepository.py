@@ -5,7 +5,6 @@ class BaseRepository:
     
     def __init__(self,model):
         self.model = model 
-        
 
     def save(self,object):
         db.session.add(object)

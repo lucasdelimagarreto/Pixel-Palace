@@ -5,63 +5,83 @@ from app.shared.dataBase import db
 class GamesRepository(BaseRepository):
 
     def __init__(self):
-        
         super().__init__(Games)
-    
-    def getByGamename(self,gameName):
-        
+
+    def get_all_games(self):
         try:
-            game = db.session.execute(db.select(Games).filter_by(gameName=gameName)).scalar_one()
-        except:
-            raise Exception("Game not found")
-        else:    
-            return game
-    
-    def getByGender(self,gender):
-        
+            games = db.session.query(Games).all()
+            return games
+        except Exception as e:
+            raise e
+
+    def get_game_by_name(self, game_name):
         try:
-            game = db.session.execute(db.select(Games).filter_by(gender=gender)).scalar_one()
-        except:
-            #TODO: traceback runtime error
-            raise Exception("gender not found")
-        else:
+            game = db.session.query(Games).filter_by(gameName=game_name).first()
+            if not game:
+                raise Exception(f"No game found with name '{game_name}'")
             return game
-    
-    def getById(self, id):
-        
+        except Exception as e:
+            raise e
+
+    def get_game_by_gender(self, gender):
         try:
-            game = db.session.execute(db.select(Games).filter_by(id=id)).scalar_one()
-        except:
-            raise Exception("Id not found")
-        else:
+            game = db.session.query(Games).filter_by(gender=gender).first()
+            if not game:
+                raise Exception(f"No game found with gender '{gender}'")
             return game
-        
-    def getBySecondGameName(self, secondGameName):
-        
+        except Exception as e:
+            raise e
+
+    def get_game_by_id(self, game_id):
         try:
-            game = db.session.execute(db.select(Games).filter_by(secondGameName=secondGameName)).scalar_one()
-        except:
-            #TODO: traceback runtime error
-            raise Exception("secondGameName not found")
-        else:
+            game = db.session.query(Games).filter_by(id=game_id).first()
+            if not game:
+                raise Exception(f"No game found with ID '{game_id}'")
             return game
-        
-    def getByCreator(self, creator):
-        
+        except Exception as e:
+            raise e
+
+    def get_game_by_second_game_name(self, second_game_name):
         try:
-            game = db.session.execute(db.select(Games).filter_by(creator=creator)).scalar_one()
-        except:
-            #TODO: traceback runtime error
-            raise Exception("secondGameName not found")
-        else:
+            game = db.session.query(Games).filter_by(secondGameName=second_game_name).first()
+            if not game:
+                raise Exception(f"No game found with second game name '{second_game_name}'")
             return game
-        
-    def getByYear(self, year):
-        
+        except Exception as e:
+            raise e
+
+    def get_game_by_creator(self, creator):
         try:
-            game = db.session.execute(db.select(Games).filter_by(year=year)).scalar_one()
-        except:
-            #TODO: traceback runtime error
-            raise Exception("secondGameName not found")
-        else:
+            game = db.session.query(Games).filter_by(creator=creator).first()
+            if not game:
+                raise Exception(f"No game found with creator '{creator}'")
             return game
+        except Exception as e:
+            raise e
+
+    def get_game_by_year(self, year):
+        try:
+            game = db.session.query(Games).filter_by(year=year).first()
+            if not game:
+                raise Exception(f"No game found with year '{year}'")
+            return game
+        except Exception as e:
+            raise e
+
+    def get_game_by_age_group(self, age_group):
+        try:
+            game = db.session.query(Games).filter_by(ageGroup=age_group).first()
+            if not game:
+                raise Exception(f"No game found with age group '{age_group}'")
+            return game
+        except Exception as e:
+            raise e
+
+    def get_game_by_platform(self, platform):
+        try:
+            game = db.session.query(Games).filter_by(platform=platform).first()
+            if not game:
+                raise Exception(f"No game found with platform '{platform}'")
+            return game
+        except Exception as e:
+            raise e

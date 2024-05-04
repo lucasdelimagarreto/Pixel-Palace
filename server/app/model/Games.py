@@ -10,10 +10,12 @@ class Games(db.Model):
     creator = db.Column(db.String(10), unique=True , nullable=False)
     price = db.Column(db.Float , nullable=False)
     year = db.Column(db.Integer , nullable=False)
-    dlc = db.Column(db.Boolean , nullable=False)
+    dlc = db.Column(db.Boolean)
     gender = db.Column(db.String(20), nullable=False)
+    ageGroup = db.Column(db.Integer , nullable=False)
+    platform = db.Column(db.String(20), nullable=False)
 
-    def __init__(self,gameName, secondGameName, creator, price, year, dlc, gender):
+    def __init__(self,gameName, secondGameName, creator, price, year, dlc, gender, ageGroup, platform):
         self.gameName = gameName
         self.secondGameName = secondGameName
         self.creator = creator
@@ -21,3 +23,5 @@ class Games(db.Model):
         self.year = year
         self.dlc = dlc
         self.gender = gender
+        self.ageGroup = ageGroup
+        self.platform = platform
