@@ -2,7 +2,7 @@
 from flask import jsonify
 
 def error_response(error_message, error_code,action,status=None):
-    
+
     error_response = {
         "action" : action,
         "error_message": error_message,
@@ -20,8 +20,8 @@ def success_response(action,status=None,parameter=None,token=None):
     }
     if parameter != None:
         response_data["parameter"] = parameter
-        
+
     if token != None:
         response_data["token"] = token
-    
+
     return jsonify(response_data), 200

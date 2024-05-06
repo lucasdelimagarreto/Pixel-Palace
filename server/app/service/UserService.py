@@ -7,15 +7,6 @@ from app.repository.UserRepository import UserRepository
 userSchema = UserSchema()
 userRepository = UserRepository()
 
-class UsernameTakenError(Exception):
-    pass
-
-class EmailTakenError(Exception):
-    pass
-
-class InvalidDataError(Exception):
-    pass
-
 class UserService:
 
     def __init__(self) -> None:
@@ -29,17 +20,35 @@ class UserService:
         userRepository.save(user)         
         return
 
-    def find_user_by_id(self, id):
+    def get_user_by_id(self, id):
         user = userRepository.get_by_id(id=id)
         return user
 
-    def find_user_by_username(self, username):
+    def get_user_by_username(self, username):
         user = userRepository.get_by_username(username=username)
         return user
 
-    def find_user_by_email(self, email):
+    def get_user_by_email(self, email):
         user = userRepository.get_by_email(email=email)
         return user
+
+    def update_username(self,user_id,username):
+        user = userRepository.get_by_id(user_id)
+        user.username = username
+        userRepository.update(user)
+        return
+
+    def update_email(self,user_id,email):
+        user = userRepository.get_by_id(user_id)
+        user.email = email
+        userRepository.update(user)
+        return 
+
+    def update_password(self,user_id,password):
+        user = userRepository.get_by_id(user_id)
+        user.password = password
+        userRepository.update(user)
+        return 
 
     # Erro nos metodos de validação e username e email
     def validate_new_username(self,username):

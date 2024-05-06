@@ -71,3 +71,4 @@ class GamesService:
 
     def validate_new_game(self, gameName, secondGameName, creator, price, year, dlc, gender, ageGroup, platform):
         GameValidation.validate_new_game(gameName, secondGameName, creator, price, year, dlc, gender, ageGroup, platform)
+

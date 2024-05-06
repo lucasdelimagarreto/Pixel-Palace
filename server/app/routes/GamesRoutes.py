@@ -156,3 +156,34 @@ def delete_game_by_id(game_id):
             return make_response(error_response(action="Delete Game By ID", error_message="Game not found", error_code=404))
     except Exception as err:
         return make_response(error_response(action="Delete Game By ID", error_message=str(err), error_code=500))
+    
+@games_bp.route("/games/<int:game_id>", methods=["PUT"])
+def edit_game(game_id):
+    try:
+        if not request.is_json:
+            return make_response(error_response(action="EditarJogo", error_code=400, error_message="O corpo da solicitação deve estar em formato JSON"))
+
+        data = request.get_json()
+        if not data:
+            return make_response(error_response(action="EditarJogo", error_code=400, error_message="Dados de jogo ausentes"))
+
+        game = gamesService.get_game_by_id(game_id)
+        if not game:
+            return make_response(error_response(action="EditarJogo", error_code=404, error_message="Jogo não encontrado"))
+
+        # Atualize as características do jogo com base nos dados recebidos
+        if "title" in data:
+            game.gameName = data["title"]
+        if "genre" in data:
+            game.gender = data["genre"]
+        if "platform" in data:
+            game.platform = data["platform"]
+        # Adicione mais campos conforme necessário
+
+        # Salve as alterações no banco de dados
+        gamesService.save_game(game)
+
+        return make_response(success_response(action="EditarJogo", message="Jogo atualizado com sucesso"))
+    
+    except Exception as err:
+        return make_response(error_response(action="EditarJogo", error_code=500, error_message=str(err)))

@@ -1,4 +1,3 @@
-
 from app.shared.dataBase import db
 
 class BaseRepository:
@@ -17,15 +16,6 @@ class BaseRepository:
     def delete(self,object):
         db.session.delete(object)
         db.session.commit()
-
-    def getById(self,id):
-        try:
-            object = db.get_or_404(self.model,id)
-#TODO:tratamento de exeção para ser feito
-        except:
-            raise Exception()
-        else:
-            return object
         
     def getAll(self):
         ...
