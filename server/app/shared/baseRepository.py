@@ -24,7 +24,7 @@ class BaseRepository:
 #TODO:tratamento de exeção para ser feito
         except:
             raise Exception()
-        else:    
+        else:
             return object
         
     def getAll(self):

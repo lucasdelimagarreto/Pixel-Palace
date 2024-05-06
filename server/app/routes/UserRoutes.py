@@ -27,7 +27,7 @@ def register():
                     userService.validate_new_email(email=email)
                     validate_password(password=password)
                     userService.add_new_user(username=username,email=email,password=password)
-                    return make_response(success_response(action="Register",code=201))           
+                    return make_response(success_response(action="Register"))           
                 except Exception as err:
                     if len(err.args) == 2:
                         return make_response(error_response(action="Register",error_message=err.args[0],error_code=err.args[1]))

@@ -17,19 +17,9 @@ class UserRepository(BaseRepository):
             raise e
     
     def get_by_username(self, username):
-        try:
-            user = db.session.query(User).filter_by(username=username).first()
-            if not user:
-                raise Exception(f"No user found with username '{username}'")
-            return user
-        except Exception as e:
-            raise e
+        user = db.session.execute(db.select(User).filter_by(username=username)).scalar_one_or_none()
+        return user
     
     def get_by_email(self, email):
-        try:
-            user = db.session.query(User).filter_by(email=email).first()
-            if not user:
-                raise Exception(f"No user found with email '{email}'")
-            return user
-        except Exception as e:
-            raise e
+        user = db.session.execute(db.select(User).filter_by(email=email)).scalar_one_or_none()
+        return user
