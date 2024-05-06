@@ -59,5 +59,15 @@ class GamesService:
         games = gamesRepository.get_by_platform(platform=platform)
         return games
     
+    def delete_game_by_id(self, game_id):
+        # Verifica se o jogo existe antes de tentar excluí-lo
+        existing_game = gamesRepository.get_by_id(game_id)
+        if existing_game is None:
+            raise Exception("Game not found")
+
+        # Chama o método do repositório para excluir o jogo
+        deleted_game = gamesRepository.delete_game_by_id(game_id)
+        return deleted_game
+    
     def validate_new_game(self, gameName, secondGameName, creator, price, year, dlc, gender, ageGroup, platform):
         GameValidation.validate_new_game(gameName, secondGameName, creator, price, year, dlc, gender, ageGroup, platform)

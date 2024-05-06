@@ -144,3 +144,15 @@ def get_game_by_platform(platform):
             return make_response(error_response(action="Get Game By Platform", error_message="Platform not found", error_code=404))
     except Exception as err:
         return make_response(error_response(action="Get Game By Platform", error_message=str(err), error_code=500))
+
+# Método DELETE para excluir um jogo por ID
+@games_bp.route("/<int:game_id>", methods=["DELETE"])
+def delete_game_by_id(game_id):
+    try:
+        deleted_game = gamesService.delete_game_by_id(game_id)
+        if deleted_game:
+            return make_response(success_response(action="Delete Game By ID", parameter=deleted_game))
+        else:
+            return make_response(error_response(action="Delete Game By ID", error_message="Game not found", error_code=404))
+    except Exception as err:
+        return make_response(error_response(action="Delete Game By ID", error_message=str(err), error_code=500))

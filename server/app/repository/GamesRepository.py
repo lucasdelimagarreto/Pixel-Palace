@@ -85,3 +85,14 @@ class GamesRepository(BaseRepository):
             return game
         except Exception as e:
             raise e
+
+    def delete_game_by_id(self, game_id):
+        try:
+            game = self.get_by_id(game_id)
+            if game:
+                super().delete(game)
+                return game
+            else:
+                raise Exception(f"No game found with ID '{game_id}'")
+        except Exception as e:
+            raise e
