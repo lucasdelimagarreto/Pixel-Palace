@@ -11,7 +11,7 @@ def create_app():
     app.config.from_object(Config)
     CORS(app)
     bcrypt.init_app(app)
-    
+
     from app.shared.dataBase import db,migrate,marshmallow
     db.init_app(app)
     marshmallow.init_app(app)
@@ -21,5 +21,5 @@ def create_app():
     app.register_blueprint(user_bp)
     from app.routes.GamesRoutes import games_bp
     app.register_blueprint(games_bp)
-    
+
     return app
