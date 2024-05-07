@@ -10,9 +10,9 @@ class GamesService:
     def __init__(self) -> None:
         pass
 
-    def add_new_game(self,gameName,secondGameName,creator,price,year,dlc,gender,ageGroup,platform):        
+    def add_new_game(self,gameName,secondGameName,creator,price,year,dlc,gender,ageGroup,platform,description):        
 
-        games = Games(gameName=None,secondGameName=None,creator=None,price=None,year=None,dlc=None,gender=None,ageGroup=None,platform=None)
+        games = Games(gameName=None,secondGameName=None,creator=None,price=None,year=None,dlc=None,gender=None,ageGroup=None,platform=None, description=None)
 
         games.gameName = gameName
         games.secondGameName = secondGameName
@@ -23,6 +23,7 @@ class GamesService:
         games.gender = gender
         games.ageGroup = ageGroup
         games.platform = platform
+        games.description = description
         gamesRepository.save(games)
         return gamesSchema.dump(games)
 
@@ -59,6 +60,36 @@ class GamesService:
         games = gamesRepository.get_by_platform(platform=platform)
         return games
 
+    def update_gameName(self,game_id,gameName):
+        game = gamesRepository.get_by_id(game_id)
+        game.gameName = gameName
+        gamesRepository.update(game)
+        return
+
+    def update_second_game_name(self,game_id,secondGameName):
+        game = gamesRepository.get_by_id(game_id)
+        game.secondGameName = secondGameName
+        gamesRepository.update(game)
+        return
+
+    def update_creator(self,game_id,creator):
+        game = gamesRepository.get_by_id(game_id)
+        game.creator = creator
+        gamesRepository.update(game)
+        return
+
+    def update_price(self,game_id,price):
+        game = gamesRepository.get_by_id(game_id)
+        game.price = price
+        gamesRepository.update(game)
+        return
+    
+    def update_platform(self,game_id,platform):
+        game = gamesRepository.get_by_id(game_id)
+        game.platform = platform
+        gamesRepository.update(game)
+        return
+
     def delete_game_by_id(self, game_id):
         # Verifica se o jogo existe antes de tentar excluí-lo
         existing_game = gamesRepository.get_by_id(game_id)
@@ -69,6 +100,9 @@ class GamesService:
         deleted_game = gamesRepository.delete_game_by_id(game_id)
         return deleted_game
 
+    def save_game(self, game):
+        gamesRepository.update(game)
+        return
+    
     def validate_new_game(self, gameName, secondGameName, creator, price, year, dlc, gender, ageGroup, platform):
         GameValidation.validate_new_game(gameName, secondGameName, creator, price, year, dlc, gender, ageGroup, platform)
-

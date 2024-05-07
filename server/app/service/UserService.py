@@ -13,14 +13,16 @@ class UserService:
     def __init__(self) -> None:
         pass
 
-    def add_new_user(self,username,email,password):
+    def add_new_user(self,username,email,password,age):
         user = User(username=None,email=None,password=None)
         user.username = username         
-        user.email = email         
+        user.email = email
+        user.age = age
         user.password =  bcrypt.generate_password_hash(password).decode("utf-8")         
         userRepository.save(user)         
         return
 
+    #Buscas de usuário
     def get_user_by_id(self, id):
         user = userRepository.get_by_id(id=id)
         return user
@@ -33,6 +35,7 @@ class UserService:
         user = userRepository.get_by_email(email=email)
         return user
 
+    #Atualizações de atributos de usuário
     def update_username(self,user_id,username):
         user = userRepository.get_by_id(user_id)
         user.username = username
@@ -51,7 +54,7 @@ class UserService:
         userRepository.update(user)
         return 
 
-    # Erro nos metodos de validação e username e email
+    #validação e username e email
     def validate_new_username(self,username):
         validate_username(username)
         user = userRepository.get_by_username(username=username)
@@ -66,6 +69,7 @@ class UserService:
             raise Exception("Esse e-mail já foi cadastrado",409)
         pass
     
+    #Autenticação de usuário
     def authenticate_user(self,username,password):
         user = userRepository.get_by_username(username=username)
         if user == None:

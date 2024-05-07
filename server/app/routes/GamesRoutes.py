@@ -1,5 +1,7 @@
 from flask import Blueprint,jsonify,request,make_response
+from app.shared.validation_methods import GameValidation
 from app.repository.GamesRepository import GamesRepository
+from app.shared.baseRepository import BaseRepository
 from app.shared.response import error_response,success_response
 from app.service.GamesService import GamesService
 
@@ -8,22 +10,22 @@ gamesService = GamesService()
 
 @games_bp.route("",methods=["POST"])
 def register():
-    
+
     if request.method == "POST":
-        
+
         if request.is_json:
-            
+
             data = request.get_json()
-            
+
             if len(data) < 8:
                 return make_response(error_response(action="Register",error_code=400,error_message="missing one or more parameters"))
-            
+
             elif len(data) > 8:
                 return make_response(error_response(action="Register",error_code=400,error_message="too many parameters has been passed"))
-            
+
             elif "gameName" not in data or "secondGameName" not in data or "creator" not in data or "price" not in data or "year" not in data or "dlc" not in data or "gender" not in data:
                 return make_response(error_response(action="Register",error_code=400,error_message="error in json format"))
-            
+
             else:
                 gameName = data.get("gameName")
                 secondGameName = data.get("secondGameName")
@@ -33,23 +35,23 @@ def register():
                 dlc = data.get("dlc")
                 gender = data.get("gender")
                 ageGroup = data.get("ageGroup")
-                
+
                 try:
                     gamesService.get_game_by_name(gameName=gameName)
-                
+
                 except:
                     pass
                 else:
                     return make_response(error_response(action="Register",error_message="Esse Game já foi cadastrado!",error_code=409))
-                
+
                 try:
                     gamesService.validate_new_game(gameName,secondGameName,creator,price,year,dlc,gender,ageGroup)
                     response = gamesService.add_new_game(gameName = gameName,secondGameName = secondGameName,creator = creator,price = price,year = year,dlc = dlc,gender = gender,ageGroup = ageGroup)
                     return make_response(success_response(action = "Register",parameter=response))           
-                
+
                 except Exception as err:
                     return make_response(error_response(action="Register",error_message=str(err),error_code=409))
-                                                        
+
     return error_response(action="Register",error_code=400,error_message="error")
 
 # Método GET para obter todos os jogos
@@ -157,6 +159,8 @@ def delete_game_by_id(game_id):
     except Exception as err:
         return make_response(error_response(action="Delete Game By ID", error_message=str(err), error_code=500))
 
+
+'''
 @games_bp.route("/games/<int:game_id>", methods=["PUT"])
 def edit_game(game_id):
     try:
@@ -171,19 +175,79 @@ def edit_game(game_id):
         if not game:
             return make_response(error_response(action="EditarJogo", error_code=404, error_message="Jogo não encontrado"))
 
-        # Atualize as características do jogo com base nos dados recebidos
+        # Atualiza as características do jogo com base nos dados recebidos
         if "title" in data:
             game.gameName = data["title"]
         if "genre" in data:
             game.gender = data["genre"]
-        if "platform" in data:
-            game.platform = data["platform"]
-        # Adicione mais campos conforme necessário
-
-        # Salve as alterações no banco de dados
+        if "price" in data:
+            game.price = data["price"]
+        if "description" in data:
+            game.description = data["description"]
+        
         gamesService.save_game(game)
 
         return make_response(success_response(action="EditarJogo", message="Jogo atualizado com sucesso"))
-    
+
     except Exception as err:
-        return make_response(error_response(action="EditarJogo", error_code=500, error_message=str(err)))
+        return make_response(error_response(action="EditarJogo", error_code=500, error_message=str(err)))'''
+
+@games_bp.route("",methods=["PATCH"])
+
+def games_methods(current_game):
+    if request.method == "PATCH":
+        if request.is_json:
+            data = request.json
+            if len(data) < 1:
+                return make_response(error_response(action="Update Games Info",error_code=400,error_message="missing one or more parameters"))
+            elif len(data) > 1:
+                return make_response(error_response(action="Update Games Info",error_code=400,error_message="too many parameters has been passed"))
+            elif "gameName" not in data and "price" not in data and "platform" not in data:
+                return make_response(error_response(action="Update Games Info",error_code=400,error_message="error in json format"))
+            else:
+                if "gameName" in data:
+                    try:
+                        gameName = data.get("gameName")
+                        gamesService.update_gameName(game_id=current_game.id,gameName=gameName)
+                        return make_response(success_response(action="Set New Game Name"))
+                    except Exception as err:
+                        if len(err.args) == 2:
+                            return make_response(error_response(action="Set New Game Name",error_message=err.args[0],error_code=err.args[1]))
+                        else:
+                            return make_response(error_response(action="Set New Game Name",error_message=str(err),error_code=500))
+
+                elif "secondGameName" in data:
+                    try:
+                        secondGameName = data.get("secondGameName")
+                        gamesService.update_second_game_name(game_id=current_game.id,secondGameName=secondGameName)
+                        return make_response(success_response(action="Set New Second Game Name"))
+                    except Exception as err:
+                        if len(err.args) == 2:
+                            return make_response(error_response(action="Set Second Game Name",error_message=err.args[0],error_code=err.args[1]))
+                        else:
+                            return make_response(error_response(action="Set Second Game Name",error_message=str(err),error_code=500))
+
+                elif "price" in data:
+                    try:
+                        price = data.get("price")
+                        gamesService.validate_price(price=price)
+                        gamesService.update_price(game_id=current_game.id,price=price)
+                        return make_response(success_response(action="Set New Price"))
+                    except Exception as err:
+                        if len(err.args) == 2:
+                            return make_response(error_response(action="Set New Price",error_message=err.args[0],error_code=err.args[1]))
+                        else:
+                            return make_response(error_response(action="Set New Price",error_message=str(err),error_code=500))
+
+                elif "platform" in data:
+                    try:
+                        platform = data.get("platform")
+                        gamesService.update_platform(game_id=current_game.id,platform=platform)
+                        return make_response(success_response(action="Set New platform"))
+                    except Exception as err:
+                        if len(err.args) == 2:
+                            return make_response(error_response(action="Set New platform",error_message=err.args[0],error_code=err.args[1]))
+                        else:
+                            return make_response(error_response(action="Set New platform",error_message=str(err),error_code=500))
+        else:
+             return error_response(action="Update Game Info",error_code=400,error_message="Bad Request")

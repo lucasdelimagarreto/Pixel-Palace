@@ -15,3 +15,4 @@ class GamesSchema(ma.SQLAlchemySchema):
     gender = ma.auto_field()
     ageGroup = ma.auto_field()
     platform = ma.auto_field()
+    description = ma.auto_field()

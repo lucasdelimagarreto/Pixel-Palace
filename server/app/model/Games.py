@@ -14,8 +14,9 @@ class Games(db.Model):
     gender = db.Column(db.String(20), nullable=False)
     ageGroup = db.Column(db.Integer , nullable=False)
     platform = db.Column(db.String(20), nullable=False)
+    description = db.Column(db.String(1000), nullable=False) #Isso e sujo mas e o que temos para hoje, PS esta marcação e um lembrete para fazer uma alteração!
 
-    def __init__(self,gameName, secondGameName, creator, price, year, dlc, gender, ageGroup, platform):
+    def __init__(self,gameName, secondGameName, creator, price, year, dlc, gender, ageGroup, platform, description):
         self.gameName = gameName
         self.secondGameName = secondGameName
         self.creator = creator
@@ -25,3 +26,4 @@ class Games(db.Model):
         self.gender = gender
         self.ageGroup = ageGroup
         self.platform = platform
+        self.description = description

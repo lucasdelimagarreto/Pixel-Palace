@@ -120,7 +120,6 @@ def validate_platform(platform):
     else:
         return False
 
-
 class GameValidation:
     @staticmethod
     def validate_new_game(gameName, secondGameName, creator, price, year, dlc, gender, ageGroup, platform):
