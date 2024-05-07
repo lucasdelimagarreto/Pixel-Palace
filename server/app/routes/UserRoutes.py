@@ -5,8 +5,6 @@ from app.shared.response import error_response,success_response
 from app.service.UserService import UserService
 import jwt
 
-
-
 user_bp = Blueprint('users_api',__name__,url_prefix='/users')
 userService = UserService()
 
