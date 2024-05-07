@@ -1,3 +1,4 @@
+from datetime import datetime
 from app import bcrypt
 from app.shared.validation_methods import validate_username, validate_email, validate_password
 from app.model.User import User
@@ -64,7 +65,7 @@ class UserService:
         if user != None:
             raise Exception("Esse e-mail já foi cadastrado",409)
         pass
-
+    
     def authenticate_user(self,username,password):
         user = userRepository.get_by_username(username=username)
         if user == None:
@@ -74,3 +75,5 @@ class UserService:
         user = userSchema.dump(user)
         user.pop("password")
         return user
+    
+    

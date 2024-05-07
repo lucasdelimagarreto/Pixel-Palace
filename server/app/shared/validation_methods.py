@@ -1,4 +1,4 @@
-
+from datetime import datetime
 import re
 
 # Validação de username
@@ -24,7 +24,18 @@ def validate_password(password):
         return True
     else:
         return False
+
+def validate_age(data_nascimento, idade_minima):
     
+    data_nascimento = datetime.strptime(data_nascimento, '%Y-%m-%d')
+    data_atual = datetime.now()
+    idade = data_atual.year - data_nascimento.year - ((data_atual.month, data_atual.day) < (data_nascimento.month, data_nascimento.day))
+
+    if idade >= idade_minima:
+        return True
+    else:
+        return False
+
 # Validação de nome do jogo
 def validate_game_name(game_name):
     # Regra: deve ter pelo menos 3 caracteres

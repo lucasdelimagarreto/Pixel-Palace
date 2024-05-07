@@ -1,3 +1,4 @@
+from sqlalchemy.orm.exc import NoResultFound
 from app.model.User import User
 from app.shared.baseRepository import BaseRepository
 from app.shared.dataBase import db
@@ -17,9 +18,17 @@ class UserRepository(BaseRepository):
             raise e
     
     def get_by_username(self, username):
-        user = db.session.execute(db.select(User).filter_by(username=username)).scalar_one_or_none()
-        return user
+        try:
+            with db.session.begin():
+                user = db.session.query(User).filter(User.username == username).one()
+            return user
+        except NoResultFound:
+            return None
     
     def get_by_email(self, email):
-        user = db.session.execute(db.select(User).filter_by(email=email)).scalar_one_or_none()
-        return user
+        try:
+            with db.session.begin():
+                user = db.session.query(User).filter(User.email == email).one()
+            return user
+        except NoResultFound:
+            return None

@@ -156,7 +156,7 @@ def delete_game_by_id(game_id):
             return make_response(error_response(action="Delete Game By ID", error_message="Game not found", error_code=404))
     except Exception as err:
         return make_response(error_response(action="Delete Game By ID", error_message=str(err), error_code=500))
-    
+
 @games_bp.route("/games/<int:game_id>", methods=["PUT"])
 def edit_game(game_id):
     try:
