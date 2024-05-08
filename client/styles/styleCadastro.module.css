@@ -1,0 +1,104 @@
+#divRegisterLoginLayout {
+    background: #0f2124;
+    border: 3px solid #19F7A9;
+    border-radius: 20px;
+    display: flex;
+    margin: 20px 60px 30px 60px;
+    padding: 15px 40px 5px 40px;
+    position: absolute;
+    top: 90px;
+}
+
+.checkbox {
+    border: 3px solid #19F7A9;
+    background-color: #0f2124;
+    cursor: pointer;
+    height: 15px;
+    width: 15px;
+}
+
+#divLogin {
+    font-size: 11px;
+    font-weight: 500;
+}
+
+#divRegister {
+    font-size: 11px;
+    font-weight: 500;
+}
+
+#aForgotPassword {
+    font-size: 13px;
+    text-decoration: underline;
+    color: #6f6f75;
+}
+
+#textDate {
+    font-size: 16px;
+}
+
+#divRegister a {
+    font-size: 11px;
+    color: #19F7A9;
+    text-decoration: underline;
+}
+
+.mainRegister{
+    height: calc(100vh - 320px);
+    justify-content: center;
+    position: relative;
+}
+
+
+#divOrRegisterLogin {
+    display: block;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+#divHorizontalLine {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    height: 350px;
+    width: 0;
+    border: 1px solid #19F7A9;
+}
+
+.inputLogin{
+    margin-bottom: 20px;
+    display: block;
+    width: 300px;
+}
+
+.h2TitleRegisterLogin {
+    text-align: center;
+    margin-bottom: 70px;
+}
+
+.inputCheckbox {
+    margin-left: 10px;
+} 
+
+#divRegisterLoginLayout .bntGreenNoBorder {
+    display: block;
+    width: 300px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+#aForgotPassword {
+    margin-left: 10px;
+}
+
+#divOrRegisterLogin .h2TitleRegisterLogin {
+    margin-bottom: 20px;
+}
+
+#inputDateRegister {
+    margin-left: 3px;
+    margin-bottom: 20px;
+    width: 148px;
+}
