@@ -230,7 +230,7 @@ def games_methods(current_game):
                 elif "price" in data:
                     try:
                         price = data.get("price")
-                        gamesService.validate_price(price=price)
+                        #gamesService.validate_price(price=price)
                         gamesService.update_price(game_id=current_game.id,price=price)
                         return make_response(success_response(action="Set New Price"))
                     except Exception as err:

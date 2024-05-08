@@ -14,27 +14,30 @@ export default function Register() {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [emailLogin, setEmailLogin] = useState('');
+    const [passwordLogin, setPasswordLogin] = useState('');
     const [bornDate, setBornDate] = useState('');
+    const [message, setMessage] = useState('');
 
     const router = useRouter();
 
-    const DataJSON = () => {
+    const UserRegister = () => {
 
         const userDataJson = {
           username: username,
           email: email,
           password: password,
-          bornDate: bornDate
+          age: bornDate
         };
-    
-        axios.post('http://127.0.0.1:8080/users', userDataJson)
+
+        axios.post('http://192.168.0.13:5123/users', userDataJson)
           .then((response) => {
             setUsername('');
             setEmail('');
             setPassword('');
             setBornDate('');
-    
-            router.push('/index');
+
+            router.push('/');
     
           })
           .catch((error) => {
@@ -50,6 +53,34 @@ export default function Register() {
           });
     
       }    
+      const UserLogin = () => {
+
+        const userDataJson = {
+          email: emailLogin,
+          password: passwordLogin,
+        };
+
+        axios.post('http://192.168.0.13:5123/users/login', userDataJson)
+          .then((response) => {
+            setEmailLogin('');
+            setPasswordLogin('');
+
+            router.push('/');
+    
+          })
+          .catch((error) => {
+            if ((error.response && error.response.status === 409)) {
+    
+              setMessage(error.response.data.error_message)
+    
+            } else {
+    
+              setMessage('Erro ao enviar os dados, tente novamente dentro de alguns minutos');
+    
+            }
+          });
+    
+      }
 
     return(
         <div>
@@ -68,10 +99,10 @@ export default function Register() {
                 <div id={style.divRegisterLoginLayout}>
                     <div id={style.divLogin}>
                         <h2 className={style.h2TitleRegisterLogin}>Entrar</h2>
-                        <input type="email" placeholder="E-mail" className={style.inputLogin} name="emailLogin" required/>
-                        <input type="password" placeholder="Senha" className={style.inputLogin} name="passwordLogin" required/>
+                        <input type="email" placeholder="E-mail" className={style.inputLogin} name="emailLogin" value={emailLogin} onChange={(e) => setEmailLogin(e.target.value)} required />
+                        <input type="password" placeholder="Senha" className={style.inputLogin} name="passwordLogin" value={passwordLogin} onChange={(e) => setPasswordLogin(e.target.value)} required/>
                         <input type="checkbox" checked="checked" className={`${style.inputCheckbox} ${style.checkbox}`} name="renemberMeLogin"/> Lembrar de mim
-                        <button className={bntStyle.bntGreenNoBorder} name="bntEntrarLogin">Entrar</button>
+                        <button className={bntStyle.bntGreenNoBorder} name="bntEntrarLogin" onClick={UserLogin}>Entrar</button>
                         <a href="" id={style.aForgotPassword}>Esqueceu sua senha?</a>
                     </div>
                     <div id={style.divOrRegisterLogin}>
@@ -91,7 +122,8 @@ export default function Register() {
                         value={bornDate} onChange={(e) => setBornDate(e.target.value)} required/>
                         <br/>
                         <input type="checkbox" checked="checked" className={`${style.inputCheckbox} ${style.checkbox}`} name="aceptTerms"/> Eu aceito os <a href="">termos e condições</a>, <a href="">a política de cookies</a><br/> e <a href="">a política de privacidade</a>.
-                        <button className={bntStyle.bntGreenNoBorder} type='submit' name="bntRegistrarRegister" onClick={DataJSON}>Registrar</button>
+                        <button className={bntStyle.bntGreenNoBorder} type='submit' name="bntRegistrarRegister" onClick={UserRegister}>Registrar</button>
+                        { message && <p>{message}</p>}
                     </div>
                 </div>
             </main>

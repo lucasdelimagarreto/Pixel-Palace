@@ -70,8 +70,8 @@ class UserService:
         pass
     
     #Autenticação de usuário
-    def authenticate_user(self,username,password):
-        user = userRepository.get_by_username(username=username)
+    def authenticate_user(self,email,password):
+        user = userRepository.get_by_email(email=email)
         if user == None:
             raise Exception("Usuário e/ou senha inválidos",401)
         if not bcrypt.check_password_hash(user.password, password):
