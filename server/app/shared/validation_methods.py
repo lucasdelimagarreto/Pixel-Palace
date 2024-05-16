@@ -120,9 +120,16 @@ def validate_platform(platform):
     else:
         return False
 
+def validate_description(gender):
+    # Regra: deve ter pelo menos 3 caractere
+    if len(gender) >= 3:
+        return True
+    else:
+        return False
+
 class GameValidation:
     @staticmethod
-    def validate_new_game(gameName, secondGameName, creator, price, year, dlc, gender, ageGroup, platform):
+    def validate_new_game(gameName, secondGameName, creator, price, year, dlc, gender, ageGroup, platform,description):
         validate_game_name(gameName)
         validate_second_game_name(secondGameName)
         validate_creator(creator)
@@ -132,3 +139,4 @@ class GameValidation:
         validate_gender(gender)
         validate_age_group(ageGroup)
         validate_platform(platform)
+        validate_description(description)

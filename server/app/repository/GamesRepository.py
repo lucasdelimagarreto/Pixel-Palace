@@ -1,6 +1,9 @@
 from app.model.Games import Games
 from app.shared.baseRepository import BaseRepository
 from app.shared.dataBase import db
+from app.schemas.GamesSchemas import GamesSchema
+
+schema = GamesSchema()
 
 class GamesRepository(BaseRepository):
 
@@ -15,74 +18,83 @@ class GamesRepository(BaseRepository):
             raise e
 
     def get_by_name(self, game_name):
+        # Para mais de 1 objeto Json result = schema.dump(game,many=True)
         try:
-            game = db.session.query(Games).filter_by(gameName=game_name).first()
+            game = db.session.scalars(db.select(Games).filter_by(gameName=game_name)).first()
+            result = schema.dump(game)
             if not game:
                 raise Exception(f"No game found with name '{game_name}'")
-            return game
+            return result
         except Exception as e:
             raise e
 
     def get_by_gender(self, gender):
         try:
-            game = db.session.query(Games).filter_by(gender=gender).first()
+            game = db.session.scalars(db.select(Games).filter_by(gender=gender)).first()
+            result = schema.dump(game)
             if not game:
-                raise Exception(f"No game found with gender '{gender}'")
-            return game
+                raise Exception(f"No game found with name '{gender}'")
+            return result
         except Exception as e:
             raise e
 
     def get_by_id(self, game_id):
         try:
-            game = db.session.query(Games).filter_by(id=game_id).first()
+            game = db.session.scalars(db.select(Games).filter_by(id=game_id)).first()
+            result = schema.dump(game)
             if not game:
-                raise Exception(f"No game found with ID '{game_id}'")
-            return game
+                raise Exception(f"No game found with name '{game_id}'")
+            return result
         except Exception as e:
             raise e
 
     def get_by_second_game_name(self, second_game_name):
         try:
-            game = db.session.query(Games).filter_by(secondGameName=second_game_name).first()
+            game = db.session.scalars(db.select(Games).filter_by(secondGameName=second_game_name)).first()
+            result = schema.dump(game)
             if not game:
-                raise Exception(f"No game found with second game name '{second_game_name}'")
-            return game
+                raise Exception(f"No game found with name '{second_game_name}'")
+            return result
         except Exception as e:
             raise e
 
     def get_by_creator(self, creator):
         try:
-            game = db.session.query(Games).filter_by(creator=creator).first()
+            game = db.session.scalars(db.select(Games).filter_by(creator=creator)).first()
+            result = schema.dump(game)
             if not game:
-                raise Exception(f"No game found with creator '{creator}'")
-            return game
+                raise Exception(f"No game found with name '{creator}'")
+            return result
         except Exception as e:
             raise e
 
     def get_by_year(self, year):
         try:
-            game = db.session.query(Games).filter_by(year=year).first()
+            game = db.session.scalars(db.select(Games).filter_by(year=year)).first()
+            result = schema.dump(game)
             if not game:
-                raise Exception(f"No game found with year '{year}'")
-            return game
+                raise Exception(f"No game found with name '{year}'")
+            return result
         except Exception as e:
             raise e
 
     def get_by_age_group(self, age_group):
         try:
-            game = db.session.query(Games).filter_by(ageGroup=age_group).first()
+            game = db.session.scalars(db.select(Games).filter_by(ageGroup=age_group)).first()
+            result = schema.dump(game)
             if not game:
-                raise Exception(f"No game found with age group '{age_group}'")
-            return game
+                raise Exception(f"No game found with name '{age_group}'")
+            return result
         except Exception as e:
             raise e
 
     def get_by_platform(self, platform):
         try:
-            game = db.session.query(Games).filter_by(platform=platform).first()
+            game = db.session.scalars(db.select(Games).filter_by(platform=platform)).first()
+            result = schema.dump(game)
             if not game:
-                raise Exception(f"No game found with platform '{platform}'")
-            return game
+                raise Exception(f"No game found with name '{platform}'")
+            return result
         except Exception as e:
             raise e
 
