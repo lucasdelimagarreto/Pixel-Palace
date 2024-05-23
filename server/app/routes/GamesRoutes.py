@@ -1,12 +1,14 @@
 from flask import Blueprint,jsonify,request,make_response
 from app.shared.response import error_response,success_response
 from app.service.GamesService import GamesService
+from auth_middleware import token_required
 
 games_bp = Blueprint('games_api',__name__,url_prefix='/games')
 gamesService = GamesService()
 
 @games_bp.route("",methods=["POST"])
-def register():
+@token_required
+def register(current_user):
 
     if request.method == "POST":
 
@@ -67,7 +69,7 @@ def get_game_by_name():
                 return jsonify({"status": "error", "action": "Get Game By Id", "error_message": "Game not found"}), 404
         except Exception as err:
             return jsonify({"status": "error", "action": "Get Game By Id", "error_message": str(err)}), 500
-    
+
     elif "game_name" in request.args:
         game_name = request.args.get("game_name")
         try:
@@ -78,7 +80,7 @@ def get_game_by_name():
                 return jsonify({"status": "error", "action": "Get Game By Name", "error_message": "Game not found"}), 404
         except Exception as err:
             return jsonify({"status": "error", "action": "Get Game By Name", "error_message": str(err)}), 500
-    
+
     elif "game_gender" in request.args:
         game_gender = request.args.get("game_gender")
         try:
@@ -89,7 +91,7 @@ def get_game_by_name():
                 return jsonify({"status": "error", "action": "Get Game By Gender", "error_message": "Game not found"}), 404
         except Exception as err:
             return jsonify({"status": "error", "action": "Get Game By Gender", "error_message": str(err)}), 500
-        
+
     elif "game_creator" in request.args:
         game_creator = request.args.get("game_creator")
         try:
@@ -100,7 +102,7 @@ def get_game_by_name():
                 return jsonify({"status": "error", "action": "Get Game By creator", "error_message": "Game not found"}), 404
         except Exception as err:
             return jsonify({"status": "error", "action": "Get Game By creator", "error_message": str(err)}), 500
-        
+
     elif "game_year" in request.args:
         game_year = request.args.get("game_year")
         try:
@@ -111,7 +113,7 @@ def get_game_by_name():
                 return jsonify({"status": "error", "action": "Get Game By Year", "error_message": "Game not found"}), 404
         except Exception as err:
             return jsonify({"status": "error", "action": "Get Game By Year", "error_message": str(err)}), 500
-        
+
     elif "age_group" in request.args:
         age_group = request.args.get("age_group")
         try:
@@ -176,8 +178,8 @@ def delete_game_by_id(game_id):
         return make_response(error_response(action="Delete Game By ID", error_message=str(err), error_code=500))
 
 @games_bp.route("",methods=["PATCH"])
-
 def games_methods(current_game):
+    
     if request.method == "PATCH":
         if request.is_json:
             data = request.json

@@ -8,5 +8,3 @@ class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'this is a secret'
     SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://postgres:123456@localhost:5432/pixel_palace"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    
-    

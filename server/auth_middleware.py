@@ -26,7 +26,7 @@ def token_required(f):
                 return make_response(error_response(action=action,status="Unauthorized",error_message=err.args[0],error_code=err.args[1]))
             else:
                 return error_response(action=action,error_code=500,error_message=err.args)
-                     
+
         return f(current_user, *args, **kwargs)
 
     return decorated
