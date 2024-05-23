@@ -1,0 +1,38 @@
+.sectionJogos{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100vw;
+    margin: 20px 0 60px 0 ;
+    padding: 0 275px 0 275px;
+    height: 355px;
+}
+
+.imgJogoOferta {
+    margin: 0 15px 0 15px;
+}
+
+.divNomeSectionJogos{
+    display: flex;
+    flex-wrap: nowrap;
+    flex: 1 1 100vw;
+    height: 65px;
+    position: relative;
+    margin: 0 15px 20px 15px;
+}
+
+.divJogosSectionjogos {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.bntSeeMore {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.pSubTitleDivNomeSectionJogos {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}

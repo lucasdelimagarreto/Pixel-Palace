@@ -1,0 +1,23 @@
+.bntGreenNoBorder {
+    background: #19F7A9;
+    border: none;
+    padding: 0 15px 0 15px;
+    font-weight: 500;
+    color: black;
+    height: 35px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.bntGreenBoldBlackBorder {
+    font-weight: bolder;
+    background: #19F7A9;
+    padding: 0 15px 0 15    px;
+    color: black;
+    border: 2px solid black;
+    height: 35px;
+    font-size: 16px;
+    cursor: pointer;
+    box-sizing: border-box;
+    text-align: center;
+}

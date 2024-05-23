@@ -1,3 +1,4 @@
+# webservice
 Flask-SQLAlchemy==3.1.1
 Flask==3.0.2
 Flask-Cors==4.0.0
@@ -8,3 +9,4 @@ psycopg2-binary==2.9.9
 Flask-Bcrypt==1.0.1
 PyJWT==2.8.0
 pillow==10.3.0
+flask-admin

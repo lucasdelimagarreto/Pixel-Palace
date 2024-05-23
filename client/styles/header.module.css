@@ -1,0 +1,62 @@
+.logoPicelPalace_header{
+    flex: 1 1 0;
+    justify-content: center;
+    height: 200px;
+}
+
+.imgBntLinguagem{
+    margin-left: 10px;
+    margin-right: 5px;
+    margin-top: 2px;
+}
+
+.divBotoesNavSuperiores{
+    display: flex;
+    margin-left: 30px;
+    margin-right: 30px;
+    margin-bottom: 70px;
+}
+
+.imgBntCarrinho{
+    margin-left: 10px;
+    margin-top: 2px;
+}
+
+.pLinguagem {
+    margin-top: 16px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.aNav {
+    margin-left: 10px;
+    margin-right: 10px;
+    text-align: center;
+}
+
+.divInputBuscaNav{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-left: 30px;
+    margin-right: 30px;
+    padding-left: 130px;
+    padding-right: 130px;
+    
+}
+
+.inputSearchBar{
+    padding-bottom: 10px;
+    padding-left: 7px;
+    padding-top: 10px;
+    width: 580px;
+    height: 43px;
+}
+
+.divSearchBar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 40px;
+}

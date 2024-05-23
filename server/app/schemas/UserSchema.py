@@ -9,3 +9,4 @@ class UserSchema(ma.SQLAlchemySchema):
     username = ma.auto_field()
     email = ma.auto_field()
     password = ma.auto_field()
+    age = ma.auto_field()

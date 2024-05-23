@@ -1,0 +1,51 @@
+
+#aFooterSobre {
+    color: #6f8393;
+    text-decoration: none;
+}
+
+#pFooterSince {
+    color: #6f8393;
+    font-size: 13px;
+}
+
+#divFooterLogo {
+    display: flex;
+    flex: 1 1 100vw;
+    justify-content: center;
+    align-items: center;
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
+#divFooterFolowUS {
+    display: flex;
+    flex: 1 1 100vw;
+}
+
+#imgRedesSociais {
+    margin-top: 5px;
+    margin-bottom: 18%;
+}
+
+#pFooterSince {
+    margin-top: 60px;
+}
+
+#divFooterAddress {
+    display: flex;
+    font-size: 13px;
+    flex: 1 2 100vw;
+    justify-content: end;
+    flex-wrap: wrap;
+}
+
+.pAddress {
+    color: #6f8393;
+    text-wrap: nowrap;
+    text-align: end;
+}
+
+.colorWhite{
+    color: #E8E5E0;
+}
