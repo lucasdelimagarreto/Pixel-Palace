@@ -36,7 +36,7 @@ def register():
                     else:
                         return make_response(error_response(action="Register",error_message=str(err),error_code=409))
         else:
-            #TODO:arrumar esse bad request                                                                                
+            #TODO:arrumar esse bad request
             return make_response(error_response(action="Register",error_message="Bad Request",error_code=409))                                                    
 
 @user_bp.route("/<int:user_id>", methods=["GET"])
@@ -71,7 +71,7 @@ def get_user_by_email(user_email):
             return make_response(error_response(action="ObterUsuário", código_de_erro=404, mensagem_de_erro="Usuário não encontrado"))
     except Exception as err:
         return make_response(error_response(action="ObterUsuário", código_de_erro=500, mensagem_de_erro=str(err)))
-
+'''
 @user_bp.route("/login", methods=["POST"])
 def login():
     if request.method == "POST":
@@ -98,6 +98,39 @@ def login():
         else:
             #TODO:arrumar esse bad request   
             return error_response(action="Authenticate",error_code=400,error_message="Bad Request")
+'''
+
+###
+
+from flask import Flask, jsonify, request
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
+
+app = Flask(__name__)
+app.config['JWT_SECRET_KEY'] = 'your_secret_key'  # Change this to a strong secret key
+jwt = JWTManager(app)
+
+users = {"user1": "password1", "user2": "password2"}  # Example user data
+
+@app.route('/login', methods=['POST'])
+def login():
+    username = request.json.get('username', None)
+    password = request.json.get('password', None)
+    if username not in users or users[username] != password:
+        return jsonify({"msg": "Bad username or password"}), 401
+
+    access_token = create_access_token(identity=username)
+    return jsonify(access_token=access_token)
+
+@app.route('/protected', methods=['GET'])
+@jwt_required()
+def protected():
+    current_user = get_jwt_identity()
+    return jsonify(logged_in_as=current_user), 200
+
+if __name__ == '_main_':
+    app.run(debug=True)
+
+###
 
 @user_bp.route("",methods=["PATCH"])
 @token_required

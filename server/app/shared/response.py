@@ -1,4 +1,3 @@
-
 from flask import jsonify
 
 def error_response(error_message, error_code,action,status=None):
@@ -13,7 +12,7 @@ def error_response(error_message, error_code,action,status=None):
     return jsonify(error_response), error_code
 
 def success_response(action,status=None,parameter=None,token=None):
-    
+
     response_data = {
         "action" : action,
         "status": "executed" if status == None else status
