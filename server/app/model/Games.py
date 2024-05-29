@@ -6,8 +6,8 @@ class Games(db.Model):
 
     id = db.Column(db.Integer ,primary_key=True,autoincrement=True)
     gameName = db.Column(db.String(20), unique=True , nullable=False)
-    secondGameName = db.Column(db.String(20), unique=True , nullable=False)
-    creator = db.Column(db.String(10), unique=True , nullable=False)
+    secondGameName = db.Column(db.String(20), nullable=False)
+    creator = db.Column(db.String(10), nullable=False)
     price = db.Column(db.Float, nullable=False)
     year = db.Column(db.Integer , nullable=False)
     dlc = db.Column(db.Boolean)

@@ -40,11 +40,10 @@ class GamesRepository(BaseRepository):
 
     def get_by_id(self, game_id):
         try:
-            game = db.session.scalars(db.select(Games).filter_by(id=game_id)).first()
-            result = schema.dump(game)
+            game = db.session.query(Games).filter_by(id=game_id).first()
             if not game:
-                raise Exception(f"No game found with name '{game_id}'")
-            return result
+                raise Exception(f"No game found with ID '{game_id}'")
+            return game
         except Exception as e:
             raise e
 
@@ -100,11 +99,12 @@ class GamesRepository(BaseRepository):
 
     def delete_game_by_id(self, game_id):
         try:
-            game = self.get_by_id(game_id)
-            if game:
-                super().delete(game)
-                return game
+            game_to_delete = self.get_by_id(game_id)
+            if game_to_delete:
+                db.session.delete(game_to_delete)
+                db.session.commit()
+                return game_to_delete
             else:
-                raise Exception(f"No game found with ID '{game_id}'")
+                return None
         except Exception as e:
             raise e

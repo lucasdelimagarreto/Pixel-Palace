@@ -97,13 +97,28 @@ class GamesService:
         return
 
     def delete_game_by_id(self, game_id):
-
-        existing_game = gamesRepository.get_by_id(game_id)
-        if existing_game is None:
-            raise Exception("Game not found")
-
-        deleted_game = gamesRepository.delete_game_by_id(game_id)
-        return deleted_game
+        try:
+            deleted_game = gamesRepository.delete_game_by_id(game_id)
+            if deleted_game:
+                # Serializar o objeto game para um dicionário JSON
+                deleted_game_dict = {
+                    "id": deleted_game.id,
+                    "gameName": deleted_game.gameName,
+                    "secondGameName": deleted_game.secondGameName,
+                    "creator": deleted_game.creator,
+                    "price": deleted_game.price,
+                    "year": deleted_game.year,
+                    "dlc": deleted_game.dlc,
+                    "gender": deleted_game.gender,
+                    "ageGroup": deleted_game.ageGroup,
+                    "platform": deleted_game.platform,
+                    "description": deleted_game.description
+                }
+                return deleted_game_dict
+            else:
+                return None
+        except Exception as e:
+            raise e
 
     def save_game(self, game):
         gamesRepository.update(game)

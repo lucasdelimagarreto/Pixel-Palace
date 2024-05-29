@@ -76,8 +76,7 @@ def validate_price(price):
 def validate_year(year):
     # Regra: ano deve ser um número positivo de 4 dígitos
     try:
-        year_int = int(year)
-        if len(year) == 4 and year_int >= 0:
+        if  year >= 0:
             return True
         else:
             return False
@@ -104,8 +103,7 @@ def validate_gender(gender):
 def validate_age_group(ageGroup):
     # Regra: ano deve ser um número positivo de 4 dígitos
     try:
-        ageGroup_int = int(ageGroup)
-        if len(ageGroup) >= 0 and ageGroup_int >= 0:
+        if ageGroup >= 0:
             return True
         else:
             return False
