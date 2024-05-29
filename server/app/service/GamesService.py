@@ -60,9 +60,9 @@ class GamesService:
         games = gamesRepository.get_by_platform(platform=platform)
         return games
 
-    def update_gameName(self,game_id,gameName):
+    def update_game_name(self,game_id,newgameName):
         game = gamesRepository.get_by_id(game_id)
-        game.gameName = gameName
+        game.gameName = newgameName
         gamesRepository.update(game)
         return
 

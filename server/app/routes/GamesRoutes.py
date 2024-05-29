@@ -170,71 +170,54 @@ def delete_game_by_id(game_id):
         except Exception as err:
             return make_response(error_response(action="Delete Game By ID", error_message=str(err), error_code=500))
 
-@games_bp.route("",methods=["PATCH"])
+@games_bp.route("/change", methods=["PATCH"])
 @jwt_required()
-def games_methods():
-    
+def change_games():
     current_user = get_jwt_identity()
+    data = request.json
 
     if current_user != "teste@teste.com":
         return make_response(error_response(action="Verification", error_code=403, error_message="User does not have permission"))
 
-    else:
-        if request.method == "PATCH":
-            if request.is_json:
-                data = request.json
-                if len(data) < 1:
-                    return make_response(error_response(action="Update Games Info",error_code=400,error_message="missing one or more parameters"))
-                elif len(data) > 1:
-                    return make_response(error_response(action="Update Games Info",error_code=400,error_message="too many parameters has been passed"))
-                elif "gameName" not in data and "price" not in data and "platform" not in data:
-                    return make_response(error_response(action="Update Games Info",error_code=400,error_message="error in json format"))
-                else:
-                    if "gameName" in data:
-                        try:
-                            gameName = data.get("gameName")
-                            current_game = gamesService.get_game_by_name(data.get("gameName"))
-                            gamesService.update_gameName(game_id=current_game.id,gameName=gameName)
-                            return make_response(success_response(action="Set New Game Name"))
-                        except Exception as err:
-                            if len(err.args) == 2:
-                                return make_response(error_response(action="Set New Game Name",error_message=err.args[0],error_code=err.args[1]))
-                            else:
-                                return make_response(error_response(action="Set New Game Name",error_message=str(err),error_code=500))
+    if not request.is_json:
+        return make_response(error_response(action="Update Game Info", error_code=400, error_message="Bad Request"))
 
-                    elif "secondGameName" in data:
-                        try:
-                            secondGameName = data.get("secondGameName")
-                            current_game = gamesService.get_game_by_second_game_name(data.get("secondGameName"))
-                            gamesService.update_second_game_name(game_id=current_game.id,secondGameName=secondGameName)
-                            return make_response(success_response(action="Set New Second Game Name"))
-                        except Exception as err:
-                            if len(err.args) == 2:
-                                return make_response(error_response(action="Set Second Game Name",error_message=err.args[0],error_code=err.args[1]))
-                            else:
-                                return make_response(error_response(action="Set Second Game Name",error_message=str(err),error_code=500))
+    if not data:
+        return make_response(error_response(action="Update Games Info", error_code=400, error_message="Missing parameters"))
 
-                    elif "price" in data:
-                        try:
-                            price = data.get("price")
-                            #gamesService.validate_price(price=price)
-                            gamesService.update_price(game_id=current_game.id,price=price)
-                            return make_response(success_response(action="Set New Price"))
-                        except Exception as err:
-                            if len(err.args) == 2:
-                                return make_response(error_response(action="Set New Price",error_message=err.args[0],error_code=err.args[1]))
-                            else:
-                                return make_response(error_response(action="Set New Price",error_message=str(err),error_code=500))
+    allowed_fields = {"id" ,"newGameName", "newSecondGameName", "newPrice", "newPlatform"}
+    invalid_fields = set(data.keys()) - allowed_fields
 
-                    elif "platform" in data:
-                        try:
-                            platform = data.get("platform")
-                            gamesService.update_platform(game_id=current_game.id,platform=platform)
-                            return make_response(success_response(action="Set New platform"))
-                        except Exception as err:
-                            if len(err.args) == 2:
-                                return make_response(error_response(action="Set New platform",error_message=err.args[0],error_code=err.args[1]))
-                            else:
-                                return make_response(error_response(action="Set New platform",error_message=str(err),error_code=500))
-            else:
-                return error_response(action="Update Game Info",error_code=400,error_message="Bad Request")
+    if invalid_fields:
+        return make_response(error_response(action="Update Games Info", error_code=400, error_message="Invalid parameters provided"))
+
+    # Ensure the primary identifier for the game is present
+    if "id" not in data:
+        return make_response(error_response(action="Update Games Info", error_code=400, error_message="Primary identifier 'id' missing"))
+
+    try:
+        current_game = gamesService.get_game_by_id(data["id"])
+        if not current_game:
+            return make_response(error_response(action="Update Games Info", error_code=404, error_message="Game not found"))
+
+        # Apply updates based on the provided fields
+        if "newGameName" in data:
+            current_game.gameName = data["newGameName"]
+            gamesService.update_game_name(current_game.id, current_game.gameName)
+        if "newSecondGameName" in data:
+            current_game.secondGameName = data["newSecondGameName"]
+            gamesService.update_second_game_name(current_game.id, current_game.secondGameName)
+        if "newPrice" in data:
+            current_game.price = data["newPrice"]
+            gamesService.update_price(current_game.id, current_game.price)
+        if "newPlatform" in data:
+            current_game.platform = data["newPlatform"]
+            gamesService.update_platform(current_game.id, current_game.platform)
+
+        return make_response(success_response(action="Update Game Info"))
+
+    except Exception as err:
+        if len(err.args) == 2:
+            return make_response(error_response(action="Update Game Info", error_message=err.args[0], error_code=err.args[1]))
+        else:
+            return make_response(error_response(action="Update Game Info", error_message=str(err), error_code=500))
