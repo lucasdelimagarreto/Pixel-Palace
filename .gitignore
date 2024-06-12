@@ -18,3 +18,5 @@ pycache/
 
 #Migrations
 .migrations
+.server
+.gitignore
