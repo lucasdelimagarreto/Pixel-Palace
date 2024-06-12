@@ -79,5 +79,3 @@ class UserService:
         user = userSchema.dump(user)
         user.pop("password")
         return user
-    
-    
