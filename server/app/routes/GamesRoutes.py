@@ -31,15 +31,8 @@ def register():
                     return make_response(error_response(action="Register", error_message="This game has already been registered!", error_code=409))
 
                 try:
-                    gamesService.validate_new_game(
-                        data["gameName"], data["secondGameName"], data["creator"], data["price"], data["year"], data["dlc"], data["gender"], 
-                        data["ageGroup"], data["platform"], data["description"], data["publisher"], data["imageBanner"], data["videoPromotional"]
-                    )
-                    response = gamesService.add_new_game(
-                        gameName=data["gameName"], secondGameName=data["secondGameName"], creator=data["creator"], price=data["price"], year=data["year"], 
-                        dlc=data["dlc"], gender=data["gender"], ageGroup=data["ageGroup"], platform=data["platform"], description=data["description"], 
-                        publisher=data["publisher"], imageBanner=data["imageBanner"], videoPromotional=data["videoPromotional"]
-                    )
+                    gamesService.validate_new_game(**data)
+                    response = gamesService.add_new_game(**data)
                     return make_response(success_response(action="Register", parameter=response))
                 except Exception as err:
                     return make_response(error_response(action="Register", error_message=str(err), error_code=410))

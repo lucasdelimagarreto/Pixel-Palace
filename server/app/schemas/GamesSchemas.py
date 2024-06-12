@@ -9,6 +9,7 @@ class GamesSchema(ma.SQLAlchemySchema):
     gameName = ma.auto_field()
     secondGameName = ma.auto_field()
     creator = ma.auto_field()
+    publisher = ma.auto_field()
     price = ma.auto_field()
     year = ma.auto_field()
     dlc = ma.auto_field()
@@ -16,3 +17,5 @@ class GamesSchema(ma.SQLAlchemySchema):
     ageGroup = ma.auto_field()
     platform = ma.auto_field()
     description = ma.auto_field()
+    imageBanner = ma.auto_field()
+    videoPromotional = ma.auto_field()
