@@ -33,3 +33,39 @@ class Games(db.Model):
         self.description = description
         self.imageBanner = imageBanner
         self.videoPromotional = videoPromotional
+        
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "gameName": self.gameName,
+            "secondGameName": self.secondGameName,
+            "creator": self.creator,
+            "publisher": self.publisher,
+            "price": self.price,
+            "year": self.year,
+            "dlc": self.dlc,
+            "gender": self.gender,
+            "ageGroup": self.ageGroup,
+            "platform": self.platform,
+            "description": self.description,
+            "imageBanner": self.imageBanner,
+            "videoPromotional": self.videoPromotional
+        }
+
+    @classmethod
+    def from_dict(cls, data):
+        return cls(
+            gameName=data.get("gameName"),
+            secondGameName=data.get("secondGameName"),
+            creator=data.get("creator"),
+            publisher=data.get("publisher"),
+            price=data.get("price"),
+            year=data.get("year"),
+            dlc=data.get("dlc"),
+            gender=data.get("gender"),
+            ageGroup=data.get("ageGroup"),
+            platform=data.get("platform"),
+            description=data.get("description"),
+            imageBanner=data.get("imageBanner"),
+            videoPromotional=data.get("videoPromotional")
+        )

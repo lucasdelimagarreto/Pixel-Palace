@@ -48,7 +48,7 @@ def register():
 
 # Métodos GET para obter um jogo
 @games_bp.route("/filter", methods=["GET"])
-def get_game_by_name():
+def get_game():
 
     if "game_id" in request.args:
         game_id = request.args.get("game_id")
@@ -64,11 +64,11 @@ def get_game_by_name():
     elif "game_name" in request.args:
         game_name = request.args.get("game_name")
         try:
-            game = gamesService.get_game_by_name(game_name)
-            if game:
-                return jsonify({"status": "success", "action": "Get Game By Name", "game": game})
+            games = gamesService.get_game_by_name(game_name)
+            if games:
+                return jsonify({"status": "success", "action": "Get Game By Name", "games": games})
             else:
-                return jsonify({"status": "error", "action": "Get Game By Name", "error_message": "Game not found"}), 404
+                return jsonify({"status": "error", "action": "Get Game By Name", "error_message": "Games not found"}), 404
         except Exception as err:
             return jsonify({"status": "error", "action": "Get Game By Name", "error_message": str(err)}), 500
 
@@ -159,14 +159,7 @@ def get_game_by_name():
                 return jsonify({"status": "error", "action": "Get Game By Name", "error_message": "Game not found"}), 404
         except Exception as err:
             return jsonify({"status": "error", "action": "Get Game By Name", "error_message": str(err)}), 500
-
-    elif "all" in request.args:
-        try:
-            games = gamesService.get_all_games()
-            return make_response(success_response(action="Get All Games", parameter=games))
-        except Exception as err:
-            return make_response(error_response(action="Get All Games", error_message=str(err), error_code=500))
-    
+        
 # Método DELETE para excluir um jogo por ID
 @games_bp.route("/<int:game_id>", methods=["DELETE"])
 @jwt_required()
@@ -255,8 +248,7 @@ def change_games():
         if "newVideoPromotional" in data:
             current_game.videoPromotional = data["newVideoPromotional"]
             gamesService.update_videoPromotional(current_game.id, current_game.videoPromotional)
-        
-        
+
         return make_response(success_response(action="Update Game Info"))
 
     except Exception as err:
@@ -264,3 +256,12 @@ def change_games():
             return make_response(error_response(action="Update Game Info", error_message=err.args[0], error_code=err.args[1]))
         else:
             return make_response(error_response(action="Update Game Info", error_message=str(err), error_code=500))
+        
+@games_bp.route("/all", methods=["GET"])
+def get_all_games():
+    try:
+        games = gamesService.get_all_games()
+        games_dict = [game.to_dict() for game in games]
+        return make_response(success_response(action="Get All Games", parameter=games_dict))
+    except Exception as err:
+        return make_response(error_response(action="Get All Games", error_message=str(err), error_code=500))

@@ -32,6 +32,24 @@ class GamesService:
         gamesRepository.save(games)
         return gamesSchema.dump(games)
 
+    def serialize_game(self, game):
+        return {
+            "id": game.id,
+            "gameName": game.gameName,
+            "secondGameName": game.secondGameName,
+            "creator": game.creator,
+            "price": game.preco,
+            "year": game.year,
+            "dlc": game.dlc,
+            "gender": game.gender,
+            "ageGroup": game.ageGroup,
+            "platform": game.platform,
+            "description": game.description,
+            "publisher": game.publisher,
+            "imageBanner": game.imageBanner,
+            "videoPromotional": game.videvideoPromotionaloPromocional
+        }
+    
     def get_all_games(self):
         return gamesRepository.get_all_games()
 
@@ -155,7 +173,7 @@ class GamesService:
         try:
             deleted_game = gamesRepository.delete_game_by_id(game_id)
             if deleted_game:
-                # Serializar o objeto game para um dicionário JSON
+
                 deleted_game_dict = {
                     "id": deleted_game.id,
                     "gameName": deleted_game.gameName,
