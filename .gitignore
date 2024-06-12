@@ -1,8 +1,2 @@
-
-/client/node_modules/@next/swc-linux-x64-gnu
-/client/node_modules/@next/swc-linux-x64-musl
-client/.next/static/webpack/webpack.85504b5d4dc23bd1.hot-update.js
-client/node_modules/@next/swc-win32-x64-msvc/next-swc.win32-x64-msvc.node
-client/node_modules/next/next-swc-fallback/@next/swc-win32-x64-msvc/package.json
-client/node_modules/next/next-swc-fallback/@next/swc-win32-x64-msvc/README.md
-client/node_modules/next/next-swc-fallback/@next/swc-win32-x64-msvc/next-swc.win32-x64-msvc.node
+client
+client/node_modules

@@ -2,8 +2,7 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
+  "/gamePageContent": "pages/gamePageContent.js",
   "/": "pages/index.js",
-  "/register": "pages/register.js",
-  "/search": "pages/search.js",
-  "/gamePageContent": "pages/gamePageContent.js"
+  "/search": "pages/search.js"
 }

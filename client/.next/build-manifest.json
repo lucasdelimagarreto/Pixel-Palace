@@ -32,11 +32,6 @@
       "static/chunks/main.js",
       "static/chunks/pages/gamePageContent.js"
     ],
-    "/register": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/register.js"
-    ],
     "/search": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
