@@ -2,22 +2,29 @@ import GameOfer from "../assets/jogoOferta.png"
 import Image from "next/image";
 import style from "../styles/components/gamesSections.module.css"
 import bntStyle from "../styles/components/buttons.module.css"
+import GameCard from "./GameCard"
 
-const GameSection = () => (
-    <section className={style.sectionJogos}>
+export function GameSection ({titleSection,subTitleSection}) {
+    return (<section className={style.sectionJogos}>
         <div className={style.divNomeSectionJogos}>
-            <h1>Ofertas</h1>
-            <button className={`${bntStyle.bntGreenBoldBlackBorder} ${style.bntSeeMore}`}>Ver Mais</button>
-            <p className={style.pSubTitleDivNomeSectionJogos}>Jogos com até 95% de desconto!</p>
+            <h1>{titleSection}</h1>
+            <button className={`${bntStyle.bntGreenNoBorder} ${style.bntSeeMore}`}>Ver Mais</button>
+            <p className={style.pSubTitleDivNomeSectionJogos}>{subTitleSection}</p>
         </div>
         <div className={style.divJogosSectionjogos}>
-            <Image src={GameOfer} class={style.imgJogoOferta} height={260} alt=""/>
-            <Image src={GameOfer} class={style.imgJogoOferta} height={260} alt=""/>
-            <Image src={GameOfer} class={style.imgJogoOferta} height={260} alt=""/>
-            <Image src={GameOfer} class={style.imgJogoOferta} height={260} alt=""/>
-            <Image src={GameOfer} class={style.imgJogoOferta} height={260} alt=""/>
+            <GameCard/>
         </div>
-    </section>
-);
+    </section>)
+};
 
-export default GameSection;
+export function GameSectionSearch ({searchImput}) {
+    return (<section className={style.sectionJogos}>
+        <div className={style.divNomeSectionJogos}>
+            <h1 className={style.titleSectionJogosSearch}>Catálogo</h1>
+            <p className={style.pSubTitleDivNomeSectionJogos}><strong>Você pesquisou por: </strong>{searchImput} </p>
+        </div>
+        <div className={style.divJogosSectionjogos}>
+            <GameCard/>
+        </div>
+    </section>)
+}
