@@ -1,3 +1,4 @@
+import React,{ useState}  from "react";
 import imgLogo from "../assets/logoPixelPalace.png"
 import imgBntSearch from "../assets/bntBusca.png"
 import imgWorld from "../assets/bntLinguagem.png"
@@ -7,9 +8,14 @@ import style from "../styles/header.module.css"
 import bntStyle from "../styles/components/buttons.module.css"
 import Register from "../pages/register";
 import Link from "next/link";
+import { Icon } from '@iconify/react';
+import { useRouter } from 'next/router';
 
-const Header = () => (
-    <div>
+
+export default function Header () {
+    const [search, setSearch] = useState('');
+    const router = useRouter()
+return(    <div>
         <header>
             <div>
                 <a href="/">
@@ -18,33 +24,33 @@ const Header = () => (
             </div>
             <div className={style.divInputBuscaNav}>
                 <div className={style.divSearchBar}>
-                    <input type="text" className={style.inputSearchBar} name="searchBar" placeholder="JOGOS DE PC, MAC E CONSOLES"/>
-                    <Image src={imgBntSearch} alt="" width={43} height={43}/>
+                    <input value={search} onChange={(e) => setSearch(e.target.value)} type="text" className={style.inputSearchBar} name="searchBar" placeholder="JOGOS DE PC, MAC E CONSOLES"/>
+                    <button className={style.imgBntSearch} onClick={() => {router.push(`/search?searchImput=${search}`)}}>
+                        <Icon icon="ph:magnifying-glass"  style={{color: '#100f0f', fontSize: '2rem', marginRight: '0.2rem'}} />
+                    </button>
                 </div>
                 <nav>
-                    <a className="aNav" href="/">TODOS OS JOGOS</a>
-                    <a className="aNav" href="/">OFERTAS QUENTES</a>
-                    <a className="aNav" href="/">MAIS ESPERADOS</a>
-                    <a className="aNav" href="/">NOVO</a>
-                    <a className="aNav" href="/">XP</a>
-                    <a className="aNav" href="/">COMUNIDADE</a>
+                    <a className={style.aNav} href="/">TODOS OS JOGOS</a>
+                    <a className={style.aNav} href="/">OFERTAS QUENTES</a>
+                    <a className={style.aNav} href="/">MAIS ESPERADOS</a>
+                    <a className={style.aNav} href="/">NOVO</a>
+                    <a className={style.aNav} href="/">XP</a>
+                    <a className={style.aNav} href="/">COMUNIDADE</a>
                 </nav>
             </div>
-            <div className="divBotoesNavSuperiores">
+            <div className={style.divBotoesNavSuperiores}>
                 <a href="/register">
                     <button className={bntStyle.bntGreenNoBorder}>ENTRAR</button>
                 </a>
                 <a href="">
-                    <Image src={imgWorld} className="imgBntLinguagem" height={32} width={32}/>
+                    <Image src={imgWorld} className={style.imgBntLinguagem} height={32} width={32}/>
                 </a>
-                <p className="pLinguagem">PT</p>
+                <p className={style.pLinguagem}>PT</p>
                 <a href="">
-                    <Image src={imgShop} alt="" className="imgBntCarrinho" height={32} width={32}/>
+                    <Image src={imgShop} alt="" className={style.imgBntCarrinho} height={32} width={32}/>
                 </a>
             </div>
         </header>
         
-    </div>
-);
-
-export default Header;
+    </div>)
+};

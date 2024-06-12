@@ -121,7 +121,7 @@ export default function Register() {
                         <input type="date" id={style.inputDateRegister} name="dateRegister" 
                         value={bornDate} onChange={(e) => setBornDate(e.target.value)} required/>
                         <br/>
-                        <input type="checkbox" checked="checked" className={`${style.inputCheckbox} ${style.checkbox}`} name="aceptTerms"/> Eu aceito os <a href="">termos e condições</a>, <a href="">a política de cookies</a><br/> e <a href="">a política de privacidade</a>.
+                        <input type="checkbox" checked="checked" className={`${style.inputCheckbox} ${style.checkbox}`} name="aceptTerms"/>Eu aceito os <a href="">termos e condições</a>, <a href="">a política de cookies</a><br/> e <a href="">a política de privacidade</a>.
                         <button className={bntStyle.bntGreenNoBorder} type='submit' name="bntRegistrarRegister" onClick={UserRegister}>Registrar</button>
                         { message && <p>{message}</p>}
                     </div>

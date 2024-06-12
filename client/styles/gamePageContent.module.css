@@ -1,0 +1,240 @@
+.container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .header {
+    width: 100%;
+    background: #1e1e1e;
+    padding: 1rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+  }
+  
+  .logo {
+    width: 150px;
+  }
+  
+  .searchBar {
+    width: 50%;
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: none;
+  }
+  
+  .userSection {
+    display: flex;
+    align-items: center;
+  }
+  
+  .userSection span {
+    margin-right: 0.5rem;
+    color: white;
+  }
+  
+  .gameContainer {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10rem;
+  }
+  
+  .gameHeader h1 {
+    font-size: 2rem;
+  }
+  
+  .gameMedia {
+    display: flex;
+    margin-top: 1rem;
+  }
+  
+  .gameImage {
+    width: 50%;
+    height: auto;
+  }
+  
+  .gameInfo {
+    margin-top: 1rem;
+    font-size: 1rem;
+  }
+  
+  .gameDetails {
+    margin-top: 1rem;
+    width: 30%;
+  }
+  
+  .priceSection {
+    background: #0F2124;
+    padding: 1rem;
+    border-radius: 1rem;
+
+  }
+  
+  .price {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 0.8rem;
+
+  }
+  
+  .discount {
+    font-size: 1.2rem;
+    color: gray;
+    margin-right: 1rem;
+  }
+  
+  .cartButton {
+    padding: 0.5rem 1rem;
+    background: #19F7A9;
+    color: rgb(0, 0, 0);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    align-items: center;
+    display: flex;
+    font-size: 1.2rem;
+    width: 90%;
+    margin-right: 0.8rem;
+    justify-content: center;
+  }
+  
+  .detailsSection {
+    font-size: 1rem;
+    background: #0F2124;
+    padding: 1rem;
+    margin-top: 1rem;
+    border-radius: 1rem;
+
+  }
+  
+  .recommendedSection {
+    margin-top: 2rem;
+  }
+  
+  .recommendedSection h2 {
+    font-size: 1.5rem;
+  }
+  
+  .recommendedGames {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+  }
+  
+  .gameCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 18%;
+  }
+  
+  .gameCard img {
+    width: 100%;
+    height: auto;
+  }
+  
+  .price {
+    margin-top: 0.5rem;
+  }
+
+  .gameInfoTitle{
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+  }
+
+
+  .containerInfo{
+    margin-right: 2rem;
+    width: 36%;
+  }
+
+  .gameVideo{
+    border-radius: 1rem;
+  }
+
+  .detailsSectionTitle{
+    margin-bottom: 0.5rem;
+
+  }
+  
+  .detailsSectionTitleSpam{
+    color: #607A8C;
+    font-weight: bold;
+  }
+  
+  .classifiedsSection{
+    font-size: 1.1rem;
+    margin-top: 4rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .classifiedsSectionIcon{
+    display: flex;
+    align-items: center;
+
+  }
+
+  .classifiedsSectionText{
+    font-size: 0.8rem;
+    margin-left: 0.7rem;
+    
+  }
+
+  .detailsSectionSpam{
+    font-weight: bold;
+  }
+
+  .textLink{
+    text-decoration: underline;
+    color: rgb(60, 153, 251);
+  }
+
+  .iconsection {
+    padding-top: 0.1rem;
+    display: flex;
+    align-items: center;
+}
+
+.gameBox {
+    border: 1px solid #607A8C;
+    padding: 0.75rem;
+    border-radius: 0.25rem;
+    margin-bottom: 1rem;
+}
+
+.nameGameBox{
+    font-size: 1.1rem;
+    margin-bottom: 0.6rem;
+  }
+
+.titleGameBox{
+    color: #607A8C;
+    font-weight: bold;
+    font-size: 0.75rem;
+    margin-top: 1.2rem;
+    margin-left: 1.5rem;
+  }
+
+  .sectionButton{
+    display: flex;
+    margin-top: 2rem;
+
+  }
+
+  .favoriteButton{
+    width: 10%;
+    background: transparent;
+    border: 2px solid #607A8C;
+    border-radius: 0.5rem;
+    cursor: pointer;
+
+
+  }

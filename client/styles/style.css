@@ -3,6 +3,10 @@
     padding: 0;
     box-sizing: border-box;
     font-family: "Roboto", sans-serif;
+    list-style: none;
+}
+
+h1, p {
     color: #E8E5E0;
 }
 
@@ -51,6 +55,7 @@ body {
     display: flex;
     flex: 1 1 100vw;
     flex-wrap: wrap;
+    color: #E8E5E0;
 }
 
 header {
@@ -66,6 +71,7 @@ header {
     position: sticky;
     top: 0;
     z-index: 10;
+    padding-bottom: 0.3rem;
 }
 
 nav {
@@ -78,9 +84,8 @@ nav {
 
 main {
     background: #163031;
-    display: flex;  
+    display: flex;
     flex: 20 1 100vw;
-    padding-top: 8px;
     flex-wrap: wrap;
 }
 

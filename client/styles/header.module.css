@@ -60,3 +60,10 @@
     align-items: center;
     margin-bottom: 40px;
 }
+
+.imgBntSearch{
+    padding: 3.2px;
+    background: #19F7A9;
+    border: none;
+    cursor: pointer;
+}
