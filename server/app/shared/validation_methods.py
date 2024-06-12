@@ -41,10 +41,28 @@ def validate_publisher(publisher):
 
 # Validação de preço do jogo
 def validate_price(price):
-    try:
-        return float(price) >= 0
-    except ValueError:
-        return False
+    # Verifica se o preço é uma string
+    if not isinstance(price, str):
+        raise ValueError("O preço deve ser uma string")
+    
+    # Remove espaços em branco extras
+    price = price.strip()
+    
+    # Verifica se o preço é não vazio
+    if not price:
+        raise ValueError("O preço não pode estar vazio")
+    
+    # Verifica se o preço possui um formato válido (por exemplo, "$99.99")
+    # Aqui, você pode ajustar o padrão conforme necessário para corresponder aos seus requisitos
+    import re
+    pattern = r'^\$?\d+(\.\d{1,2})?$'  # Aceita formatos como $99.99 ou 99.99
+    if not re.match(pattern, price):
+        raise ValueError("O preço deve estar em um formato válido, como $99.99")
+    
+    # Outras validações específicas conforme necessário
+    
+    # Se todas as validações passarem, retorna True ou o próprio preço validado
+    return price
 
 # Validação de ano do jogo
 def validate_year(year):
