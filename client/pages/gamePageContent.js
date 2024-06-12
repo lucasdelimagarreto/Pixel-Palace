@@ -1,4 +1,7 @@
 import Head from 'next/head';
+import React,{ useState, useEffect }  from "react";
+import axios from 'axios';
+import { useRouter } from 'next/router';
 import Header from '../components/Header';
 import QualityTag from '../components/QualityTag';
 import Footer from '../components/Footer';
@@ -8,7 +11,37 @@ import NR16 from '../assets/NR16.png';
 import Image from "next/image";
 import { Icon } from '@iconify/react';
 
+
 export default function gamePage() {
+
+    const router = useRouter()
+    
+    const { gameId } = router.query
+
+    const [listGames, setListGames] = useState([]);
+    
+    useEffect(() => {
+
+        CheckGames()
+
+      }, []);
+
+      const CheckGames = () => {
+        axios.get(`http://192.168.0.7:5123/games/filter?game_id=${gameId}`)
+        .then(response => {
+            
+            setListGames(response.data.game)
+            
+
+         })
+      .catch(error => {
+
+        
+
+      });
+
+    }
+    
   return (
     <div>
             <Head>
@@ -20,10 +53,11 @@ export default function gamePage() {
 
       <main className={styles.main}>
         <QualityTag/>
+        {listGames && listGames.map(game => (
         <div className={styles.gameContainer}>
           <div className={styles.containerInfo}>
             <div className={styles.gameHeader}>
-                <h1>Batman Arkham Knight</h1>
+                <h1>{game.gameName} {game.secondGameName && game.secondGameName }</h1>
             </div>
             <div className={styles.gameMedia}>
             <iframe className={styles.gameVideo} width="960" height="380" src="https://www.youtube.com/embed/W2Yjqfkzc_w?si=v1Cx10WdgtLxQSUE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
@@ -48,7 +82,7 @@ export default function gamePage() {
           </div>
             <div className={styles.gameDetails}>
                 <div className={styles.priceSection}>
-                <p className={styles.price}>R$ 41,99</p>
+                <p className={styles.price}>R$ {game.price}</p>
                 <p className={styles.detailsSectionTitle}><span className={styles.detailsSectionSpam}>Ativação: </span> Steam</p>
                 <p className={styles.detailsSectionTitleSpam}>
                     Produto ativado através de <a className={styles.textLink} href='google.com'>chave de ativação</a>
@@ -58,12 +92,18 @@ export default function gamePage() {
                 </p>
                 <div className={styles.gameBox}>
                     <p className={styles.nameGameBox}>
-                        Batman Arkham Origins
+                    {game.gameName} {game.secondGameName && game.secondGameName }
                     </p>
-                    <div className={styles.iconsection}>
-                        <Icon icon="mdi:steam"  style={{color: '#fff', fontSize: '1.2rem', marginRight: '0.2rem'}} />
-                        <Icon icon="bi:windows"  style={{color: '#fff', fontSize: '1rem'}} />
-                    </div>
+                    {game.plataform === "Steam" ? (
+                        <div className={styles.iconsection}>
+                            <Icon icon="mdi:steam"  style={{color: '#fff', fontSize: '1.2rem', marginRight: '0.2rem'}} />
+                            <Icon icon="bi:windows"  style={{color: '#fff', fontSize: '1rem'}} />
+                        </div>)
+                    : (
+                        <div className={styles.iconsection}>
+                            <Icon icon="bi:windows"  style={{color: '#fff', fontSize: '1rem'}} />
+                        </div>
+                    )}
 
                 </div>
                 <p className={styles.nameGameBox} >Categoria/Gênero:</p>
@@ -92,7 +132,7 @@ export default function gamePage() {
                 </div>
                 </div>
             </div>
-        </div>
+        </div>))}
 
       <GameSection titleSection="Recomendados"/>
    
