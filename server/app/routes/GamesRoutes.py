@@ -48,7 +48,7 @@ def register():
 
 # Métodos GET para obter um jogo
 @games_bp.route("/filter", methods=["GET"])
-def get_game_by_name():
+def get_game():
 
     if "game_id" in request.args:
         game_id = request.args.get("game_id")
@@ -64,11 +64,11 @@ def get_game_by_name():
     elif "game_name" in request.args:
         game_name = request.args.get("game_name")
         try:
-            game = gamesService.get_game_by_name(game_name)
-            if game:
-                return jsonify({"status": "success", "action": "Get Game By Name", "game": game})
+            games = gamesService.get_game_by_name(game_name)
+            if games:
+                return jsonify({"status": "success", "action": "Get Game By Name", "games": games})
             else:
-                return jsonify({"status": "error", "action": "Get Game By Name", "error_message": "Game not found"}), 404
+                return jsonify({"status": "error", "action": "Get Game By Name", "error_message": "Games not found"}), 404
         except Exception as err:
             return jsonify({"status": "error", "action": "Get Game By Name", "error_message": str(err)}), 500
 
@@ -248,8 +248,7 @@ def change_games():
         if "newVideoPromotional" in data:
             current_game.videoPromotional = data["newVideoPromotional"]
             gamesService.update_videoPromotional(current_game.id, current_game.videoPromotional)
-        
-        
+
         return make_response(success_response(action="Update Game Info"))
 
     except Exception as err:
