@@ -32,10 +32,10 @@
       "static/chunks/main.js",
       "static/chunks/pages/gamePageContent.js"
     ],
-    "/search": [
+    "/register": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/search.js"
+      "static/chunks/pages/register.js"
     ]
   },
   "ampFirstPages": []
