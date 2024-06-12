@@ -10,13 +10,16 @@ class GamesService:
     def __init__(self) -> None:
         pass
 
-    def add_new_game(self,gameName,secondGameName,creator,price,year,dlc,gender,ageGroup,platform,description):        
+    def add_new_game(self,gameName,secondGameName,creator, publisher,price,year,dlc,
+                     gender,ageGroup,platform,description,imageBanner,videoPromotional):        
 
-        games = Games(gameName=None,secondGameName=None,creator=None,price=None,year=None,dlc=None,gender=None,ageGroup=None,platform=None, description=None)
+        games = Games(gameName=None,secondGameName=None,creator=None,publisher=None,price=None,year=None,dlc=None,
+                      gender=None,ageGroup=None,platform=None, description=None,imageBanner=None,videoPromotional=None)
 
         games.gameName = gameName
         games.secondGameName = secondGameName
         games.creator = creator
+        games.publisher = publisher
         games.price = price
         games.year = year
         games.dlc = dlc
@@ -24,6 +27,8 @@ class GamesService:
         games.ageGroup = ageGroup
         games.platform = platform
         games.description = description
+        games.imageBanner = imageBanner
+        games.videoPromotional = videoPromotional
         gamesRepository.save(games)
         return gamesSchema.dump(games)
 
@@ -43,6 +48,10 @@ class GamesService:
     def get_game_by_creator(self, creator):
         games = gamesRepository.get_by_creator(creator=creator)
         return games
+    
+    def get_game_by_publisher(self, publisher):
+        games = gamesRepository.get_by_publisher(publisher=publisher)
+        return games
 
     def get_game_by_year(self, year):
         games = gamesRepository.get_by_year(year=year)
@@ -60,9 +69,11 @@ class GamesService:
         games = gamesRepository.get_by_platform(platform=platform)
         return games
 
-    def update_gameName(self,game_id,gameName):
+    # ----------------------------------------------------------------------- #
+    
+    def update_game_name(self,game_id,newgameName):
         game = gamesRepository.get_by_id(game_id)
-        game.gameName = gameName
+        game.gameName = newgameName
         gamesRepository.update(game)
         return
 
@@ -75,6 +86,12 @@ class GamesService:
     def update_creator(self,game_id,creator):
         game = gamesRepository.get_by_id(game_id)
         game.creator = creator
+        gamesRepository.update(game)
+        return
+    
+    def update_publisher(self,game_id,publisher):
+        game = gamesRepository.get_by_id(game_id)
+        game.publisher = publisher
         gamesRepository.update(game)
         return
 
@@ -95,19 +112,75 @@ class GamesService:
         game.description = description
         gamesRepository.update(game)
         return
+    
+    def update_year(self,game_id,year):
+        game = gamesRepository.get_by_id(game_id)
+        game.year = year
+        gamesRepository.update(game)
+        return
+    
+    def update_dlc(self,game_id,dlc):
+        game = gamesRepository.get_by_id(game_id)
+        game.dlc = dlc
+        gamesRepository.update(game)
+        return
+    
+    def update_gender(self,game_id,gender):
+        game = gamesRepository.get_by_id(game_id)
+        game.gender = gender
+        gamesRepository.update(game)
+        return
+    
+    def update_ageGroup(self,game_id,ageGroup):
+        game = gamesRepository.get_by_id(game_id)
+        game.ageGroup = ageGroup
+        gamesRepository.update(game)
+        return
+    
+    def update_imageBanner(self,game_id,imageBanner):
+        game = gamesRepository.get_by_id(game_id)
+        game.imageBanner = imageBanner
+        gamesRepository.update(game)
+        return
 
+    def update_videoPromotional(self,game_id,videoPromotional):
+        game = gamesRepository.get_by_id(game_id)
+        game.videoPromotional = videoPromotional
+        gamesRepository.update(game)
+        return
+    
+    # ----------------------------------------------------------------------- #
+    
     def delete_game_by_id(self, game_id):
-
-        existing_game = gamesRepository.get_by_id(game_id)
-        if existing_game is None:
-            raise Exception("Game not found")
-
-        deleted_game = gamesRepository.delete_game_by_id(game_id)
-        return deleted_game
+        try:
+            deleted_game = gamesRepository.delete_game_by_id(game_id)
+            if deleted_game:
+                # Serializar o objeto game para um dicionário JSON
+                deleted_game_dict = {
+                    "id": deleted_game.id,
+                    "gameName": deleted_game.gameName,
+                    "secondGameName": deleted_game.secondGameName,
+                    "creator": deleted_game.creator,
+                    "publisher": deleted_game.publisher,
+                    "price": deleted_game.price,
+                    "year": deleted_game.year,
+                    "dlc": deleted_game.dlc,
+                    "gender": deleted_game.gender,
+                    "ageGroup": deleted_game.ageGroup,
+                    "platform": deleted_game.platform,
+                    "description": deleted_game.description,
+                    "imageBanner": deleted_game.imageBanner,
+                    "videoPromotional": deleted_game.videoPromotional
+                }
+                return deleted_game_dict
+            else:
+                return None
+        except Exception as e:
+            raise e
 
     def save_game(self, game):
         gamesRepository.update(game)
         return
     
-    def validate_new_game(self, gameName, secondGameName, creator, price, year, dlc, gender, ageGroup, platform, description):
-        GameValidation.validate_new_game(gameName, secondGameName, creator, price, year, dlc, gender, ageGroup, platform, description)
+    def validate_new_game(self, gameName, secondGameName, creator, publisher, price, year, dlc, gender, ageGroup, platform, description, imageBanner, videoPromotional):
+        GameValidation.validate_new_game(gameName, secondGameName, creator, publisher, price, year, dlc, gender, ageGroup, platform, description, imageBanner, videoPromotional)

@@ -10,3 +10,4 @@ Flask-Bcrypt==1.0.1
 PyJWT==2.8.0
 pillow==10.3.0
 flask-admin
+Flask-JWT-Extended
