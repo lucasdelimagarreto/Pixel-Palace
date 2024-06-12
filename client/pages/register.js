@@ -30,7 +30,7 @@ export default function Register() {
           age: bornDate
         };
 
-        axios.post('http://192.168.0.13:5123/users', userDataJson)
+        axios.post('http://192.168.0.7:5123/users', userDataJson)
           .then((response) => {
             setUsername('');
             setEmail('');
@@ -60,7 +60,7 @@ export default function Register() {
           password: passwordLogin,
         };
 
-        axios.post('http://192.168.0.13:5123/users/login', userDataJson)
+        axios.post('http://192.168.0.7:5123/users/login', userDataJson)
           .then((response) => {
             setEmailLogin('');
             setPasswordLogin('');

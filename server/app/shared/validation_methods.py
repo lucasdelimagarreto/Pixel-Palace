@@ -41,10 +41,7 @@ def validate_publisher(publisher):
 
 # Validação de preço do jogo
 def validate_price(price):
-    try:
-        return float(price) >= 0
-    except ValueError:
-        return False
+    return len(price) >= 1
 
 # Validação de ano do jogo
 def validate_year(year):

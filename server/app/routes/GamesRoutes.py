@@ -31,10 +31,10 @@ def register():
                     return make_response(error_response(action="Register", error_message="This game has already been registered!", error_code=409))
 
                 try:
-                    gamesService.validate_new_game(
-                        data["gameName"], data["secondGameName"], data["creator"], data["price"], data["year"], data["dlc"], data["gender"], 
-                        data["ageGroup"], data["platform"], data["description"], data["publisher"], data["imageBanner"], data["videoPromotional"]
-                    )
+                    #gamesService.validate_new_game(
+                     #   data["gameName"], data["secondGameName"], data["creator"], data["price"], data["year"], data["dlc"], data["gender"], 
+                      #  data["ageGroup"], data["platform"], data["description"], data["publisher"], data["imageBanner"], data["videoPromotional"]
+                    #)
                     response = gamesService.add_new_game(
                         gameName=data["gameName"], secondGameName=data["secondGameName"], creator=data["creator"], price=data["price"], year=data["year"], 
                         dlc=data["dlc"], gender=data["gender"], ageGroup=data["ageGroup"], platform=data["platform"], description=data["description"], 
@@ -159,13 +159,6 @@ def get_game_by_name():
                 return jsonify({"status": "error", "action": "Get Game By Name", "error_message": "Game not found"}), 404
         except Exception as err:
             return jsonify({"status": "error", "action": "Get Game By Name", "error_message": str(err)}), 500
-
-    elif "all" in request.args:
-        try:
-            games = gamesService.get_all_games()
-            return make_response(success_response(action="Get All Games", parameter=games))
-        except Exception as err:
-            return make_response(error_response(action="Get All Games", error_message=str(err), error_code=500))
     
 # Método DELETE para excluir um jogo por ID
 @games_bp.route("/<int:game_id>", methods=["DELETE"])
@@ -264,3 +257,12 @@ def change_games():
             return make_response(error_response(action="Update Game Info", error_message=err.args[0], error_code=err.args[1]))
         else:
             return make_response(error_response(action="Update Game Info", error_message=str(err), error_code=500))
+
+@games_bp.route("/all", methods=["GET"])
+def get_all_games():
+    try:
+        games = gamesService.get_all_games()
+        games_dict = [game.to_dict() for game in games]
+        return make_response(success_response(action="Get All Games", parameter=games_dict))
+    except Exception as err:
+        return make_response(error_response(action="Get All Games", error_message=str(err), error_code=500))
