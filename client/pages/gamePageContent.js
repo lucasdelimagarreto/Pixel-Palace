@@ -27,11 +27,11 @@ export default function gamePage() {
       }, []);
 
       const CheckGames = () => {
-        axios.get(`http://192.168.0.7:5123/games/filter?game_id=${gameId}`)
+        axios.get(`http://192.168.0.13:5123/games/filter?game_id=${gameId}`)
         .then(response => {
             
-            setListGames(response.data.game)
-            
+            setListGames(response.data.games)
+            console.log(response)
 
          })
       .catch(error => {
