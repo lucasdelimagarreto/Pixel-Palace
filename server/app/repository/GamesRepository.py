@@ -47,6 +47,10 @@ class GamesRepository(BaseRepository):
         except Exception as e:
             raise e
 
+    def get_by_id_scalar(self, game_id):
+        game = db.session.execute(db.select(self.model).filter_by(id=game_id)).scalar_one_or_none()
+        return game
+    
     def get_by_second_game_name(self, second_game_name):
         try:
             games = db.session.query(Games).filter_by(secondGameName=second_game_name).all()
@@ -109,11 +113,16 @@ class GamesRepository(BaseRepository):
 
     def delete_game_by_id(self, game_id):
         try:
-            game_to_delete = self.get_by_id(game_id)
+            game_info = self.get_by_id(game_id)  # Obtém as informações do jogo
+            if not game_info:
+                return None  # Se não encontrar o jogo, retorna None ou faz outra ação adequada
+
+            # Se quiser deletar o jogo com base no ID, use o ID diretamente
+            game_to_delete = db.session.query(Games).filter_by(id=game_id).first()
             if game_to_delete:
                 db.session.delete(game_to_delete)
                 db.session.commit()
-                return game_to_delete
+                return game_info  # Retorna as informações do jogo deletado
             else:
                 return None
         except Exception as e:

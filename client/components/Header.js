@@ -35,7 +35,7 @@ return(    <div>
                     <a className={style.aNav} href="/">MAIS ESPERADOS</a>
                     <a className={style.aNav} href="/">NOVO</a>
                     <a className={style.aNav} href="/">XP</a>
-                    <a className={style.aNav} href="/">COMUNIDADE</a>
+                    <a className={style.aNav} href="/">CATEGORIAS</a>
                 </nav>
             </div>
             <div className={style.divBotoesNavSuperiores}>

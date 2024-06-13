@@ -14,11 +14,12 @@ import { Icon } from '@iconify/react';
 
 export default function gamePage() {
 
+    const [gameWiew, setGameWiew] = useState([]);
+
     const router = useRouter()
     
     const { gameId } = router.query
 
-    const [listGames, setListGames] = useState([]);
     
     useEffect(() => {
 
@@ -26,12 +27,11 @@ export default function gamePage() {
 
       }, []);
 
-      const CheckGames = () => {
-        axios.get(`http://192.168.0.13:5123/games/filter?game_id=${gameId}`)
+      const CheckGames = async () => {
+        await axios.get(`http://192.168.0.7:5123/games/filter?game_id=${gameId}`)
         .then(response => {
             
-            setListGames(response.data.games)
-            console.log(response)
+            setGameWiew(response.data.game)
 
          })
       .catch(error => {
@@ -53,14 +53,13 @@ export default function gamePage() {
 
       <main className={styles.main}>
         <QualityTag/>
-        {listGames && listGames.map(game => (
         <div className={styles.gameContainer}>
           <div className={styles.containerInfo}>
             <div className={styles.gameHeader}>
-                <h1>{game.gameName} {game.secondGameName && game.secondGameName }</h1>
+                <h1>{gameWiew.gameName} {gameWiew.secondGameName && gameWiew.secondGameName }</h1>
             </div>
             <div className={styles.gameMedia}>
-            <iframe className={styles.gameVideo} width="960" height="380" src="https://www.youtube.com/embed/W2Yjqfkzc_w?si=v1Cx10WdgtLxQSUE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <iframe className={styles.gameVideo} width="960" height="380" src={gameWiew.videoPromotional} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
             </div>
             <div className={styles.gameInfo}>
@@ -68,22 +67,14 @@ export default function gamePage() {
                     Sobre esse game
                 </h2>
                 <p className={styles.gameInfoText}>
-                Batman: Arkham Origins™ é o novo capítulo da franquia de grande sucesso Batman: Arkham.
-                O jogo apresenta uma cidade de Gotham ainda maior e introduz um prólogo original que é 
-                situado vários anos antes dos eventos de Batman: Arkham Asylum e Batman: Arkham City, 
-                os dois primeiros sucessos desta franquia. Surgindo antes da ascensão dos criminosos 
-                mais perigosos de Gotham City, o jogo apresenta um Batman novo e refinado enquanto ele 
-                segue um momento decisivo de sua carreira como um combatente do crime em seu caminho 
-                para se tornar definitivamente o Cavaleiro das Trevas. No desenrolar da história, 
-                jogadores encontrarão vários personagens importantes pela primeira vez e vão forjar 
-                parcerias chaves.
+                    {gameWiew.description}
                 </p>
             </div>
           </div>
             <div className={styles.gameDetails}>
                 <div className={styles.priceSection}>
-                <p className={styles.price}>R$ {game.price}</p>
-                <p className={styles.detailsSectionTitle}><span className={styles.detailsSectionSpam}>Ativação: </span> Steam</p>
+                <p className={styles.price}>R$ {gameWiew.price}</p>
+                <p className={styles.detailsSectionTitle}><span className={styles.detailsSectionSpam}>Ativação: </span> { gameWiew.plataform }</p>
                 <p className={styles.detailsSectionTitleSpam}>
                     Produto ativado através de <a className={styles.textLink} href='google.com'>chave de ativação</a>
                 </p>
@@ -92,9 +83,9 @@ export default function gamePage() {
                 </p>
                 <div className={styles.gameBox}>
                     <p className={styles.nameGameBox}>
-                    {game.gameName} {game.secondGameName && game.secondGameName }
+                    {gameWiew.gameName} {gameWiew.secondGameName && gameWiew.secondGameName }
                     </p>
-                    {game.plataform === "Steam" ? (
+                    {gameWiew.plataform == "Steam" ? (
                         <div className={styles.iconsection}>
                             <Icon icon="mdi:steam"  style={{color: '#fff', fontSize: '1.2rem', marginRight: '0.2rem'}} />
                             <Icon icon="bi:windows"  style={{color: '#fff', fontSize: '1rem'}} />
@@ -107,7 +98,7 @@ export default function gamePage() {
 
                 </div>
                 <p className={styles.nameGameBox} >Categoria/Gênero:</p>
-                <p>Ação, Aventura, Furto, Luta</p>
+                <p>{gameWiew.gender}</p>
                 <div className={styles.sectionButton}>
                     <button className={styles.cartButton}><Icon icon="mdi:cart-outline"  style={{color: '#100f0f', fontSize: '2rem'}} /> Adicionar ao Carrinho</button>
                     <button className={styles.favoriteButton}>
@@ -116,9 +107,9 @@ export default function gamePage() {
                 </div>
                 </div>
                 <div className={styles.detailsSection}>
-                <p className={styles.detailsSectionTitle}><span className={styles.detailsSectionTitleSpam}>Lançamento: </span> 25/10/2013</p>
-                <p className={styles.detailsSectionTitle}><span className={styles.detailsSectionTitleSpam}>Desenvolvedor: </span> WB Games Montreal</p>
-                <p className={styles.detailsSectionTitle}><span className={styles.detailsSectionTitleSpam}>Distribuidor: </span> Warner Bros. Games</p>
+                <p className={styles.detailsSectionTitle}><span className={styles.detailsSectionTitleSpam}>Lançamento: </span> {gameWiew.year}</p>
+                <p className={styles.detailsSectionTitle}><span className={styles.detailsSectionTitleSpam}>Desenvolvedor: </span> {gameWiew.creator}</p>
+                <p className={styles.detailsSectionTitle}><span className={styles.detailsSectionTitleSpam}>Distribuidor: </span> {gameWiew.publisher}</p>
                 <div>
                     <h2 className={styles.classifiedsSection}>
                         CLASSIFICAÇÃO INDICATIVA
@@ -126,13 +117,13 @@ export default function gamePage() {
                     <div className={styles.classifiedsSectionIcon}>
                         <Image src= {NR16} width={50} height={50}/>
                         <p className={styles.classifiedsSectionText}>
-                            NÃO RECOMENDADO PARA MENORES DE 16 ANOS
+                            NÃO RECOMENDADO PARA MENORES DE {gameWiew.gender} ANOS
                         </p>
                     </div>
                 </div>
                 </div>
             </div>
-        </div>))}
+        </div>
 
       <GameSection titleSection="Recomendados"/>
    

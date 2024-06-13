@@ -38,7 +38,7 @@ class GamesService:
             "gameName": game.gameName,
             "secondGameName": game.secondGameName,
             "creator": game.creator,
-            "price": game.preco,
+            "price": game.price,
             "year": game.year,
             "dlc": game.dlc,
             "gender": game.gender,
@@ -90,79 +90,105 @@ class GamesService:
     # ----------------------------------------------------------------------- #
     
     def update_game_name(self,game_id,newgameName):
-        game = gamesRepository.get_by_id(game_id)
+        game = gamesRepository.get_by_id_scalar(game_id)
+        if game == None:             
+            raise Exception("Games not exists")
         game.gameName = newgameName
         gamesRepository.update(game)
         return
 
     def update_second_game_name(self,game_id,secondGameName):
-        game = gamesRepository.get_by_id(game_id)
+        game = gamesRepository.get_by_id_scalar(game_id)
+        if game == None:             
+            raise Exception("Games not exists")
         game.secondGameName = secondGameName
         gamesRepository.update(game)
         return
 
     def update_creator(self,game_id,creator):
-        game = gamesRepository.get_by_id(game_id)
+        game = gamesRepository.get_by_id_scalar(game_id)
+        if game == None:             
+            raise Exception("Games not exists")
         game.creator = creator
         gamesRepository.update(game)
         return
     
     def update_publisher(self,game_id,publisher):
-        game = gamesRepository.get_by_id(game_id)
+        game = gamesRepository.get_by_id_scalar(game_id)
+        if game == None:             
+            raise Exception("Games not exists")
         game.publisher = publisher
         gamesRepository.update(game)
         return
 
     def update_price(self,game_id,price):
-        game = gamesRepository.get_by_id(game_id)
+        game = gamesRepository.get_by_id_scalar(game_id)
+        if game == None:             
+            raise Exception("Games not exists")
         game.price = price
         gamesRepository.update(game)
         return
     
     def update_platform(self,game_id,platform):
-        game = gamesRepository.get_by_id(game_id)
+        game = gamesRepository.get_by_id_scalar(game_id)
+        if game == None:             
+            raise Exception("Games not exists")
         game.platform = platform
         gamesRepository.update(game)
         return
     
     def update_description(self,game_id,description):
-        game = gamesRepository.get_by_id(game_id)
+        game = gamesRepository.get_by_id_scalar(game_id)
+        if game == None:             
+            raise Exception("Games not exists")
         game.description = description
         gamesRepository.update(game)
         return
     
     def update_year(self,game_id,year):
-        game = gamesRepository.get_by_id(game_id)
+        game = gamesRepository.get_by_id_scalar(game_id)
+        if game == None:             
+            raise Exception("Games not exists")
         game.year = year
         gamesRepository.update(game)
         return
     
     def update_dlc(self,game_id,dlc):
-        game = gamesRepository.get_by_id(game_id)
+        game = gamesRepository.get_by_id_scalar(game_id)
+        if game == None:             
+            raise Exception("Games not exists")
         game.dlc = dlc
         gamesRepository.update(game)
         return
     
     def update_gender(self,game_id,gender):
-        game = gamesRepository.get_by_id(game_id)
+        game = gamesRepository.get_by_id_scalar(game_id)
+        if game == None:             
+            raise Exception("Games not exists")
         game.gender = gender
         gamesRepository.update(game)
         return
     
     def update_ageGroup(self,game_id,ageGroup):
-        game = gamesRepository.get_by_id(game_id)
+        game = gamesRepository.get_by_id_scalar(game_id)
+        if game == None:             
+            raise Exception("Games not exists")
         game.ageGroup = ageGroup
         gamesRepository.update(game)
         return
     
     def update_imageBanner(self,game_id,imageBanner):
-        game = gamesRepository.get_by_id(game_id)
+        game = gamesRepository.get_by_id_scalar(game_id)
+        if game == None:             
+            raise Exception("Games not exists")
         game.imageBanner = imageBanner
         gamesRepository.update(game)
         return
 
     def update_videoPromotional(self,game_id,videoPromotional):
-        game = gamesRepository.get_by_id(game_id)
+        game = gamesRepository.get_by_id_scalar(game_id)
+        if game == None:             
+            raise Exception("Games not exists")
         game.videoPromotional = videoPromotional
         gamesRepository.update(game)
         return
@@ -170,31 +196,12 @@ class GamesService:
     # ----------------------------------------------------------------------- #
     
     def delete_game_by_id(self, game_id):
-        try:
-            deleted_game = gamesRepository.delete_game_by_id(game_id)
-            if deleted_game:
-
-                deleted_game_dict = {
-                    "id": deleted_game.id,
-                    "gameName": deleted_game.gameName,
-                    "secondGameName": deleted_game.secondGameName,
-                    "creator": deleted_game.creator,
-                    "publisher": deleted_game.publisher,
-                    "price": deleted_game.price,
-                    "year": deleted_game.year,
-                    "dlc": deleted_game.dlc,
-                    "gender": deleted_game.gender,
-                    "ageGroup": deleted_game.ageGroup,
-                    "platform": deleted_game.platform,
-                    "description": deleted_game.description,
-                    "imageBanner": deleted_game.imageBanner,
-                    "videoPromotional": deleted_game.videoPromotional
-                }
-                return deleted_game_dict
-            else:
-                return None
-        except Exception as e:
-            raise e
+        game = gamesRepository.get_by_id_scalar(game_id)
+        if game == None:             
+            raise Exception("Games not exists")
+        gamesRepository.delete(game)
+        return
+        
 
     def save_game(self, game):
         gamesRepository.update(game)

@@ -1,0 +1,89 @@
+.sectionJogos{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100vw;
+    margin: 20px 0 60px 0 ;
+    padding: 0 275px 0 275px;
+    height: 355px;
+}
+
+.imgJogoOferta {
+    margin: 0 15px 0 15px;
+}
+
+.divNomeSectionJogos{
+    display: flex;
+    flex-wrap: nowrap;
+    flex: 1 1 100vw;
+    height: 65px;
+    position: relative;
+
+}
+
+.divJogosSectionjogos {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.bntSeeMore {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.pSubTitleDivNomeSectionJogos {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+.titleSectionJogosSearch {
+    text-align: center;
+    font-size: 2rem;
+
+}
+
+.gamesection {
+    display: flex;
+    }
+    
+    .gamesectionlist {
+        background: #0F2124;
+        height: 15.95rem;
+        width: 220px;
+        font-size: 16px;
+        border-radius: 0.3rem;
+        margin-right: 0.8rem;
+    }
+    
+    .buttongamecard {
+        background: #27565E;
+        height: auto;
+        width: 210px;
+        font-size: 16px;
+        margin: 0.3rem;
+        cursor: pointer;
+        border-radius: 0.3rem;
+        padding: 0.5rem;
+        border: none;
+        font-weight: bold;
+        color: #E8E5E0;
+    }
+    
+    .gameimg {
+        border-top-left-radius: 0.3rem;
+        border-top-right-radius: 0.3rem;
+    }
+    
+    .titlegamecard {
+        padding: 0.5rem;
+        padding-bottom: 0;
+    }
+    
+    .iconsection {
+        padding: 0.5rem;
+        padding-top: 0.1rem;
+        padding-bottom: 3rem;
+        display: flex;
+        align-items: center;
+    }
