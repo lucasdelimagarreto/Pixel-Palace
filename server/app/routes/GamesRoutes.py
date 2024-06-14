@@ -270,7 +270,8 @@ def search_games():
         games = Games.query.filter(
             (Games.gameName.ilike(f"%{search_term}%")) |
             (Games.secondGameName.ilike(f"%{search_term}%")) |
-            (Games.gender.ilike(f"%{search_term}%")) 
+            (Games.gender.ilike(f"%{search_term}%")) |
+            (Games.platform.ilike(f"%{search_term}%"))  
         ).all()
 
         if games:

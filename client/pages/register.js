@@ -102,7 +102,7 @@ export default function Register() {
                         <input type="email" placeholder="E-mail" className={style.inputLogin} name="emailLogin" value={emailLogin} onChange={(e) => setEmailLogin(e.target.value)} required />
                         <input type="password" placeholder="Senha" className={style.inputLogin} name="passwordLogin" value={passwordLogin} onChange={(e) => setPasswordLogin(e.target.value)} required/>
                         <input type="checkbox" checked="checked" className={`${style.inputCheckbox} ${style.checkbox}`} name="renemberMeLogin"/> Lembrar de mim
-                        <button className={bntStyle.bntGreenNoBorder} name="bntEntrarLogin" onClick={UserLogin}>Entrar</button>
+                        <button className={bntStyle.bntGreenNoBorder2} name="bntEntrarLogin" onClick={UserLogin}>Entrar</button>
                         <a href="" id={style.aForgotPassword}>Esqueceu sua senha?</a>
                     </div>
                     <div id={style.divOrRegisterLogin}>
@@ -122,7 +122,7 @@ export default function Register() {
                         value={bornDate} onChange={(e) => setBornDate(e.target.value)} required/>
                         <br/>
                         <input type="checkbox" checked="checked" className={`${style.inputCheckbox} ${style.checkbox}`} name="aceptTerms"/>Eu aceito os <a href="">termos e condições</a>, <a href="">a política de cookies</a><br/> e <a href="">a política de privacidade</a>.
-                        <button className={bntStyle.bntGreenNoBorder} type='submit' name="bntRegistrarRegister" onClick={UserRegister}>Registrar</button>
+                        <button className={bntStyle.bntGreenNoBorder2} type='submit' name="bntRegistrarRegister" onClick={UserRegister}>Registrar</button>
                         { message && <p>{message}</p>}
                     </div>
                 </div>

@@ -44,7 +44,7 @@ export function GameCard () {
                         {game.gameName} {game.secondGameName && game.secondGameName }
                     </p>
                     
-                        {game.plataform == "Steam"? (
+                        {game.platform == "Steam"? (
                         <div className={style.iconsection}>
                             <Icon icon="mdi:steam"  style={{color: '#27565e', fontSize: '1.2rem', marginRight: '0.2rem'}} />
                             <Icon icon="bi:windows"  style={{color: '#27565e', fontSize: '1rem'}} />

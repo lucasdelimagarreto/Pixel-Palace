@@ -7,7 +7,12 @@ import QualityTag from '../components/QualityTag';
 import Footer from '../components/Footer';
 import styles from '../styles/gamePageContent.module.css';
 import { GameSection } from '../components/GameSection';
+import NRL from '../assets/L.png';
+import NR12 from '../assets/NR12.png';
 import NR16 from '../assets/NR16.png';
+import NR18 from '../assets/NR18.png';
+import NR14 from '../assets/NR14.png';
+import NR10 from '../assets/NR10.png';
 import Image from "next/image";
 import { Icon } from '@iconify/react';
 
@@ -41,7 +46,7 @@ export default function gamePage() {
       });
 
     }
-    
+
   return (
     <div>
             <Head>
@@ -74,7 +79,7 @@ export default function gamePage() {
             <div className={styles.gameDetails}>
                 <div className={styles.priceSection}>
                 <p className={styles.price}>R$ {gameWiew.price}</p>
-                <p className={styles.detailsSectionTitle}><span className={styles.detailsSectionSpam}>Ativação: </span> { gameWiew.plataform }</p>
+                <p className={styles.detailsSectionTitle}><span className={styles.detailsSectionSpam}>Ativação: </span> { gameWiew.platform }</p>
                 <p className={styles.detailsSectionTitleSpam}>
                     Produto ativado através de <a className={styles.textLink} href='google.com'>chave de ativação</a>
                 </p>
@@ -85,7 +90,7 @@ export default function gamePage() {
                     <p className={styles.nameGameBox}>
                     {gameWiew.gameName} {gameWiew.secondGameName && gameWiew.secondGameName }
                     </p>
-                    {gameWiew.plataform == "Steam" ? (
+                    {gameWiew.platform == "Steam" ? (
                         <div className={styles.iconsection}>
                             <Icon icon="mdi:steam"  style={{color: '#fff', fontSize: '1.2rem', marginRight: '0.2rem'}} />
                             <Icon icon="bi:windows"  style={{color: '#fff', fontSize: '1rem'}} />
@@ -114,12 +119,14 @@ export default function gamePage() {
                     <h2 className={styles.classifiedsSection}>
                         CLASSIFICAÇÃO INDICATIVA
                     </h2>
-                    <div className={styles.classifiedsSectionIcon}>
-                        <Image src= {NR16} width={50} height={50}/>
-                        <p className={styles.classifiedsSectionText}>
-                            NÃO RECOMENDADO PARA MENORES DE {gameWiew.gender} ANOS
-                        </p>
-                    </div>
+
+        <div className={styles.classifiedsSectionIcon}>
+            <Image src= {NR16} width={50} height={50}/>
+            <p className={styles.classifiedsSectionText}>
+            NÃO RECOMENDADO PARA MENORES DE {gameWiew.ageGroup} ANOS
+            </p>
+        </div>
+
                 </div>
                 </div>
             </div>

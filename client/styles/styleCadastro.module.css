@@ -5,7 +5,7 @@
     display: flex;
     margin: 20px 60px 30px 60px;
     padding: 15px 40px 5px 40px;
-    position: absolute;
+    position:absolute;
     top: 90px;
 }
 
@@ -44,7 +44,7 @@
 }
 
 .mainRegister{
-    height: calc(100vh - 320px);
+    height: calc(100vh - 170px);
     justify-content: center;
     position: relative;
 }

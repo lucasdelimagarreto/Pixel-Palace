@@ -9,10 +9,23 @@
     cursor: pointer;
 }
 
+.bntGreenNoBorder2 {
+    background: #19F7A9;
+    border: none;
+    padding: 0 0.5rem 0 0.5rem;
+    font-weight: 500;
+    color: black;
+    height: 2rem;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    margin-left: 0.5rem;
+}
+
 .bntGreenBoldBlackBorder {
     font-weight: bolder;
     background: #19F7A9;
-    padding: 0 15px 0 15    px;
+    padding: 0 15px 0 15px;
     color: black;
     border: 2px solid black;
     height: 35px;

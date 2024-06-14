@@ -65,11 +65,6 @@
     font-size: 1rem;
   }
   
-  .gameDetails {
-    margin-top: 1rem;
-    width: 30%;
-  }
-  
   .priceSection {
     background: #0F2124;
     padding: 1rem;
@@ -154,6 +149,11 @@
   .containerInfo{
     margin-right: 2rem;
     width: 36%;
+  }
+
+  .gameDetails {
+    margin-top: 1rem;
+    width: 30%;
   }
 
   .gameVideo{
