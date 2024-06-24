@@ -33,7 +33,7 @@ export default function gamePage() {
       }, []);
 
       const CheckGames = async () => {
-        await axios.get(`http://192.168.0.7:5123/games/filter?game_id=${gameId}`)
+        await axios.get(`http://192.168.0.13:5123/games/filter?game_id=${gameId}`)
         .then(response => {
             
             setGameWiew(response.data.game)

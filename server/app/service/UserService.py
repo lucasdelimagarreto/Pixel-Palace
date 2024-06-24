@@ -18,7 +18,7 @@ class UserService:
         user.username = username         
         user.email = email
         user.age = age
-        user.password =  bcrypt.generate_password_hash(password).decode("utf-8")         
+        user.password =  bcrypt.generate_password_hash(password).decode("utf-8")
         userRepository.save(user)         
         return
 

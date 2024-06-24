@@ -23,7 +23,7 @@ export default function Search (){
       }, []);
 
       const CheckGames = () => {
-            axios.get(`http://192.168.0.7:5123/games/search?search_term=${searchImput}`)
+            axios.get(`http://192.168.0.13:5123/games/search?search_term=${searchImput}`)
         .then(response => {
             
             setListGames(response.data.games)

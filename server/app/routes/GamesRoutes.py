@@ -46,6 +46,7 @@ game_schema = GamesSchema()
 games_schema = GamesSchema(many=True)
 
 # Métodos GET para obter um jogo
+"""
 @games_bp.route("/filter", methods=["GET"])
 def get_game():
 
@@ -165,7 +166,110 @@ def get_game():
                 return jsonify({"status": "error", "action": "Get Game By Name", "error_message": "Game not found"}), 404
         except Exception as err:
             return jsonify({"status": "error", "action": "Get Game By Name", "error_message": str(err)}), 500
-        
+"""
+@games_bp.route("/filter", methods=["GET"])
+def get_game():
+    """
+    Retrieves games based on query parameters.
+
+    Handles requests for games by ID, name, genre, creator, year, age group,
+    platform, or publisher. Returns success or error responses with detailed
+    messages.
+    """
+
+    search_params = {}  # Dictionary to store search criteria
+
+    # Extract query parameters efficiently using a loop
+    for param in request.args:
+        if param in [
+            "game_id",
+            "game_name",
+            "game_gender",
+            "game_creator",
+            "game_year",
+            "age_group",
+            "platform",
+            "publisher",
+        ]:
+            search_params[param] = request.args.get(param)
+
+    # Validate query parameters (optional for added security)
+    # ... (implement validation logic here)
+
+    try:
+        # Delegate game retrieval to a dedicated function for clarity
+        game = get_game_by_criteria(search_params)
+
+        if game:
+            game = games_schema.dump(game)
+            return jsonify(
+                {"status": "success", "action": get_action_text(search_params), "game": game}
+            )
+        else:
+            return jsonify(
+                {
+                    "status": "error",
+                    "action": get_action_text(search_params),
+                    "error_message": "Game not found",
+                }
+            ), 404
+
+    except Exception as err:
+        return jsonify(
+            {"status": "error", "action": get_action_text(search_params), "error_message": str(err)}
+        ), 500
+
+def get_game_by_criteria(search_params):
+    """
+    Retrieves a game based on the provided search criteria.
+
+    This function simplifies code by handling the logic for retrieving games
+    based on different parameters.
+    """
+
+    game_lookup_method = {
+        "game_id": gamesService.get_game_by_id,
+        "game_name": gamesService.get_game_by_name,
+        "game_gender": gamesService.get_game_by_gender,
+        "game_creator": gamesService.get_game_by_creator,
+        "game_year": gamesService.get_game_by_year,
+        "age_group": gamesService.get_game_by_age_group,
+        "platform": gamesService.get_game_by_platform,
+        "publisher": gamesService.get_game_by_publisher,
+    }
+
+    try:
+        # Use the appropriate lookup function based on search parameters
+        lookup_param = next(iter(search_params))  # Get first parameter
+        lookup_function = game_lookup_method[lookup_param]
+        return lookup_function(search_params[lookup_param])
+
+    except (KeyError, StopIteration) as e:
+        # Handle invalid or missing search parameters
+        return None
+
+def get_action_text(search_params):
+    """
+    Constructs a human-readable action text based on search parameters.
+
+    This function improves code readability by extracting the action text
+    from the search parameters.
+    """
+
+    action_map = {
+        "game_id": "Get Game By Id",
+        "game_name": "Get Game By Name",
+        "game_gender": "Get Game By Genre",
+        "game_creator": "Get Game By Creator",
+        "game_year": "Get Game By Year",
+        "age_group": "Get Game By Age group",
+        "platform": "Get Game By Platform",
+        "publisher": "Get Game By publisher",
+    }
+
+    lookup_param = next(iter(search_params))  # Get first parameter
+    return action_map.get(lookup_param, "Unknown Action")  # Handle missing keys
+
 # Método DELETE para excluir um jogo por ID
 @games_bp.route("/<int:game_id>", methods=["DELETE"])
 @jwt_required()
