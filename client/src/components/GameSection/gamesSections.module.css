@@ -1,7 +1,7 @@
 .sectionJogos{
     display: flex;
     flex-wrap: wrap;
-    width: 100vw;
+    width: 95vw;
     margin: 20px 0 60px 0 ;
     padding: 0 275px 0 275px;
     height: 355px;

@@ -1,22 +1,26 @@
 {
-  "name": "pixel-palace",
-  "version": "1.0.0",
-  "description": "Store of kyes for games",
-  "main": "index.js",
+  "name": "pixel-palace-refatorado",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
-  "author": "Solonio A C FH",
-  "license": "ISC",
   "dependencies": {
-    "@iconify/react": "^5.0.1",
-    "axios": "^1.6.8",
-    "next": "^14.2.3",
-    "node-modules": "^1.0.1",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
-  }
+    "axios": "^1.7.7",
+    "next": "14.2.15",
+    "react": "^18",
+    "react-dom": "^18",
+    "styled-components": "^6.1.13"
+  },
+  "devDependencies": {
+    "@iconify/react": "^5.0.2",
+    "babel-plugin-styled-components": "^2.1.4"
+  },
+  "main": "index.js",
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }

@@ -3,10 +3,6 @@ import axios from 'axios';
 import React,{ useState, useEffect }  from "react";
 import { Icon } from '@iconify/react';
 import Image from "next/image";
-import Head from 'next/head';
-import Header from '../components/Header';
-import QualityTag from '../components/QualityTag';
-import Footer from '../components/Footer';
 import styles from '../styles/search.module.css'
 
 
@@ -23,7 +19,7 @@ export default function Search (){
       }, []);
 
       const CheckGames = () => {
-            axios.get(`http://192.168.0.13:5123/games/search?search_term=${searchImput}`)
+            axios.get(`http://192.168.0.8:5123/games/search?search_term=${searchImput}`)
         .then(response => {
             
             setListGames(response.data.games)
@@ -38,15 +34,7 @@ export default function Search (){
 
     }
     return(
-        <div>
-            <Head>
-                <met charset="utf-8"/>
-                <meta name="viewport" content="width=divice-width, initial-scale=1.0"/>
-                <title>Pixel Palace</title>
-            </Head>   
-            <Header/>
             <main>
-               <QualityTag/>
                <section className={styles.sectionJogos}>
         <div className={styles.divNomeSectionJogos}>
             <h1 className={styles.titleSectionJogosSearch}>Catálogo</h1>
@@ -85,7 +73,5 @@ export default function Search (){
                
 
             </main>
-            <Footer/>
-        </div>
     )
 }

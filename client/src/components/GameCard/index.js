@@ -18,7 +18,7 @@ export function GameCard () {
 
       const CheckGames = () => {
 
-            axios.get(`http://192.168.0.13:5123/games/all`)
+            axios.get(`http://192.168.0.8:5123/games/all`)
         .then(response => {
             
             setListGames(response.data.parameter)
@@ -56,7 +56,7 @@ export function GameCard () {
                     )}
 
                     <a>
-                        <button className={style.buttongamecard} onClick={() => {router.push(`/gamePageContent?gameId=${game.id}`)}}>
+                        <button className={style.buttongamecard} onClick={() => {router.push(`../../GamePageContent?gameId=${game.id}`)}}>
                         R$ {game.price}
                         </button>
                     </a>

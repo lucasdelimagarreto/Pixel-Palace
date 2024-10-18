@@ -1,9 +1,9 @@
-import Link from "next/link";
 import Image from "next/image";
-import imgQuality from "../assets/seloQualidade.png"
+import imgQuality from "../../assets/seloQualidade.png"
+import style from "./qualityTag.module.css"
 
 const QualityTag = () => (
-    <section id="sectionImgSeloQualidade">
+    <section id={style.sectionImgSeloQualidade}>
         <Image src={imgQuality} height={60} width={800} alt="pegie"/>
     </section>
 );

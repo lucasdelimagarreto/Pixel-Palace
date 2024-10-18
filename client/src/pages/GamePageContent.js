@@ -1,10 +1,6 @@
-import Head from 'next/head';
 import React,{ useState, useEffect }  from "react";
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import Header from '../components/Header';
-import QualityTag from '../components/QualityTag';
-import Footer from '../components/Footer';
 import styles from '../styles/gamePageContent.module.css';
 import { GameSection } from '../components/GameSection';
 import NRL from '../assets/L.png';
@@ -33,7 +29,7 @@ export default function gamePage() {
       }, []);
 
       const CheckGames = async () => {
-        await axios.get(`http://192.168.0.13:5123/games/filter?game_id=${gameId}`)
+        await axios.get(`http://192.168.0.8:5123/games/filter?game_id=${gameId}`)
         .then(response => {
             
             setGameWiew(response.data.game)
@@ -49,15 +45,7 @@ export default function gamePage() {
 
   return (
     <div>
-            <Head>
-                <met charset="utf-8"/>
-                <meta name="viewport" content="width=divice-width, initial-scale=1.0"/>
-                <title>Pixel Palace</title>
-            </Head>
-            <Header/>
-
       <main className={styles.main}>
-        <QualityTag/>
         <div className={styles.gameContainer}>
           <div className={styles.containerInfo}>
             <div className={styles.gameHeader}>
@@ -81,7 +69,7 @@ export default function gamePage() {
                 <p className={styles.price}>R$ {gameWiew.price}</p>
                 <p className={styles.detailsSectionTitle}><span className={styles.detailsSectionSpam}>Ativação: </span> { gameWiew.platform }</p>
                 <p className={styles.detailsSectionTitleSpam}>
-                    Produto ativado através de <a className={styles.textLink} href='google.com'>chave de ativação</a>
+                    Produto ativado através de <a className={styles.textLink} href='https://google.com'>chave de ativação</a>
                 </p>
                 <p className={styles.titleGameBox}>
                     Ativações/ Sistemas
@@ -135,7 +123,6 @@ export default function gamePage() {
       <GameSection titleSection="Recomendados"/>
    
       </main>
-      <Footer/>
     </div>
   );
 }

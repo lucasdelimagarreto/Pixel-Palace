@@ -1,9 +1,5 @@
-import Head from 'next/head';
-import QualityTag from '../components/QualityTag';
-import Header from '../components/Header';
 import style from "../styles/styleCadastro.module.css"
-import bntStyle from "../styles/components/buttons.module.css"
-import Footer from '../components/Footer';
+import bntStyle from "../styles/buttons.module.css"
 import { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
@@ -30,7 +26,7 @@ export default function Register() {
           age: bornDate
         };
 
-        axios.post('http://192.168.0.13:5123/users', userDataJson)
+        axios.post('http://192.168.0.8:5123/users', userDataJson)
           .then((response) => {
             setUsername('');
             setEmail('');
@@ -60,7 +56,7 @@ export default function Register() {
           password: passwordLogin,
         };
 
-        axios.post('http://192.168.0.7:5123/users/login', userDataJson)
+        axios.post('http://192.168.0.8:5123/users/login', userDataJson)
           .then((response) => {
             setEmailLogin('');
             setPasswordLogin('');
@@ -83,18 +79,7 @@ export default function Register() {
       }
 
     return(
-        <div>
-            <Head>
-                <met charset="utf-8"/>
-                <meta name="viewport" content="width=divice-width, initial-scale=1.0"/>
-                <title>Pixel Palace</title>
-            </Head>
-
-            <Header/>
-
-
             <main className={style.mainRegister}>
-               <QualityTag/>
 
                 <div id={style.divRegisterLoginLayout}>
                     <div id={style.divLogin}>
@@ -127,7 +112,5 @@ export default function Register() {
                     </div>
                 </div>
             </main>
-            <Footer/>
-        </div>
     )
 }
