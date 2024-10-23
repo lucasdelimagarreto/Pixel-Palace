@@ -21,4 +21,8 @@ __pycache__/
 server/migrations
 
 #Config
+.config
+/config
 \config
+server/config.py
+server/config.py
