@@ -83,12 +83,6 @@ def get_game():
         return jsonify({"status": "error", "action": get_action_text(search_params), "error_message": str(err)}), 500
 
 def get_game_by_criteria(search_params):
-    """
-    Retrieves a game based on the provided search criteria.
-
-    This function simplifies code by handling the logic for retrieving games
-    based on different parameters.
-    """
 
     # Dicionário de funções mapeadas para cada critério
     game_lookup_method = {
@@ -103,17 +97,15 @@ def get_game_by_criteria(search_params):
     }
 
     try:
-        # Use a função de lookup correta com base nos parâmetros de busca
-        lookup_param = next(iter(search_params))  # Obtém o primeiro parâmetro
+        lookup_param = next(iter(search_params))
         lookup_function = game_lookup_method.get(lookup_param)
-        # Verifique se a função de busca existe
+
         if lookup_function:
             return lookup_function(search_params[lookup_param])
         else:
             raise ValueError(f"Invalid search parameter: {lookup_param}")
 
     except (KeyError, StopIteration, ValueError) as e:
-        # Lida com parâmetros de busca inválidos ou ausentes
         return None
 
 
@@ -130,8 +122,8 @@ def get_action_text(search_params):
         "publisher": "Get Game By publisher",
     }
 
-    lookup_param = next(iter(search_params))  # Get first parameter
-    return action_map.get(lookup_param, "Unknown Action")  # Handle missing keys
+    lookup_param = next(iter(search_params))
+    return action_map.get(lookup_param, "Unknown Action")
 
 # Método DELETE para excluir um jogo por ID
 @games_bp.route("/<int:game_id>", methods=["DELETE"])
@@ -227,17 +219,20 @@ def search_games():
     search_term = request.args.get("search_term")
     
     if not search_term or search_term.strip() == "":
-        return jsonify({"error": "Invalid search_term parameter"}), 400
+        return jsonify({"error": "Invalid or missing search_term parameter"}), 400
     if not search_term:
         return jsonify({"error": "Missing search_term parameter"}), 400
 
     try:
+        page = request.args.get('page', 1, type=int)
+        per_page = request.args.get('per_page', 10, type=int)
+
         games = Games.query.filter(
             (Games.gameName.ilike(f"%{search_term}%")) |
             (Games.secondGameName.ilike(f"%{search_term}%")) |
             (Games.gender.ilike(f"%{search_term}%")) |
-            (Games.platform.ilike(f"%{search_term}%"))  
-        ).all()
+            (Games.platform.ilike(f"%{search_term}%"))
+        ).paginate(page=page, per_page=per_page)
 
         if games:
             games_data = [{
@@ -257,7 +252,7 @@ def search_games():
                 "videoPromotional": game.videoPromotional
             } for game in games]
 
-            return jsonify({"status": "success", "games": games_data})
+            return jsonify({"status": "success", "games": games_data,"page": games.page,"total_pages": games.pages,"total_items": games.total})
         return jsonify({"status": "error", "message": "No games found matching the search term"}), 404
 
     except Exception as e:
