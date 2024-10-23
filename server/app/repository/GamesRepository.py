@@ -16,7 +16,21 @@ class GamesRepository(BaseRepository):
             return games
         except Exception as e:
             raise e
-
+        
+    def get_by_id(self, game_id):
+            try:
+                game = db.session.query(Games).filter_by(id=game_id).first()
+                if not game:
+                    raise Exception(f"No game found with ID '{game_id}'")
+                result = schema.dump(game)
+                return result
+            except Exception as e:
+                raise e
+    
+    def get_by_id_scalar(self, game_id):
+        game = super().get_by_id(game_id)
+        return game
+    
     def get_by_name(self, game_name):
         try:
             games = db.session.query(Games).filter_by(gameName=game_name).all()
@@ -33,16 +47,6 @@ class GamesRepository(BaseRepository):
             if not games:
                 raise Exception(f"No game found with gender '{gender}'")
             result = schema.dump(games, many=True)
-            return result
-        except Exception as e:
-            raise e
-
-    def get_by_id(self, game_id):
-        try:
-            game = db.session.query(Games).filter_by(id=game_id).first()
-            if not game:
-                raise Exception(f"No game found with ID '{game_id}'")
-            result = schema.dump(game)
             return result
         except Exception as e:
             raise e

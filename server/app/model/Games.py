@@ -9,13 +9,13 @@ class Games(db.Model):
     secondGameName = db.Column(db.String(20), nullable=False)
     creator = db.Column(db.String(30), nullable=False)
     publisher = db.Column(db.String(30), nullable=True)
-    price = db.Column(db.String(15))
+    price = db.Column(db.Float)
     year = db.Column(db.Integer, nullable=False)
     dlc = db.Column(db.Boolean)
     gender = db.Column(db.String(20), nullable=False)
     ageGroup = db.Column(db.Integer , nullable=False)
     platform = db.Column(db.String(20), nullable=False)
-    description = db.Column(db.String(500), nullable=False) #Isso e sujo mas e o que temos para hoje, PS esta marcação e um lembrete para fazer uma alteração!
+    description = db.Column(db.String(500), nullable=False)
     imageBanner = db.Column(db.String(200), nullable=True)
     videoPromotional = db.Column(db.String(200), nullable=True)
     

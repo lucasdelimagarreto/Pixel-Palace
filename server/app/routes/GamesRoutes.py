@@ -46,140 +46,11 @@ game_schema = GamesSchema()
 games_schema = GamesSchema(many=True)
 
 # Métodos GET para obter um jogo
-"""
 @games_bp.route("/filter", methods=["GET"])
 def get_game():
 
-    if "game_id" in request.args:
-        game_id = request.args.get("game_id")
-        try:
-            game = gamesService.get_game_by_id(game_id)
-            
-            return jsonify({"status": "success", "action": "Get Game By Id", "game": game})
-        except Exception as err:
-            return jsonify({"status": "error", "action": "Get Game By Id", "error_message": str(err)}), 500
+    search_params = {}
 
-    elif "game_name" in request.args:
-        game_name = request.args.get("game_name")
-        try:
-            game = gamesService.get_game_by_name(game_name)
-            if game:
-                game = games_schema.dump(game)
-                return jsonify({"status": "success", "action": "Get Game By Name", "games": game})
-            else:
-                return jsonify({"status": "error", "action": "Get Game By Name", "error_message": "Games not found"}), 404
-        except Exception as err:
-            return jsonify({"status": "error", "action": "Get Game By Name", "error_message": str(err)}), 500
-
-    elif "game_gender" in request.args:
-        game_gender = request.args.get("game_gender")
-        try:
-            game = gamesService.get_game_by_gender(game_gender)
-            if game:
-                game = games_schema.dump(game)
-                return jsonify({"status": "success", "action": "Get Game By Gender", "game": game})
-            else:
-                return jsonify({"status": "error", "action": "Get Game By Gender", "error_message": "Game not found"}), 404
-        except Exception as err:
-            return jsonify({"status": "error", "action": "Get Game By Gender", "error_message": str(err)}), 500
-
-    elif "game_creator" in request.args:
-        game_creator = request.args.get("game_creator")
-        try:
-            game = gamesService.get_game_by_creator(game_creator)
-            if game:
-                game = games_schema.dump(game)
-                return jsonify({"status": "success", "action": "Get Game By creator", "game": game})
-            else:
-                return jsonify({"status": "error", "action": "Get Game By creator", "error_message": "Game not found"}), 404
-        except Exception as err:
-            return jsonify({"status": "error", "action": "Get Game By creator", "error_message": str(err)}), 500
-
-    elif "game_year" in request.args:
-        game_year = request.args.get("game_year")
-        try:
-            game = gamesService.get_game_by_year(game_year)
-            if game:
-                game = games_schema.dump(game)
-                return jsonify({"status": "success", "action": "Get Game By Year", "game": game})
-            else:
-                return jsonify({"status": "error", "action": "Get Game By Year", "error_message": "Game not found"}), 404
-        except Exception as err:
-            return jsonify({"status": "error", "action": "Get Game By Year", "error_message": str(err)}), 500
-
-    elif "age_group" in request.args:
-        age_group = request.args.get("age_group")
-        try:
-            game = gamesService.get_game_by_age_group(age_group)
-            if game:
-                game = games_schema.dump(game)
-                return jsonify({"status": "success", "action": "Get Game By Age group", "game": game})
-            else:
-                return jsonify({"status": "error", "action": "Get Game By Age group", "error_message": "Game not found"}), 404
-        except Exception as err:
-            return jsonify({"status": "error", "action": "Get Game By Age group", "error_message": str(err)}), 500
-
-    elif "platform" in request.args:
-        platform = request.args.get("platform")
-        try:
-            game = gamesService.get_game_by_platform(platform)
-            if game:
-                game = games_schema.dump(game)
-                return jsonify({"status": "success", "action": "Get Game By Platform", "game": game})
-            else:
-                return jsonify({"status": "error", "action": "Get Game By Platform", "error_message": "Game not found"}), 404
-        except Exception as err:
-            return jsonify({"status": "error", "action": "Get Game By Platform", "error_message": str(err)}), 500
-
-    elif "publisher" in request.args:
-        publisher = request.args.get("publisher")
-        try:
-            game = gamesService.get_game_by_publisher(publisher)
-            if game:
-                game = games_schema.dump(game)
-                return jsonify({"status": "success", "action": "Get Game By publisher", "game": game})
-            else:
-                return jsonify({"status": "error", "action": "Get Game By publisher", "error_message": "Game not found"}), 404
-        except Exception as err:
-            return jsonify({"status": "error", "action": "Get Game By publisher", "error_message": str(err)}), 500
-    
-    elif "game_gender" in request.args:
-        game_gender = request.args.get("game_gender")
-        try:
-            game = gamesService.get_game_by_gender(game_gender)
-            if game:
-                game = games_schema.dump(game)
-                return jsonify({"status": "success", "action": "Get Game By Name", "game": game})
-            else:
-                return jsonify({"status": "error", "action": "Get Game By Name", "error_message": "Game not found"}), 404
-        except Exception as err:
-            return jsonify({"status": "error", "action": "Get Game By Name", "error_message": str(err)}), 500
-
-    elif "game_gender" in request.args:
-        game_gender = request.args.get("game_gender")
-        try:
-            game = gamesService.get_game_by_gender(game_gender)
-            if game:
-                game = games_schema.dump(game)
-                return jsonify({"status": "success", "action": "Get Game By Name", "game": game})
-            else:
-                return jsonify({"status": "error", "action": "Get Game By Name", "error_message": "Game not found"}), 404
-        except Exception as err:
-            return jsonify({"status": "error", "action": "Get Game By Name", "error_message": str(err)}), 500
-"""
-@games_bp.route("/filter", methods=["GET"])
-def get_game():
-    """
-    Retrieves games based on query parameters.
-
-    Handles requests for games by ID, name, genre, creator, year, age group,
-    platform, or publisher. Returns success or error responses with detailed
-    messages.
-    """
-
-    search_params = {}  # Dictionary to store search criteria
-
-    # Extract query parameters efficiently using a loop
     for param in request.args:
         if param in [
             "game_id",
@@ -193,40 +64,27 @@ def get_game():
         ]:
             search_params[param] = request.args.get(param)
 
-    # Validate query parameters (optional for added security)
-    # ... (implement validation logic here)
-
     try:
-        # Delegate game retrieval to a dedicated function for clarity
+        # Busca o jogo com base nos parâmetros
         game = get_game_by_criteria(search_params)
 
         if game:
-            game = games_schema.dump(game)
-            return jsonify(
-                {"status": "success", "action": get_action_text(search_params), "game": game}
-            )
-        else:
-            return jsonify(
-                {
-                    "status": "error",
-                    "action": get_action_text(search_params),
-                    "error_message": "Game not found",
-                }
-            ), 404
+            # Serializa o resultado corretamente
+            serialized_game = game_schema.dump(game)
+
+            # Verifique se a serialização foi bem-sucedida
+            if not serialized_game or serialized_game == [{}]:
+                return jsonify({"status": "error", "action": get_action_text(search_params), "error_message": "No valid game data found"}), 404
+
+            return jsonify({"status": "success", "action": get_action_text(search_params), "game": serialized_game})
+        return jsonify({"status": "error", "action": get_action_text(search_params), "error_message": "Game not found"}), 404
 
     except Exception as err:
-        return jsonify(
-            {"status": "error", "action": get_action_text(search_params), "error_message": str(err)}
-        ), 500
+        return jsonify({"status": "error", "action": get_action_text(search_params), "error_message": str(err)}), 500
 
 def get_game_by_criteria(search_params):
-    """
-    Retrieves a game based on the provided search criteria.
 
-    This function simplifies code by handling the logic for retrieving games
-    based on different parameters.
-    """
-
+    # Dicionário de funções mapeadas para cada critério
     game_lookup_method = {
         "game_id": gamesService.get_game_by_id,
         "game_name": gamesService.get_game_by_name,
@@ -239,22 +97,19 @@ def get_game_by_criteria(search_params):
     }
 
     try:
-        # Use the appropriate lookup function based on search parameters
-        lookup_param = next(iter(search_params))  # Get first parameter
-        lookup_function = game_lookup_method[lookup_param]
-        return lookup_function(search_params[lookup_param])
+        lookup_param = next(iter(search_params))
+        lookup_function = game_lookup_method.get(lookup_param)
 
-    except (KeyError, StopIteration) as e:
-        # Handle invalid or missing search parameters
+        if lookup_function:
+            return lookup_function(search_params[lookup_param])
+        else:
+            raise ValueError(f"Invalid search parameter: {lookup_param}")
+
+    except (KeyError, StopIteration, ValueError) as e:
         return None
 
-def get_action_text(search_params):
-    """
-    Constructs a human-readable action text based on search parameters.
 
-    This function improves code readability by extracting the action text
-    from the search parameters.
-    """
+def get_action_text(search_params):
 
     action_map = {
         "game_id": "Get Game By Id",
@@ -267,8 +122,8 @@ def get_action_text(search_params):
         "publisher": "Get Game By publisher",
     }
 
-    lookup_param = next(iter(search_params))  # Get first parameter
-    return action_map.get(lookup_param, "Unknown Action")  # Handle missing keys
+    lookup_param = next(iter(search_params))
+    return action_map.get(lookup_param, "Unknown Action")
 
 # Método DELETE para excluir um jogo por ID
 @games_bp.route("/<int:game_id>", methods=["DELETE"])
@@ -279,14 +134,13 @@ def delete_game_by_id(game_id):
 
     if current_user != "teste@teste.com":
         return make_response(error_response(action="Verification", error_code=403, error_message="User does not have permission"))
-    else:
-        try:
-            gamesService.delete_game_by_id(game_id)
+    try:
+        gamesService.delete_game_by_id(game_id)
             
-            return make_response(success_response(action="Delete"))
+        return make_response(success_response(action="Delete"))
 
-        except Exception as err:
-            return make_response(error_response(action="Delete Game By ID", error_message=str(err), error_code=500))
+    except Exception as err:
+        return make_response(error_response(action="Delete Game By ID", error_message=str(err), error_code=500))
 
 @games_bp.route("/change", methods=["PATCH"])
 @jwt_required()
@@ -349,8 +203,7 @@ def change_games():
     except Exception as err:
         if len(err.args) == 2:
             return make_response(error_response(action="Update Game Info", error_message=err.args[0], error_code=err.args[1]))
-        else:
-            return make_response(error_response(action="Update Game Info", error_message=str(err), error_code=500))
+        return make_response(error_response(action="Update Game Info", error_message=str(err), error_code=500))
 
 @games_bp.route("/all", methods=["GET"])
 def get_all_games():
@@ -366,17 +219,20 @@ def search_games():
     search_term = request.args.get("search_term")
     
     if not search_term or search_term.strip() == "":
-        return jsonify({"error": "Invalid search_term parameter"}), 400
+        return jsonify({"error": "Invalid or missing search_term parameter"}), 400
     if not search_term:
         return jsonify({"error": "Missing search_term parameter"}), 400
 
     try:
+        page = request.args.get('page', 1, type=int)
+        per_page = request.args.get('per_page', 10, type=int)
+
         games = Games.query.filter(
             (Games.gameName.ilike(f"%{search_term}%")) |
             (Games.secondGameName.ilike(f"%{search_term}%")) |
             (Games.gender.ilike(f"%{search_term}%")) |
-            (Games.platform.ilike(f"%{search_term}%"))  
-        ).all()
+            (Games.platform.ilike(f"%{search_term}%"))
+        ).paginate(page=page, per_page=per_page)
 
         if games:
             games_data = [{
@@ -396,9 +252,8 @@ def search_games():
                 "videoPromotional": game.videoPromotional
             } for game in games]
 
-            return jsonify({"status": "success", "games": games_data})
-        else:
-            return jsonify({"status": "error", "message": "No games found matching the search term"}), 404
+            return jsonify({"status": "success", "games": games_data,"page": games.page,"total_pages": games.pages,"total_items": games.total})
+        return jsonify({"status": "error", "message": "No games found matching the search term"}), 404
 
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
