@@ -26,3 +26,4 @@ server/migrations
 \config
 server/config.py
 server/config.py
+server/config.py
