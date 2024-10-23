@@ -6,7 +6,6 @@ import Image from "next/image";
 import styles from '../styles/search.module.css'
 
 
-
 export default function Search (){
     const router = useRouter();
     const { searchImput } = router.query

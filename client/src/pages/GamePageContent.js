@@ -29,7 +29,7 @@ export default function gamePage() {
       }, []);
 
       const CheckGames = async () => {
-        await axios.get(`http://192.168.0.8:5123/games/filter?game_id=${gameId}`)
+        await axios.get(`http://127.0.0.1:5123/games/filter?game_id=${gameId}`)
         .then(response => {
             
             setGameWiew(response.data.game)
@@ -41,6 +41,12 @@ export default function gamePage() {
 
       });
 
+    }
+
+    const AddCart = () => {
+        let currentGames = JSON.parse(localStorage.getItem('gameCartList')) || [];
+        currentGames.push(gameWiew);
+        localStorage.setItem('gameCartList', JSON.stringify(currentGames));
     }
 
   return (
@@ -93,7 +99,7 @@ export default function gamePage() {
                 <p className={styles.nameGameBox} >Categoria/Gênero:</p>
                 <p>{gameWiew.gender}</p>
                 <div className={styles.sectionButton}>
-                    <button className={styles.cartButton}><Icon icon="mdi:cart-outline"  style={{color: '#100f0f', fontSize: '2rem'}} /> Adicionar ao Carrinho</button>
+                    <button className={styles.cartButton} onClick={AddCart}><Icon icon="mdi:cart-outline"  style={{color: '#100f0f', fontSize: '2rem'}} /> Adicionar ao Carrinho</button>
                     <button className={styles.favoriteButton}>
                         <Icon icon="ph:heart"  style={{color: '#607A8C', fontSize: '2rem'}} />
                     </button>

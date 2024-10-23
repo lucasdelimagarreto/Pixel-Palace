@@ -13,16 +13,21 @@
 
 .divNomeSectionJogos{
     display: flex;
-    flex-wrap: nowrap;
-    flex: 1 1 100vw;
+    justify-content: space-between;
+    width: 100%;
     height: 65px;
     position: relative;
 
 }
 
+.divNomeSectionJogos h1 {
+    font-size: 2rem;
+}
+
 .divJogosSectionjogos {
     display: flex;
-    flex-wrap: nowrap;
+    justify-content: center;
+    width: 100%;
 }
 
 .bntSeeMore {
