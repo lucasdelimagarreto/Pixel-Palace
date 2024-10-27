@@ -64,3 +64,13 @@
     border: none;
     cursor: pointer;
 }
+
+.buttonCart {
+    display: flex;
+    align-items: end;
+
+}
+
+.buttonCart p {
+    font-size: 0.8rem;
+}

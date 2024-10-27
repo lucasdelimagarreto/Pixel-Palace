@@ -16,6 +16,7 @@ import { Icon } from '@iconify/react';
 export default function gamePage() {
 
     const [gameWiew, setGameWiew] = useState([]);
+    const [changeButtonCart, setChangeButtonCart] = useState(false);
 
     const router = useRouter()
     
@@ -25,6 +26,18 @@ export default function gamePage() {
     useEffect(() => {
 
         CheckGames()
+
+      }, []);
+
+      useEffect(() => {
+
+            const storedGames = JSON.parse(localStorage.getItem('gameCartList')) || [];
+            const CheckGame = storedGames.filter(game => game.id == gameId);
+
+            if (CheckGame.length == 1) {
+
+                setChangeButtonCart(true);
+            }
 
       }, []);
 
@@ -47,6 +60,7 @@ export default function gamePage() {
         let currentGames = JSON.parse(localStorage.getItem('gameCartList')) || [];
         currentGames.push(gameWiew);
         localStorage.setItem('gameCartList', JSON.stringify(currentGames));
+        setChangeButtonCart(true);
     }
 
   return (
@@ -99,7 +113,13 @@ export default function gamePage() {
                 <p className={styles.nameGameBox} >Categoria/Gênero:</p>
                 <p>{gameWiew.gender}</p>
                 <div className={styles.sectionButton}>
+                    {changeButtonCart ? (
+                    <button className={styles.cartButton}><Icon icon="mdi:cart-outline"  style={{color: '#100f0f', fontSize: '2rem'}} /></button>
+                )
+                : (
                     <button className={styles.cartButton} onClick={AddCart}><Icon icon="mdi:cart-outline"  style={{color: '#100f0f', fontSize: '2rem'}} /> Adicionar ao Carrinho</button>
+                    
+                )}
                     <button className={styles.favoriteButton}>
                         <Icon icon="ph:heart"  style={{color: '#607A8C', fontSize: '2rem'}} />
                     </button>

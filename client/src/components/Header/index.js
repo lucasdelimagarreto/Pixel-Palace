@@ -15,6 +15,7 @@ export default function Header () {
     const [search, setSearch] = useState('');
     const router = useRouter()
     const [user, setUser] = useState();
+    const [gameCountCart, setGameCountCart] = useState(0);
 
     useEffect(() => {
 
@@ -28,6 +29,19 @@ export default function Header () {
 
         }
       }, []);
+
+      useEffect(() => {
+
+        const interval = setInterval(() => {
+          const storedGames = JSON.parse(localStorage.getItem('gameCartList')) || [];
+          setGameCountCart(storedGames.length);
+        }, 1000);
+      
+        return () => clearInterval(interval);
+
+      }, []);
+      
+
 
 return(
     <header>
@@ -69,8 +83,9 @@ return(
             <Image src={imgWorld} className={style.imgBntLinguagem} height={32} width={32}/>
         </a>
         <p className={style.pLinguagem}>PT</p>
-        <Link href="/Cart">
+        <Link href="/Cart" className={style.buttonCart}>
             <Image src={imgShop} alt="" className={style.imgBntCarrinho} height={32} width={32}/>
+            <p>{gameCountCart}</p>
         </Link>
     </div>
 </header>)
