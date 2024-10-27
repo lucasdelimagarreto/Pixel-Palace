@@ -16,31 +16,37 @@ import { Icon } from '@iconify/react';
 export default function gamePage() {
 
     const [gameWiew, setGameWiew] = useState([]);
+    const [changeButtonCart, setChangeButtonCart] = useState(false);
 
     const router = useRouter()
     
     const { gameId } = router.query
 
-    
-    useEffect(() => {
+    useEffect( () => { const fetchData = async () => {
+        try {
+          const storedGames = JSON.parse(localStorage.getItem('gameCartList')) || [];
+          const CheckGame = storedGames.filter(game => game.id === gameId);
+  
+          if (CheckGame.length === 1) {
+            setChangeButtonCart(true);
+          }
+  
+          const response = await axios.get(`http://127.0.0.1:5123/games/filter?game_id=${gameId}`);
+          setGameWiew(response.data.game);
+        } catch (error) {
+          console.error('Erro ao carregar os dados do jogo:', error);
+        }
+      };
+  
+      fetchData();
+    }, [gameId]);
 
-        CheckGames()
 
-      }, []);
-
-      const CheckGames = async () => {
-        await axios.get(`http://192.168.0.8:5123/games/filter?game_id=${gameId}`)
-        .then(response => {
-            
-            setGameWiew(response.data.game)
-
-         })
-      .catch(error => {
-
-        
-
-      });
-
+    const AddCart = () => {
+        let currentGames = JSON.parse(localStorage.getItem('gameCartList')) || [];
+        currentGames.push(gameWiew);
+        localStorage.setItem('gameCartList', JSON.stringify(currentGames));
+        setChangeButtonCart(true);
     }
 
   return (
@@ -93,7 +99,13 @@ export default function gamePage() {
                 <p className={styles.nameGameBox} >Categoria/Gênero:</p>
                 <p>{gameWiew.gender}</p>
                 <div className={styles.sectionButton}>
-                    <button className={styles.cartButton}><Icon icon="mdi:cart-outline"  style={{color: '#100f0f', fontSize: '2rem'}} /> Adicionar ao Carrinho</button>
+                    {changeButtonCart ? (
+                    <button className={styles.cartButton}><Icon icon="mdi:cart-outline"  style={{color: '#100f0f', fontSize: '2rem'}} /></button>
+                )
+                : (
+                    <button className={styles.cartButton} onClick={AddCart}><Icon icon="mdi:cart-outline"  style={{color: '#100f0f', fontSize: '2rem'}} /> Adicionar ao Carrinho</button>
+                    
+                )}
                     <button className={styles.favoriteButton}>
                         <Icon icon="ph:heart"  style={{color: '#607A8C', fontSize: '2rem'}} />
                     </button>
@@ -120,7 +132,7 @@ export default function gamePage() {
             </div>
         </div>
 
-      <GameSection titleSection="Recomendados"/>
+        <div className={styles.centerSection}><GameSection titleSection="Recomendados"/></div>
    
       </main>
     </div>

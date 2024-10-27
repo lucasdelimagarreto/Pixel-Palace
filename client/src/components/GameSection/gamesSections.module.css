@@ -1,7 +1,6 @@
 .sectionJogos{
     display: flex;
-    flex-wrap: wrap;
-    width: 95vw;
+    flex-direction: column;
     margin: 20px 0 60px 0 ;
     padding: 0 275px 0 275px;
     height: 355px;
@@ -13,16 +12,21 @@
 
 .divNomeSectionJogos{
     display: flex;
-    flex-wrap: nowrap;
-    flex: 1 1 100vw;
+    justify-content: space-between;
     height: 65px;
     position: relative;
 
 }
 
+.divNomeSectionJogos h1 {
+    font-size: 2rem;
+}
+
 .divJogosSectionjogos {
     display: flex;
-    flex-wrap: nowrap;
+    justify-content: center;
+    width: 100%;
+    margin-top: 1rem;
 }
 
 .bntSeeMore {

@@ -1,4 +1,5 @@
-import React,{ useState}  from "react";
+import React,{ useState, useEffect}  from "react";
+import Link from 'next/link';
 import imgLogo from "../../assets/logoPixelPalace.png"
 import imgWorld from "../../assets/bntLinguagem.png"
 import imgShop from "../../assets/bntCarrinhoCompras.png"
@@ -13,6 +14,35 @@ import Image from "next/image";
 export default function Header () {
     const [search, setSearch] = useState('');
     const router = useRouter()
+    const [user, setUser] = useState();
+    const [gameCountCart, setGameCountCart] = useState(0);
+
+    useEffect(() => {
+        
+        const loggedInUser = localStorage.getItem("user");
+
+        if (loggedInUser) {
+
+          const foundUser = JSON.parse(loggedInUser);
+
+          setUser(foundUser);
+
+        }
+      }, []);
+
+      useEffect(() => {
+
+        const interval = setInterval(() => {
+          const storedGames = JSON.parse(localStorage.getItem('gameCartList')) || [];
+          setGameCountCart(storedGames.length);
+        }, 1000);
+      
+        return () => clearInterval(interval);
+
+      }, []);
+      
+
+
 return(
     <header>
     <div>
@@ -37,16 +67,26 @@ return(
         </nav>
     </div>
     <div className={style.divBotoesNavSuperiores}>
-        <a href="/register">
+        {user ?(
+
+            <Link href="/profile" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
+                <p style={{marginRight: '0.5rem'}}>{user && user.username}</p>
+                <Icon icon="iconoir:profile-circle" width="2rem" height="2rem"  style={{color: '#fff'}} />
+            </Link>
+        ) : (
+            <a href="/register">
             <button className={bntStyle.bntGreenNoBorder}>ENTRAR</button>
         </a>
+        )
+        }
         <a href="">
             <Image src={imgWorld} className={style.imgBntLinguagem} height={32} width={32}/>
         </a>
         <p className={style.pLinguagem}>PT</p>
-        <a href="">
+        <Link href={gameCountCart > 0 ? "/Cart" : "#"} className={style.buttonCart}>
             <Image src={imgShop} alt="" className={style.imgBntCarrinho} height={32} width={32}/>
-        </a>
+            <p>{gameCountCart}</p>
+        </Link>
     </div>
 </header>)
 };

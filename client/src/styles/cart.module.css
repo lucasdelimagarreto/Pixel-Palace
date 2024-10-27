@@ -1,0 +1,139 @@
+.mainCart {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.mainCart h1 {
+    text-align: center;
+    width: 80%;
+    margin: 1.5rem 0 1.5rem 0;
+}
+
+.sectionCart {
+
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 2rem;
+
+}
+
+.productsSection {
+
+    border: 2px solid #19F7A9;
+    background: #27565E;
+    margin-right: 2rem;
+    padding: 2rem;
+
+}
+
+.paymentMethods {
+
+    border: 2px solid #19F7A9;
+    background: #27565E;
+    margin-bottom: 2rem;
+    padding: 2rem;
+}
+
+.paymentMethods h2 {
+    font-size: 1.5rem;
+    font-weight: normal;
+    margin-bottom: 1rem;
+}
+
+.buySection {
+
+    border: 2px solid #19F7A9;
+    background: #27565E;
+    padding: 1rem;
+
+}
+
+.buySection div {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.buySection div h2, .buySection div p {
+    font-size: 1.5rem;
+    font-weight: normal;
+}
+
+.buySection button {
+    width: 100%;
+    border-radius: 0.5rem;
+    font-size: 1.5rem;
+}
+
+.paymentCards {
+    display: flex;
+    justify-content: center;
+}
+
+.paymentCards li {
+    margin: 0.5rem;
+    padding: 1rem;
+    width: 100%;
+    text-align: center;
+    border: 3px solid #0F2124;
+    background: #19F7A9;
+}
+
+.paymentCards li p {
+    color: #0F2124;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.cardSection {
+    background: #0F2124;
+    padding: 1rem;
+    margin: 1rem 0 1rem 0;
+    border-radius: 0.5rem;
+    display: flex;
+}
+
+.gameimg {
+    border-radius: 0.5rem;
+    margin-right: 1rem;
+}
+
+.titlegamecard {
+    padding: 0.5rem;
+    padding-bottom: 0;
+}
+
+.iconsection {
+    padding: 0.5rem;
+    padding-top: 0.1rem;
+    padding-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+}
+
+.buttongamecard {
+    background: #27565E;
+    height: auto;
+    width: 210px;
+    font-size: 16px;
+    margin: 0.3rem;
+    cursor: pointer;
+    border-radius: 0.3rem;
+    padding: 0.5rem;
+    border: none;
+    font-weight: bold;
+    color: #E8E5E0;
+}
+
+.buyGameCard {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.trashButton {
+    background: transparent;
+    border: none;
+}

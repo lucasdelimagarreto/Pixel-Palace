@@ -26,14 +26,16 @@ export default function Register() {
           age: bornDate
         };
 
-        axios.post('http://192.168.0.8:5123/users', userDataJson)
+        axios.post('http://127.0.0.1:5123/users', userDataJson)
           .then((response) => {
             setUsername('');
             setEmail('');
             setPassword('');
             setBornDate('');
 
-            router.push('/');
+            router.push('/').then(() => {
+              window.location.reload();
+            });
     
           })
           .catch((error) => {
@@ -56,12 +58,22 @@ export default function Register() {
           password: passwordLogin,
         };
 
-        axios.post('http://192.168.0.8:5123/users/login', userDataJson)
+        axios.post('http://127.0.0.1:5123/users/login', userDataJson)
           .then((response) => {
             setEmailLogin('');
             setPasswordLogin('');
 
-            router.push('/');
+            const userData = {
+              username: response.data.user.username,
+              email: response.data.user.email,
+              token: response.data.access_token,
+            };
+
+            localStorage.setItem('user', JSON.stringify(userData))
+
+            router.push('/').then(() => {
+              window.location.reload();
+            });
     
           })
           .catch((error) => {

@@ -5,20 +5,29 @@ import { Icon } from '@iconify/react';
 import style from './styleCard.module.css'
 import { useRouter } from 'next/router';
 
-export function GameCard () {
+export function GameCard ({ isAlternateApi }) {
     
     const [listGames, setListGames] = useState([]);
     const router = useRouter()
     
     useEffect(() => {
 
-        CheckGames()
+        CheckGames(isAlternateApi);
+        
+    }, [isAlternateApi]);
 
-      }, []);
+      const CheckGames = (isAlternateApi) => {
 
-      const CheckGames = () => {
+        const url = isAlternateApi 
+        ? `http://127.0.0.1:5123/games/alternate` 
+        : `http://127.0.0.1:5123/games/all`;
 
-            axios.get(`http://192.168.0.8:5123/games/all`)
+        const config = isAlternateApi 
+        ? { headers: { 'Authorization': `Bearer seu_token_aqui` } }
+        : {};
+
+        
+        axios.get(url, config)
         .then(response => {
             
             setListGames(response.data.parameter)
