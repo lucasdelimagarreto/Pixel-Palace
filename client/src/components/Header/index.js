@@ -18,7 +18,7 @@ export default function Header () {
     const [gameCountCart, setGameCountCart] = useState(0);
 
     useEffect(() => {
-
+        
         const loggedInUser = localStorage.getItem("user");
 
         if (loggedInUser) {
@@ -83,7 +83,7 @@ return(
             <Image src={imgWorld} className={style.imgBntLinguagem} height={32} width={32}/>
         </a>
         <p className={style.pLinguagem}>PT</p>
-        <Link href="/Cart" className={style.buttonCart}>
+        <Link href={gameCountCart > 0 ? "/Cart" : "#"} className={style.buttonCart}>
             <Image src={imgShop} alt="" className={style.imgBntCarrinho} height={32} width={32}/>
             <p>{gameCountCart}</p>
         </Link>

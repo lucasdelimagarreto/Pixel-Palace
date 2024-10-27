@@ -1,6 +1,5 @@
 .gamesection {
     display: flex;
-    justify-content: space-between;
     width: 100%;
     }
     
@@ -10,6 +9,10 @@
         width: 220px;
         font-size: 16px;
         border-radius: 0.3rem;
+    }
+
+    .gamesectionlist:not(:last-child) {
+        margin-right: 1rem;
     }
     
     .buttongamecard {

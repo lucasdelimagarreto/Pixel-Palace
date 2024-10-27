@@ -33,7 +33,9 @@ export default function Register() {
             setPassword('');
             setBornDate('');
 
-            router.push('/');
+            router.push('/').then(() => {
+              window.location.reload();
+            });
     
           })
           .catch((error) => {
@@ -69,7 +71,9 @@ export default function Register() {
 
             localStorage.setItem('user', JSON.stringify(userData))
 
-            router.push('/');
+            router.push('/').then(() => {
+              window.location.reload();
+            });
     
           })
           .catch((error) => {

@@ -60,6 +60,7 @@ header {
     padding-left: 30px;
     padding-right: 30px;
     display: flex;
+    justify-content: space-between;
     align-items: end;
     align-content: center;
     padding-bottom: 0.3rem;
@@ -80,9 +81,13 @@ main {
 
 footer {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     background: #161618;
-    padding-top: 1rem;
+    padding: 1rem;
     
+}
+
+footer div {
+  width: 50%;
 }
 

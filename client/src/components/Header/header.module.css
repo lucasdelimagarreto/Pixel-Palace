@@ -35,8 +35,8 @@
 
 .divInputBuscaNav{
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    flex-wrap: wrap;
     align-items: center;
     margin-left: 30px;
     margin-right: 30px;

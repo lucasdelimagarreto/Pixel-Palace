@@ -15,8 +15,9 @@ export default function ProfileConfiguration() {
     const handleLogout = () => {
 
         localStorage.clear();
-        router.push('/register');
-      
+        router.push('/register').then(() => {
+            window.location.reload();
+          });
       };
 
     return (

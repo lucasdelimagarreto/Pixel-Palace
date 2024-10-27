@@ -22,39 +22,25 @@ export default function gamePage() {
     
     const { gameId } = router.query
 
-    
-    useEffect(() => {
+    useEffect( () => { const fetchData = async () => {
+        try {
+          const storedGames = JSON.parse(localStorage.getItem('gameCartList')) || [];
+          const CheckGame = storedGames.filter(game => game.id === gameId);
+  
+          if (CheckGame.length === 1) {
+            setChangeButtonCart(true);
+          }
+  
+          const response = await axios.get(`http://127.0.0.1:5123/games/filter?game_id=${gameId}`);
+          setGameWiew(response.data.game);
+        } catch (error) {
+          console.error('Erro ao carregar os dados do jogo:', error);
+        }
+      };
+  
+      fetchData();
+    }, [gameId]);
 
-        CheckGames()
-
-      }, []);
-
-      useEffect(() => {
-
-            const storedGames = JSON.parse(localStorage.getItem('gameCartList')) || [];
-            const CheckGame = storedGames.filter(game => game.id == gameId);
-
-            if (CheckGame.length == 1) {
-
-                setChangeButtonCart(true);
-            }
-
-      }, []);
-
-      const CheckGames = async () => {
-        await axios.get(`http://127.0.0.1:5123/games/filter?game_id=${gameId}`)
-        .then(response => {
-            
-            setGameWiew(response.data.game)
-
-         })
-      .catch(error => {
-
-        
-
-      });
-
-    }
 
     const AddCart = () => {
         let currentGames = JSON.parse(localStorage.getItem('gameCartList')) || [];
@@ -146,7 +132,7 @@ export default function gamePage() {
             </div>
         </div>
 
-      <GameSection titleSection="Recomendados"/>
+        <div className={styles.centerSection}><GameSection titleSection="Recomendados"/></div>
    
       </main>
     </div>
