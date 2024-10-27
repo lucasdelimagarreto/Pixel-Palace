@@ -41,28 +41,7 @@ def validate_publisher(publisher):
 
 # Validação de preço do jogo
 def validate_price(price):
-    # Verifica se o preço é uma string
-    if not isinstance(price, str):
-        raise ValueError("O preço deve ser uma string")
-    
-    # Remove espaços em branco extras
-    price = price.strip()
-    
-    # Verifica se o preço é não vazio
-    if not price:
-        raise ValueError("O preço não pode estar vazio")
-    
-    # Verifica se o preço possui um formato válido (por exemplo, "$99.99")
-    # Aqui, você pode ajustar o padrão conforme necessário para corresponder aos seus requisitos
-    import re
-    pattern = r'^\$?\d+(\.\d{1,2})?$'  # Aceita formatos como $99.99 ou 99.99
-    if not re.match(pattern, price):
-        raise ValueError("O preço deve estar em um formato válido, como $99.99")
-    
-    # Outras validações específicas conforme necessário
-    
-    # Se todas as validações passarem, retorna True ou o próprio preço validado
-    return price
+    return isinstance(price, (int, float)) and price >= 0
 
 # Validação de ano do jogo
 def validate_year(year):
@@ -97,6 +76,9 @@ def validate_videoPromotional(videoPromotional):
     youtube_regex = re.compile(r'^(https?://)?(www\.)?(youtube|youtu|youtube-nocookie)\.(com|be)/.+$')
     return bool(youtube_regex.match(videoPromotional))
 
+#def validate_numberOfFavorites(numberOfFavorites):
+#    return numberOfFavorites >= 0
+
 class GameValidation:
     @staticmethod
     def validate_new_game(gameName, secondGameName, creator, publisher, price, year, dlc, gender, ageGroup, platform, description, imageBanner, videoPromotional):
@@ -126,4 +108,7 @@ class GameValidation:
             raise ValueError("Invalid image banner")
         if not validate_videoPromotional(videoPromotional):
             raise ValueError("Invalid video promotional link")
+        #if not validate_numberOfFavorites(numberOfFavorites):
+        #    raise ValueError("Invalid Number Of Favorites link")
+        
         return True

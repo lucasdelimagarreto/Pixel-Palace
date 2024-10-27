@@ -72,7 +72,7 @@ def get_game():
             # Serializa o resultado corretamente
             serialized_game = game_schema.dump(game)
 
-            # Verifique se a serialização foi bem-sucedida
+            # Verifica se a serialização foi bem-sucedida
             if not serialized_game or serialized_game == [{}]:
                 return jsonify({"status": "error", "action": get_action_text(search_params), "error_message": "No valid game data found"}), 404
 
@@ -107,7 +107,6 @@ def get_game_by_criteria(search_params):
 
     except (KeyError, StopIteration, ValueError) as e:
         return None
-
 
 def get_action_text(search_params):
 
@@ -213,6 +212,15 @@ def get_all_games():
         return make_response(success_response(action="Get All Games", parameter=games_dict))
     except Exception as err:
         return make_response(error_response(action="Get All Games", error_message=str(err), error_code=500))
+    
+@games_bp.route("/favoritesCount", methods=["GET"])
+def get_favorites_Count():
+    try:
+        games = gamesService.get_game_by_numberOfFavorites()
+        games_dict = [game.to_dict() for game in games]
+        return make_response(success_response(action="Get favorites Count", parameter=games_dict))
+    except Exception as err:
+        return make_response(error_response(action="Get favorites Count", error_message=str(err), error_code=500))
 
 @games_bp.route("/search", methods=["GET"])
 def search_games():
@@ -231,7 +239,7 @@ def search_games():
             (Games.gameName.ilike(f"%{search_term}%")) |
             (Games.secondGameName.ilike(f"%{search_term}%")) |
             (Games.gender.ilike(f"%{search_term}%")) |
-            (Games.platform.ilike(f"%{search_term}%"))
+            (Games.platform.ilike(f"%{search_term}%")) 
         ).paginate(page=page, per_page=per_page)
 
         if games:
@@ -249,7 +257,8 @@ def search_games():
                 "description": game.description,
                 "publisher": game.publisher,
                 "imageBanner": game.imageBanner,
-                "videoPromotional": game.videoPromotional
+                "videoPromotional": game.videoPromotional,
+                "numberOfFavorites": game.numberOfFavorites
             } for game in games]
 
             return jsonify({"status": "success", "games": games_data,"page": games.page,"total_pages": games.pages,"total_items": games.total})

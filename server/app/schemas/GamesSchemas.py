@@ -19,3 +19,4 @@ class GamesSchema(ma.SQLAlchemySchema):
     description = ma.auto_field()
     imageBanner = ma.auto_field()
     videoPromotional = ma.auto_field()
+    numberOfFavorites = ma.auto_field()

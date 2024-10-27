@@ -3,9 +3,11 @@ from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_requir
 from app.shared.validation_methods import validate_password
 from app.shared.response import error_response, success_response
 from app.service.UserService import UserService
+from app.service.GamesService import GamesService
 
 user_bp = Blueprint('users_bp', __name__, url_prefix='/users')
 userService = UserService()
+gamesService = GamesService()
 
 @user_bp.route("", methods=["POST"])
 def register():
@@ -148,3 +150,27 @@ def user_methods():
                             return make_response(error_response(action="Set New Password", error_message=str(err), error_code=500))
         else:
             return error_response(action="Update User Info", error_code=400, error_message="Bad Request")
+        
+@user_bp.route("/favorite", methods=["POST"])
+@jwt_required()
+def favorite():
+    current_user_email = get_jwt_identity()
+    current_user = userService.get_user_by_email(current_user_email)
+    
+    if request.method == "POST":
+        if request.is_json:
+            data = request.get_json()
+            if len(data) < 1:
+                return make_response(error_response(action="Update User Info", error_code=400, error_message="missing one or more parameters"))
+            elif len(data) > 1:
+                return make_response(error_response(action="Update User Info", error_code=400, error_message="too many parameters have been passed"))
+            elif "game_id" not in data:
+                return make_response(error_response(action="Update User Info", error_code=400, error_message="error in json format"))
+            try:
+                userService.favorite_game(current_user.id, data.get("game_id"))
+                return make_response(success_response(action="Game add to favorites"))
+            except Exception as err:
+                if len(err.args) == 2:
+                    return make_response(error_response(action="Game add to favorites", error_message=err.args[0], error_code=err.args[1]))
+                else:
+                    return make_response(error_response(action="Game add to favorites", error_message=str(err), error_code=500))

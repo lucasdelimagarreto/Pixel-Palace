@@ -32,3 +32,4 @@ class UserRepository(BaseRepository):
             return user
         except NoResultFound:
             return None
+        
