@@ -58,7 +58,7 @@ Para construir um banco de dados para o Pixel Palace siga os seguintes passos:
 
 ```docker run --name PG4-Pixel-Palace -p 5050:80 -e PGADMIN_DEFAULT_EMAIL=seuemail -e PGADMIN_DEFAULT_PASSWORD=postgres -d dpage/pgadmin4```
 
-3. Após inicializar o postgres e pgadmin4 no Docker, acesse o pgadmin pelo navegador e crie um banco de dados chamado Pixel-Palace para dar continuidade. Para preencher o banco de dados com as tabelas necessárias para o Pixel Palace siga os seguintes passos:
+3. Após inicializar o postgres e pgadmin4 no Docker, acesse o pgadmin pelo navegador e crie um banco de dados chamado pixel_palace para dar continuidade. Para preencher o banco de dados com as tabelas necessárias para o Pixel Palace siga os seguintes passos:
 
 - entre na pasta server caso não esteja:
 
