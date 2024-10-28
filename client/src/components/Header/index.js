@@ -53,7 +53,7 @@ return(
     <div className={style.divInputBuscaNav}>
         <div className={style.divSearchBar}>
             <input value={search} onChange={(e) => setSearch(e.target.value)} type="text" className={style.inputSearchBar} name="searchBar" placeholder="JOGOS DE PC, MAC E CONSOLES"/>
-            <button className={style.imgBntSearch} onClick={() => {router.push(`/search?searchImput=${search}`)}}>
+            <button className={style.imgBntSearch} onClick={() => {router.push(`/search?searchImput=${search}`).then(() => {router.reload()})}}>
                 <Icon icon="ph:magnifying-glass"  style={{color: '#100f0f', fontSize: '2rem', marginRight: '0.2rem'}} />
             </button>
         </div>

@@ -13,25 +13,23 @@ export default function Search (){
     
     useEffect(() => {
 
-        CheckGames()
-
-      }, []);
-
-      const CheckGames = () => {
-            axios.get(`http://192.168.0.8:5123/games/search?search_term=${searchImput}`)
-        .then(response => {
+        if (searchImput) {
             
+            CheckGames(searchImput)
+        }
+
+      }, [searchImput]);
+
+      const CheckGames = async (query) => {
+        try {
+            const response = await axios.get(`http://127.0.0.1:5123/games/search?search_term=${query}`)
             setListGames(response.data.games)
+        } catch (error) {
+            console.error('Erro ao realizar busca:', error);
+        }
+            
+        }
 
-         })
-      .catch(error => {
-
-        
-
-      });
-      
-
-    }
     return(
             <main>
                <section className={styles.sectionJogos}>
