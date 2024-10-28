@@ -1,3 +1,4 @@
+from sqlalchemy import desc
 from app.model.Games import Games
 from app.shared.baseRepository import BaseRepository
 from app.shared.dataBase import db
@@ -22,7 +23,7 @@ class GamesRepository(BaseRepository):
                 game = db.session.query(Games).filter_by(id=game_id).first()
                 if not game:
                     raise Exception(f"No game found with ID '{game_id}'")
-                result = schema.dump(game)
+                result = game
                 return result
             except Exception as e:
                 raise e
@@ -110,7 +111,14 @@ class GamesRepository(BaseRepository):
             return result
         except Exception as e:
             raise e
-
+        
+    def get_by_favorites(self):
+        try:
+            games = db.session.query(Games).order_by(desc(Games.favoritesCount)).all()
+            return games
+        except Exception as e:
+            raise e
+    
     def delete_game_by_id(self, game_id):
         try:
             game_to_delete = self.get_by_id(game_id)

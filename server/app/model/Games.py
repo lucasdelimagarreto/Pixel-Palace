@@ -1,4 +1,5 @@
 from app.shared.dataBase import db
+from app.model.UserGames import user_games
 
 class Games(db.Model):
 
@@ -18,6 +19,9 @@ class Games(db.Model):
     description = db.Column(db.String(500), nullable=False)
     imageBanner = db.Column(db.String(200), nullable=True)
     videoPromotional = db.Column(db.String(200), nullable=True)
+    numberOfFavorites = db.Column(db.Integer, default=0)
+    user = db.relationship('User', secondary=user_games,back_populates='favorite_games')
+    
     
     def __init__(self,gameName, secondGameName, creator, publisher, price, year, dlc, gender, ageGroup, platform, description, imageBanner, videoPromotional):
         self.gameName = gameName
@@ -33,6 +37,7 @@ class Games(db.Model):
         self.description = description
         self.imageBanner = imageBanner
         self.videoPromotional = videoPromotional
+        self.numberOfFavorites = 0
         
     def to_dict(self):
         return {

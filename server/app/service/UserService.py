@@ -4,9 +4,11 @@ from app.shared.validation_methods import validate_username, validate_email, val
 from app.model.User import User
 from app.schemas.UserSchema import UserSchema
 from app.repository.UserRepository import UserRepository
+from app.repository.GamesRepository import GamesRepository
 
 userSchema = UserSchema()
 userRepository = UserRepository()
+gamesRepository = GamesRepository()
 
 class UserService:
 
@@ -53,6 +55,15 @@ class UserService:
         user.password = password
         userRepository.update(user)
         return 
+    
+    def favorite_game(self, user_id,games_id):
+        user = userRepository.get_by_id(user_id)
+        game = gamesRepository.get_by_id(games_id)
+        print(game)
+        print(user.favorite_games)
+        user.favorite_games.append(game)
+        userRepository.update(user)
+        return
 
     #validação e username e email
     def validate_new_username(self,username):

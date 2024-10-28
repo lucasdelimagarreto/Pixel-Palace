@@ -1,3 +1,4 @@
+from msilib import schema
 from app.shared.validation_methods import GameValidation
 from app.model.Games import Games
 from app.schemas.GamesSchemas import GamesSchema
@@ -47,14 +48,15 @@ class GamesService:
             "description": game.description,
             "publisher": game.publisher,
             "imageBanner": game.imageBanner,
-            "videoPromotional": game.videvideoPromotionaloPromocional
+            "videoPromotional": game.videvideoPromotionaloPromocional,
+            "numberOfFavorites": game.numberOfFavorites
         }
     
     def get_all_games(self):
         return gamesRepository.get_all_games()
 
     def get_game_by_id(self, game_id):
-        return gamesRepository.get_by_id(game_id)
+        return gamesSchema.dump(gamesRepository.get_by_id(game_id))
 
     def get_game_by_name(self, game_name):
         return gamesRepository.get_by_name(game_name)
@@ -85,6 +87,10 @@ class GamesService:
 
     def get_game_by_platform(self, platform):
         games = gamesRepository.get_by_platform(platform=platform)
+        return games
+    
+    def get_game_by_numberOfFavorites(self):
+        games = gamesRepository.get_by_favorites()
         return games
 
     # ----------------------------------------------------------------------- #
