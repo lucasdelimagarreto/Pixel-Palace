@@ -1,16 +1,37 @@
 import React,{ useState, useEffect}  from "react";
+import axios from 'axios';
 import { useRouter } from 'next/router';
 import style from "./profileConfiguration.module.css"
 import bntStyle from "../../styles/buttons.module.css"
 
 export default function ProfileConfiguration() {
+    const [user, setUser] = useState();
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('')
+    const [password, setPassword] = useState('');
+    const [oldPassword, setOldPassword] = useState('');
     const [bornDate, setBornDate] = useState('');
+    const [accessToken, setAccessToken] = useState('');
     const [message, setMessage] = useState('');
 
     const router = useRouter();
+
+    useEffect(() => {
+        
+        const loggedInUser = localStorage.getItem("user");
+
+        if (loggedInUser) {
+
+          const foundUser = JSON.parse(loggedInUser);
+
+          setUser(foundUser)
+          setUsername(foundUser.username)
+          setEmail(foundUser.email)
+          setAccessToken(foundUser.accessToken)
+          setBornDate(foundUser.bornDate)
+
+        }
+      }, []);
 
     const handleLogout = () => {
 
@@ -19,6 +40,106 @@ export default function ProfileConfiguration() {
             window.location.reload();
           });
       };
+
+    const UserEdit = () => {
+
+        if (username !== user.username) {
+            const userDataJson = {
+                username: username,
+              };
+
+              UserEditApi(userDataJson);
+
+        } else if (email !== user.email) {
+            const userDataJson = {
+                email: email,
+              };
+
+              UserEditApi(userDataJson);
+
+        } else if (password !== user.password) {
+            const userDataJson = {
+                password: password,
+              };
+
+              UserEditApi(userDataJson);
+
+        } else if (bornDate !== user.bornDate) {
+            const userDataJson = {
+                age: bornDate,
+              };
+
+              UserEditApi(userDataJson);
+
+        }
+
+    }
+
+    const UserEditApi = (userDataJson) => {
+
+        axios.patch('http://127.0.0.1:5123/users/useredit', userDataJson, {
+            headers: {
+              'Authorization': `Bearer ${accessToken}`
+            }
+          })
+            .then(() => {
+
+                localStorage.clear();
+
+                UserLogin()
+      
+            })
+            .catch((error) => {
+              if ((error.response && error.response.status === 409)) {
+      
+                setMessage(error.response.data.error_message)
+      
+              } else {
+      
+                setMessage('Erro ao enviar os dados, tente novamente dentro de alguns minutos');
+      
+              }
+            });
+    }
+
+    const UserLogin = () => {
+
+        const userDataJson = {
+          email: email,
+          password: password,
+        };
+
+        axios.post('http://127.0.0.1:5123/users/login', userDataJson)
+          .then((response) => {
+
+            const userData = {
+              username: response.data.user.username,
+              email: response.data.user.email,
+              bornDate: response.data.user.age,
+              token: response.data.access_token,
+            };
+
+            localStorage.setItem('user', JSON.stringify(userData))
+
+            router.push('/').then(() => {
+                window.location.reload();
+              });
+    
+          })
+          .catch((error) => {
+            if ((error.response && error.response.status === 409)) {
+    
+              setMessage(error.response.data.error_message)
+    
+            } else {
+    
+              setMessage('Erro ao enviar os dados, tente novamente dentro de alguns minutos');
+    
+            }
+          });
+    
+      }
+
 
     return (
         <section className={style.sectionConfig}>
@@ -32,14 +153,14 @@ export default function ProfileConfiguration() {
                         value={username} onChange={(e) => setUsername(e.target.value)} required/>
                         <input type="email" placeholder="E-mail" className={style.inputInfos} name="emailRegister" 
                         value={email} onChange={(e) => setEmail(e.target.value)} required/>
-                        <input type="password" placeholder="Senha" className={style.inputInfos} name="passwordRegister" 
+                        <input type="password" placeholder="Nova senha" className={style.inputInfos} name="passwordRegister" 
                         value={password} onChange={(e) => setPassword(e.target.value)}required/>
                         <div className={style.divDate}>
                             <strong>Data de Nascimento</strong>
                             <input type="date" id={style.inputDateInfos} name="dateRegister" 
                         value={bornDate} onChange={(e) => setBornDate(e.target.value)} required/>
                         </div> 
-                        <button className={bntStyle.bntGreenNoBorder} type='submit' name="bntConfirmConfig">Salvar Alterações</button>
+                        <button className={bntStyle.bntGreenNoBorder} type='submit' name="bntConfirmConfig" onClick={UserEdit}>Salvar Alterações</button>
                         { message && <p>{message}</p>}
                     </div>
         </section>

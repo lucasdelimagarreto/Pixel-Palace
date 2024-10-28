@@ -28,7 +28,6 @@
 }
 
 .cardSection {
-    flex: 1 1 calc(50% - 10px);
     background: #0F2124;
     padding: 1rem;
     margin: 1rem 0 1rem 0;

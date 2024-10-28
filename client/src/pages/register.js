@@ -66,6 +66,7 @@ export default function Register() {
             const userData = {
               username: response.data.user.username,
               email: response.data.user.email,
+              bornDate: response.data.user.age,
               token: response.data.access_token,
             };
 
