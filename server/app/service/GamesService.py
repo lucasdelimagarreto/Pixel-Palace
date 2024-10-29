@@ -199,6 +199,24 @@ class GamesService:
         gamesRepository.update(game)
         return
     
+    def update_numberOfFavorites(self, game_id):
+        game = gamesRepository.get_by_id(game_id)
+        if game == None:
+            raise Exception("Game not found")
+        game.numberOfFavorites += 1
+        gamesRepository.update(game)
+        return
+    
+    def downgrade_numberOfFavorites(self, game_id):
+        game = gamesRepository.get_by_id(game_id)
+        if game == None:
+            raise Exception("Game not found")
+        if game.numberOfFavorites == 0:
+            raise Exception("game is nobody's favorite")
+        game.numberOfFavorites -= 1
+        gamesRepository.update(game)
+        return
+        
     # ----------------------------------------------------------------------- #
     
     def delete_game_by_id(self, game_id):

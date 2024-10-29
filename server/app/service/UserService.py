@@ -52,16 +52,21 @@ class UserService:
 
     def update_password(self,user_id,password):
         user = userRepository.get_by_id(user_id)
-        user.password = password
+        user.password =  bcrypt.generate_password_hash(password).decode("utf-8")
         userRepository.update(user)
-        return 
+        return
     
     def favorite_game(self, user_id,games_id):
         user = userRepository.get_by_id(user_id)
         game = gamesRepository.get_by_id(games_id)
-        print(game)
-        print(user.favorite_games)
         user.favorite_games.append(game)
+        userRepository.update(user)
+        return
+    
+    def unfavorite_game(self, user_id, games_id):
+        user = userRepository.get_by_id(user_id)
+        game = gamesRepository.get_by_id(games_id)
+        user.favorite_games.remove(game)
         userRepository.update(user)
         return
 

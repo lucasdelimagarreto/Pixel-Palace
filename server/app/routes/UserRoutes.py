@@ -66,94 +66,93 @@ def get_user():
 
 @user_bp.route("/login", methods=["POST"])
 def login():
-    if request.method == "POST":
-        if request.is_json:
-            data = request.json
-            if len(data) < 2:
-                return make_response(error_response(action="Authenticate", error_code=400, error_message="missing one or more parameters"))
-            elif len(data) > 2:
-                return make_response(error_response(action="Authenticate", error_code=400, error_message="too many parameters have been passed"))
-            elif "email" not in data or "password" not in data:
-                return make_response(error_response(action="Authenticate", error_code=400, error_message="error in json format"))
+    if not request.is_json:
+        return error_response(action="Authenticate", error_code=400, error_message="Bad Request")
 
-            email = data.get("email")
-            password = data.get("password")
-            try:
-                user = userService.authenticate_user(email=email, password=password)
-                access_token = create_access_token(identity=email)
-                user.pop("id")  # Assuming you want to exclude 'id' from the response
-                return make_response(success_response(action="Authenticate", access_token=access_token, user=user))
-            except Exception as err:
-                if len(err.args) == 2:
-                    return make_response(error_response(action="Authenticate", error_message=err.args[0], error_code=err.args[1]))
-                else:
-                    return make_response(error_response(action="Authenticate", error_code=500, error_message=str(err)))
-        else:
-            return error_response(action="Authenticate", error_code=400, error_message="Bad Request")
+    data = request.json
+
+    # Checa se os parâmetros obrigatórios estão presentes
+    required_keys = {"email", "password"}
+    if not required_keys.issubset(data.keys()):
+        return make_response(error_response(action="Authenticate", error_code=400, error_message="missing one or more parameters"))
+
+    if len(data) != 2:
+        return make_response(error_response(action="Authenticate", error_code=400, error_message="too many or too few parameters"))
+
+    email = data.get("email")
+    password = data.get("password")
+
+    try:
+        user = userService.authenticate_user(email=email, password=password)
+        access_token = create_access_token(identity=email)
+        user.pop("id", None)  # Remove 'id' do dicionário user, se existir
+        return make_response(success_response(action="Authenticate", access_token=access_token, user=user))
+
+    except Exception as err:
+        error_message = str(err)
+        error_code = 500
+        if len(err.args) == 2:
+            error_message, error_code = err.args
+
+        return make_response(error_response(action="Authenticate", error_message=error_message, error_code=error_code))
 
 @user_bp.route('/protected', methods=['GET'])
 @jwt_required()
 def protected():
     current_user = get_jwt_identity()
     return jsonify(logged_in_as=current_user), 200
-
-@user_bp.route("", methods=["PATCH"])
+        
+@user_bp.route("/useredit", methods=["PATCH"])
 @jwt_required()
 def user_methods():
     current_user_email = get_jwt_identity()
     current_user = userService.get_user_by_email(current_user_email)
     
-    if request.method == "PATCH":
-        if request.is_json:
-            data = request.json
-            if len(data) < 1:
-                return make_response(error_response(action="Update User Info", error_code=400, error_message="missing one or more parameters"))
-            elif len(data) > 1:
-                return make_response(error_response(action="Update User Info", error_code=400, error_message="too many parameters have been passed"))
-            elif "username" not in data and "email" not in data and "password" not in data:
-                return make_response(error_response(action="Update User Info", error_code=400, error_message="error in json format"))
-            else:
-                if "username" in data:
-                    try:
-                        username = data.get("username")
-                        userService.validate_new_username(username=username)
-                        userService.update_username(user_id=current_user['id'], username=username)
-                        return make_response(success_response(action="Set New Username"))
-                    except Exception as err:
-                        if len(err.args) == 2:
-                            return make_response(error_response(action="Set New Username", error_message=err.args[0], error_code=err.args[1]))
-                        else:
-                            return make_response(error_response(action="Set New Username", error_message=str(err), error_code=500))
+    if not request.is_json:
+        return make_response(error_response(action="Update User Info", error_code=400, error_message="Bad Request"))
 
-                elif "email" in data:
-                    try:
-                        email = data.get("email")
-                        userService.validate_new_email(email=email)
-                        userService.update_email(user_id=current_user['id'], email=email)
-                        return make_response(success_response(action="Set New E-mail"))
-                    except Exception as err:
-                        if len(err.args) == 2:
-                            return make_response(error_response(action="Set New E-mail", error_message=err.args[0], error_code=err.args[1]))
-                        else:
-                            return make_response(error_response(action="Set New E-mail", error_message=str(err), error_code=500))
+    data = request.json
 
-                elif "password" in data:
-                    try:
-                        password = data.get("password")
-                        validate_password(password=password)
-                        userService.update_password(user_id=current_user['id'], password=password)
-                        return make_response(success_response(action="Set New Password"))
-                    except Exception as err:
-                        if len(err.args) == 2:
-                            return make_response(error_response(action="Set New Password", error_message=err.args[0], error_code=err.args[1]))
-                        else:
-                            return make_response(error_response(action="Set New Password", error_message=str(err), error_code=500))
-        else:
-            return error_response(action="Update User Info", error_code=400, error_message="Bad Request")
-        
+    allowed_keys = {"username", "email", "password"}
+    received_keys = set(data.keys())
+
+    if not received_keys.issubset(allowed_keys):
+        return make_response(error_response(action="Update User Info", error_code=400, error_message="Invalid parameters"))
+    
+    if len(received_keys) < 1:
+        return make_response(error_response(action="Update User Info", error_code=400, error_message="missing one or more parameters"))
+
+    try:
+
+        if "username" in data:
+            username = data["username"]
+            userService.validate_new_username(username=username)
+            print(current_user.id)
+            userService.update_username(user_id=current_user.id, username=username)
+
+        if "email" in data:
+            email = data["email"]
+            userService.validate_new_email(email=email)
+            userService.update_email(user_id=current_user.id, email=email)
+
+        if "password" in data:
+            password = data["password"]
+            validate_password(password=password)
+            userService.update_password(user_id=current_user.id, password=password)
+
+        return make_response(success_response(action="Update User Info"))
+
+    except Exception as err:
+        error_message = str(err)
+        error_code = 500
+        if len(err.args) == 2:
+            error_message, error_code = err.args
+
+        return make_response(error_response(action="Update User Info", error_message=error_message, error_code=error_code))
+
 @user_bp.route("/favorite", methods=["POST"])
 @jwt_required()
-def favorite():
+def favorite_game():
     current_user_email = get_jwt_identity()
     current_user = userService.get_user_by_email(current_user_email)
     
@@ -168,7 +167,33 @@ def favorite():
                 return make_response(error_response(action="Update User Info", error_code=400, error_message="error in json format"))
             try:
                 userService.favorite_game(current_user.id, data.get("game_id"))
+                gamesService.update_numberOfFavorites(data.get("game_id"))
                 return make_response(success_response(action="Game add to favorites"))
+            except Exception as err:
+                if len(err.args) == 2:
+                    return make_response(error_response(action="Game add to favorites", error_message=err.args[0], error_code=err.args[1]))
+                else:
+                    return make_response(error_response(action="Game add to favorites", error_message=str(err), error_code=500))
+                
+@user_bp.route("/unfavorite", methods=["POST"])
+@jwt_required()
+def unfavorite_game():
+    current_user_email = get_jwt_identity()
+    current_user = userService.get_user_by_email(current_user_email)
+    
+    if request.method == "POST":
+        if request.is_json:
+            data = request.get_json()
+            if len(data) < 1:
+                return make_response(error_response(action="Update User Info", error_code=400, error_message="missing one or more parameters"))
+            elif len(data) > 1:
+                return make_response(error_response(action="Update User Info", error_code=400, error_message="too many parameters have been passed"))
+            elif "game_id" not in data:
+                return make_response(error_response(action="Update User Info", error_code=400, error_message="error in json format"))
+            try:
+                userService.unfavorite_game(current_user.id, data.get("game_id"))
+                gamesService.downgrade_numberOfFavorites(data.get("game_id"))
+                return make_response(success_response(action="Game delete from favorites"))
             except Exception as err:
                 if len(err.args) == 2:
                     return make_response(error_response(action="Game add to favorites", error_message=err.args[0], error_code=err.args[1]))

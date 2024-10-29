@@ -114,7 +114,7 @@ class GamesRepository(BaseRepository):
         
     def get_by_favorites(self):
         try:
-            games = db.session.query(Games).order_by(desc(Games.favoritesCount)).all()
+            games = db.session.query(Games).order_by(desc(Games.numberOfFavorites)).all()
             return games
         except Exception as e:
             raise e

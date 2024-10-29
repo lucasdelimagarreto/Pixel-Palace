@@ -54,7 +54,8 @@ class Games(db.Model):
             "platform": self.platform,
             "description": self.description,
             "imageBanner": self.imageBanner,
-            "videoPromotional": self.videoPromotional
+            "videoPromotional": self.videoPromotional,
+            "numberOfFavorites": self.numberOfFavorites
         }
 
     @classmethod
