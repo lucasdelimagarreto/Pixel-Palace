@@ -17,10 +17,23 @@ export default function gamePage() {
 
     const [gameWiew, setGameWiew] = useState([]);
     const [changeButtonCart, setChangeButtonCart] = useState(false);
+    const [user, setUser] = useState();
 
     const router = useRouter()
     
     const { gameId } = router.query
+
+    useEffect(() => {
+        
+        const loggedInUser = localStorage.getItem("user");
+
+        if (loggedInUser) {
+
+          const foundUser = JSON.parse(loggedInUser);
+
+          setUser(foundUser)
+        }
+      }, []);
 
     useEffect( () => { const fetchData = async () => {
         try {
@@ -40,6 +53,31 @@ export default function gamePage() {
   
       fetchData();
     }, [gameId]);
+
+    const FavoriteGame = () => {
+
+        const userDataJson = {
+            game_id:  gameId
+          };
+
+        axios.post('http://127.0.0.1:5123/users/favorite', userDataJson, {
+            headers: {
+              'Authorization': `Bearer ${user.token}`
+            }
+          })
+            .then(() => {
+
+            
+            })
+            .catch((error) => {
+              if ((error.response && error.response.status === 409)) {
+      
+                setMessage(error.response.data.error_message)
+      
+              }
+            });
+
+    }
 
 
     const AddCart = () => {
@@ -106,7 +144,7 @@ export default function gamePage() {
                     <button className={styles.cartButton} onClick={AddCart}><Icon icon="mdi:cart-outline"  style={{color: '#100f0f', fontSize: '2rem'}} /> Adicionar ao Carrinho</button>
                     
                 )}
-                    <button className={styles.favoriteButton}>
+                    <button className={styles.favoriteButton} onClick={FavoriteGame}>
                         <Icon icon="ph:heart"  style={{color: '#607A8C', fontSize: '2rem'}} />
                     </button>
                 </div>
