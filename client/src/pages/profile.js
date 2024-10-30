@@ -4,7 +4,7 @@ import { Icon } from '@iconify/react';
 import style from "../styles/profile.module.css"
 import ProfileConfiguration from "@/components/ProfileConfiguration";
 import PurchasedGamesCard from "@/components/PurchasedGamesCard"
-import {GameSection} from '../components/GameSection';
+import GameCardProfile from '@/components/GamesCardProfile';
 
 export default function Profile() {
     const [user, setUser] = useState();
@@ -35,7 +35,7 @@ export default function Profile() {
         renderContent = <PurchasedGamesCard />;
         
     } else if (Screen === 'wishList') {
-      renderContent = <GameSection titleSection={"Minha conta"} subTitleSection={"Minha lista de favoritos"} isAlternateApi={true}/>;
+      renderContent = <GameCardProfile/>;
       
     } else if (Screen === 'profileConfiguration') {
         renderContent = <ProfileConfiguration />;

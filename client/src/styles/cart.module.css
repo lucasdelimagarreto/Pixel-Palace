@@ -136,4 +136,5 @@
 .trashButton {
     background: transparent;
     border: none;
+    cursor: pointer;
 }

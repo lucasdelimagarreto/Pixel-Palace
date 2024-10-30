@@ -1,31 +1,60 @@
+import bntStyle from "../../styles/buttons.module.css"
 import axios from 'axios';
 import React,{ useState, useEffect }  from "react";
 import Image from 'next/image';
 import { Icon } from '@iconify/react';
-import style from './styleCard.module.css'
+import style from './GamesCardProfile.module.css'
 import { useRouter } from 'next/router';
 
-export function GameCard () {
-    
+export default function GameCardProfile () {
     const [listGames, setListGames] = useState([]);
+    const [user, setUser] = useState();
     const router = useRouter()
 
     useEffect(() => {
+        
+        const loggedInUser = localStorage.getItem("user");
+
+        if (loggedInUser) {
+
+          const foundUser = JSON.parse(loggedInUser);
+
+          setUser(foundUser)
+
+
+        }
+      }, []);
+
+    useEffect(() => {
+        if (user) {
             CheckGames();
-    }, []);
+        }
+    }, [user]);
 
-    const CheckGames = () => {  
+    
 
-            axios.get(`http://127.0.0.1:5123/games/all`)
-        .then(response => {
-            
-            setListGames(response.data.parameter)
+    
+    const CheckGames = async () => {
 
-         })
+        const userGamesResponse = await axios.get(`http://127.0.0.1:5123/users/user_games?user_id=${user.user_id}`);
+            const idsGame = userGamesResponse.data.games;
+
+            const allGamesResponse = await axios.get('http://127.0.0.1:5123/games/all');
+            const allGames = allGamesResponse.data.parameter;
+
+            const filteredGames = allGames.filter(game => idsGame.some(userGame => userGame.id === game.id))
+
+            setListGames(filteredGames);
 
     }
 
     return (
+        <section className={style.sectionJogos}>
+        <div className={style.divNomeSectionJogos}>
+            <h1>Minha conta</h1>
+            <p className={style.pSubTitleDivNomeSectionJogos}>Minha lista de favoritos</p>
+        </div>
+        <div className={style.divJogosSectionjogos}>
         <ul className={style.gamesection}>
             {listGames && listGames.slice(0, 5).map(game => (
                 <li className={style.gamesectionlist} key={game.id}>
@@ -53,5 +82,7 @@ export function GameCard () {
                 </li>
             ))}
         </ul>
-    );
+        </div>
+    </section>
+    )
 }
