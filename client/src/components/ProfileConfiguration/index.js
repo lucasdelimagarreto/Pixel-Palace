@@ -27,9 +27,8 @@ export default function ProfileConfiguration() {
           setUser(foundUser)
           setUsername(foundUser.username)
           setEmail(foundUser.email)
-          setAccessToken(foundUser.accessToken)
+          setAccessToken(foundUser.token)
           setBornDate(foundUser.bornDate)
-
         }
       }, []);
 
@@ -42,36 +41,30 @@ export default function ProfileConfiguration() {
       };
 
     const UserEdit = () => {
+        const edits = [];
 
         if (username !== user.username) {
-            const userDataJson = {
-                username: username,
-              };
-
-              UserEditApi(userDataJson);
-
-        } else if (email !== user.email) {
-            const userDataJson = {
-                email: email,
-              };
-
-              UserEditApi(userDataJson);
-
-        } else if (password !== user.password) {
-            const userDataJson = {
-                password: password,
-              };
-
-              UserEditApi(userDataJson);
-
-        } else if (bornDate !== user.bornDate) {
-            const userDataJson = {
-                age: bornDate,
-              };
-
-              UserEditApi(userDataJson);
+          edits.push({ username: username });
 
         }
+        
+        if (password !== '') {
+          edits.push({ password: password });
+
+        }
+        
+        if (bornDate !== user.bornDate) {
+          edits.push({ age: bornDate });
+
+        }
+        
+        if (email !== user.email) {
+          edits.push({ email: email });
+
+      }
+      console.log(edits)
+
+      edits.forEach(edit => UserEditApi(edit));
 
     }
 
@@ -86,7 +79,12 @@ export default function ProfileConfiguration() {
 
                 localStorage.clear();
 
-                UserLogin()
+                const loginData = {
+                  email: email,
+                  password: password === '' ? oldPassword : password,
+              };
+              
+              UserLogin(loginData);      
       
             })
             .catch((error) => {
@@ -102,12 +100,7 @@ export default function ProfileConfiguration() {
             });
     }
 
-    const UserLogin = () => {
-
-        const userDataJson = {
-          email: email,
-          password: password,
-        };
+    const UserLogin = (userDataJson) => {
 
         axios.post('http://127.0.0.1:5123/users/login', userDataJson)
           .then((response) => {
@@ -150,15 +143,17 @@ export default function ProfileConfiguration() {
                             <button className={bntStyle.bntGreenNoBorder2} onClick={handleLogout}>Fazer Logout</button>
                         </div>
                         <input type="text" placeholder="Nome de usuário" className={style.inputInfos} name="userNameRegister" 
-                        value={username} onChange={(e) => setUsername(e.target.value)} required/>
+                        value={username} onChange={(e) => setUsername(e.target.value)} />
                         <input type="email" placeholder="E-mail" className={style.inputInfos} name="emailRegister" 
-                        value={email} onChange={(e) => setEmail(e.target.value)} required/>
+                        value={email} onChange={(e) => setEmail(e.target.value)} />
                         <input type="password" placeholder="Nova senha" className={style.inputInfos} name="passwordRegister" 
-                        value={password} onChange={(e) => setPassword(e.target.value)}required/>
+                        value={password} onChange={(e) => setPassword(e.target.value)}/>
+                        <input type="password" placeholder="Senha antiga" className={style.inputInfos} name="password" 
+                        value={oldPassword} onChange={(e) => setOldPassword(e.target.value)}required/>
                         <div className={style.divDate}>
                             <strong>Data de Nascimento</strong>
                             <input type="date" id={style.inputDateInfos} name="dateRegister" 
-                        value={bornDate} onChange={(e) => setBornDate(e.target.value)} required/>
+                        value={bornDate} onChange={(e) => setBornDate(e.target.value)}/>
                         </div> 
                         <button className={bntStyle.bntGreenNoBorder} type='submit' name="bntConfirmConfig" onClick={UserEdit}>Salvar Alterações</button>
                         { message && <p>{message}</p>}
