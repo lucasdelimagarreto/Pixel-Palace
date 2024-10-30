@@ -68,6 +68,7 @@ export default function Register() {
               email: response.data.user.email,
               bornDate: response.data.user.age,
               token: response.data.access_token,
+              user_id: response.data.user.id,
             };
 
             localStorage.setItem('user', JSON.stringify(userData))

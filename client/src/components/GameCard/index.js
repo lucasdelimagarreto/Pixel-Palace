@@ -8,37 +8,69 @@ import { useRouter } from 'next/router';
 export function GameCard ({ isAlternateApi }) {
     
     const [listGames, setListGames] = useState([]);
+    const [user, setUser] = useState();
     const router = useRouter()
-    
+
     useEffect(() => {
-
-        CheckGames(isAlternateApi);
         
-    }, [isAlternateApi]);
+        const loggedInUser = localStorage.getItem("user");
 
-      const CheckGames = (isAlternateApi) => {
+        if (loggedInUser) {
 
-        const url = isAlternateApi 
-        ? `http://127.0.0.1:5123/games/alternate` 
-        : `http://127.0.0.1:5123/games/all`;
+          const foundUser = JSON.parse(loggedInUser);
 
-        const config = isAlternateApi 
-        ? { headers: { 'Authorization': `Bearer seu_token_aqui` } }
-        : {};
+          setUser(foundUser)
 
+
+        }
+      }, []);
+
+    useEffect(() => {
+        if (user) {
+            CheckGames(isAlternateApi);
+        }
+    }, [user, isAlternateApi]);
+
+    
+
+    
+    const CheckGames = async (isAlternateApi) => {
         
-        axios.get(url, config)
+
+        if (isAlternateApi) {
+
+            const userGamesResponse = await axios.get(`http://127.0.0.1:5123/users/user_games?user_id=${user.user_id}`);
+                const idsGame = userGamesResponse.data.games;
+
+                console.log(idsGame)
+
+                const allGamesResponse = await axios.get('http://127.0.0.1:5123/games/all');
+                const allGames = allGamesResponse.data.parameter;
+
+                console.log(allGames)
+
+
+                const filteredGames = allGames.filter(game => idsGame.some(userGame => userGame.id === game.id))
+
+                setListGames(filteredGames);
+
+                console.log(filteredGames)
+
+        }else {
+
+            axios.get(`http://127.0.0.1:5123/games/all`)
         .then(response => {
             
             setListGames(response.data.parameter)
 
          })
-      .catch(error => {
+
+
+        }
 
         
-
-      });
-
+        
+        
         
       
 

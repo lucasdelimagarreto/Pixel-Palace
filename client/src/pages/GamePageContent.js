@@ -18,12 +18,14 @@ export default function gamePage() {
     const [gameWiew, setGameWiew] = useState([]);
     const [changeButtonCart, setChangeButtonCart] = useState(false);
     const [user, setUser] = useState();
+    const [userFavorites, setUserFavorites] = useState([]);
+    const [userFavoritesButton, setUserFavoritesButton] = useState(false);
 
     const router = useRouter()
     
     const { gameId } = router.query
-
-    useEffect(() => {
+    
+        useEffect(() => {
         
         const loggedInUser = localStorage.getItem("user");
 
@@ -32,6 +34,14 @@ export default function gamePage() {
           const foundUser = JSON.parse(loggedInUser);
 
           setUser(foundUser)
+
+          axios.get(`http://127.0.0.1:5123/users/user_games?user_id=${foundUser.user_id}`)
+          .then((response) => {
+
+            setUserFavorites(response.data.games)
+          })
+
+
         }
       }, []);
 
@@ -67,6 +77,33 @@ export default function gamePage() {
           })
             .then(() => {
 
+                window.location.reload();
+            
+            })
+            .catch((error) => {
+              if ((error.response && error.response.status === 409)) {
+      
+                setMessage(error.response.data.error_message)
+      
+              }
+            });
+
+    }
+
+    const UnfavoriteGame = () => {
+
+        const userDataJson = {
+            game_id:  gameId
+          };
+
+        axios.post('http://127.0.0.1:5123/users/unfavorite', userDataJson, {
+            headers: {
+              'Authorization': `Bearer ${user.token}`
+            }
+          })
+            .then(() => {
+
+                window.location.reload();
             
             })
             .catch((error) => {
@@ -144,9 +181,19 @@ export default function gamePage() {
                     <button className={styles.cartButton} onClick={AddCart}><Icon icon="mdi:cart-outline"  style={{color: '#100f0f', fontSize: '2rem'}} /> Adicionar ao Carrinho</button>
                     
                 )}
-                    <button className={styles.favoriteButton} onClick={FavoriteGame}>
-                        <Icon icon="ph:heart"  style={{color: '#607A8C', fontSize: '2rem'}} />
-                    </button>
+
+                {
+                   userFavorites.filter(favorite => favorite.id == gameWiew.id).length == 1 ? (
+                        <button className={styles.favoriteButton} onClick={UnfavoriteGame}>
+                            <Icon icon="line-md:heart-filled"  style={{color: '#19F7A9', fontSize: '2rem'}} />
+                        </button>
+                    ) : (
+                        <button className={styles.favoriteButton} onClick={FavoriteGame}>
+                            <Icon icon="fluent:heart-broken-20-filled"  style={{color: '#607A8C', fontSize: '2rem'}} />
+                        </button>
+                    )
+                }
+                    
                 </div>
                 </div>
                 <div className={styles.detailsSection}>

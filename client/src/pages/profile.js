@@ -35,7 +35,7 @@ export default function Profile() {
         renderContent = <PurchasedGamesCard />;
         
     } else if (Screen === 'wishList') {
-      renderContent = <GameSection titleSection={"Minha conta"} subTitleSection={"Minha lista de desejos"} isAlternateApi={true}/>;
+      renderContent = <GameSection titleSection={"Minha conta"} subTitleSection={"Minha lista de favoritos"} isAlternateApi={true}/>;
       
     } else if (Screen === 'profileConfiguration') {
         renderContent = <ProfileConfiguration />;
