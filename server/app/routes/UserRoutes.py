@@ -44,7 +44,7 @@ def get_user():
     user_id = request.args.get('user_id')
     username = request.args.get('username')
     email = request.args.get('email')
-
+    
     try:
         if user_id:
             user = userService.get_user_by_id(int(user_id))
@@ -63,6 +63,19 @@ def get_user():
             return make_response(error_response(action="ObterUsuário", error_code=404, error_message="Usuário não encontrado"))
     except Exception as err:
         return make_response(error_response(action="ObterUsuário", error_code=500, error_message=str(err)))
+
+@user_bp.route("/user_games", methods=["GET"])
+def get_user_games():
+    # Obtém o user_id dos parâmetros de consulta
+    user_id = request.args.get('user_id')
+    
+    if not user_id:
+        return make_response(error_response(action="ObterJogosDoUsuario", error_code=400, error_message="user_id é obrigatório"))
+
+    try:
+        return userService.get_user_games(int(user_id))
+    except Exception as err:
+        return make_response(error_response(action="ObterJogosDoUsuario", error_code=500, error_message=str(err)))
 
 @user_bp.route("/login", methods=["POST"])
 def login():
@@ -85,7 +98,7 @@ def login():
     try:
         user = userService.authenticate_user(email=email, password=password)
         access_token = create_access_token(identity=email)
-        user.pop("id", None)  # Remove 'id' do dicionário user, se existir
+        #user.pop("id", None)  # Remove 'id' do dicionário user, se existir
         return make_response(success_response(action="Authenticate", access_token=access_token, user=user))
 
     except Exception as err:

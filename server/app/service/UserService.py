@@ -1,4 +1,6 @@
 from datetime import datetime
+
+from flask import jsonify
 from app import bcrypt
 from app.shared.validation_methods import validate_username, validate_email, validate_password
 from app.model.User import User
@@ -70,6 +72,25 @@ class UserService:
         userRepository.update(user)
         return
 
+    def get_user_games(self, user_id):
+        # Busca o usuário pelo ID e traz os jogos relacionados
+        user = userRepository.get_by_id(user_id)
+        
+        if not user:
+            return jsonify({"message": "Usuário não encontrado"}), 404
+        
+        # Acessa os jogos relacionados ao usuário
+        games = user.favorite_games
+        
+        # Serializa os dados para retornar como JSON
+        games_data = [
+            {
+                "id": game.id
+            } for game in games
+        ]
+        
+        return jsonify({"user_id": user.id, "games": games_data}), 200
+    
     #validação e username e email
     def validate_new_username(self,username):
         validate_username(username)
