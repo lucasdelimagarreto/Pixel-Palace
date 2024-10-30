@@ -58,7 +58,7 @@ export default function Search (){
                     )}
 
                     <a>
-                        <button className={styles.buttongamecard} onClick={() => {router.push(`/gamePageContent?gameId=${game.id}`)}}>
+                        <button className={styles.buttongamecard} onClick={() => {router.push(`/GamePageContent?gameId=${game.id}`)}}>
                         R$ {game.price}
                         </button>
                     </a>
